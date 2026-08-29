@@ -54,3 +54,6 @@ application-my.yaml
 .DS_Store
 **/.DS_Store
 outputs/
+
+### locally built Windows deploy package (binaries, never commit) ###
+release/
