@@ -74,4 +74,15 @@ public interface ErrorCodeConstants {
     ErrorCode DEMO03_GRADE_NOT_EXISTS = new ErrorCode(1_001_201_009, "学生班级不存在");
     ErrorCode DEMO03_GRADE_EXISTS = new ErrorCode(1_001_201_010, "学生班级已存在");
 
+    // ========== 系统更新 1-001-008-000 ==========
+    ErrorCode SYSTEM_UPDATE_FILE_INVALID_EXTENSION = new ErrorCode(1_001_008_000, "文件格式不正确，仅支持 .jar 或 .zip");
+    ErrorCode SYSTEM_UPDATE_JAR_NAME_INVALID = new ErrorCode(1_001_008_001, "后端包文件名须匹配 guanghe-server*.jar");
+    ErrorCode SYSTEM_UPDATE_ZIP_NO_INDEX = new ErrorCode(1_001_008_002, "前端包内未找到 index.html");
+    ErrorCode SYSTEM_UPDATE_IN_PROGRESS = new ErrorCode(1_001_008_003, "系统更新正在进行中，请稍后再试");
+    ErrorCode SYSTEM_UPDATE_BACKUP_NOT_FOUND = new ErrorCode(1_001_008_004, "未找到可用的备份版本");
+    ErrorCode SYSTEM_UPDATE_APPLY_FAILED = new ErrorCode(1_001_008_005, "系统更新失败：{}");
+    ErrorCode SYSTEM_UPDATE_ROLLBACK_FAILED = new ErrorCode(1_001_008_006, "回滚失败：{}");
+    ErrorCode SYSTEM_UPDATE_ZIP_SLIP = new ErrorCode(1_001_008_007, "压缩包包含不安全路径，已拒绝");
+    ErrorCode SYSTEM_UPDATE_CONFIG_MISSING = new ErrorCode(1_001_008_008, "系统更新配置缺失：{}");
+
 }
