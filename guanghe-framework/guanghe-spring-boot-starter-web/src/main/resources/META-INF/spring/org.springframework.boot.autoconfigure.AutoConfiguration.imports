@@ -1,0 +1,7 @@
+guanghe.gsite.framework.apilog.config.GuangheApiLogAutoConfiguration
+guanghe.gsite.framework.jackson.config.GuangheJacksonAutoConfiguration
+guanghe.gsite.framework.swagger.config.GuangheSwaggerAutoConfiguration
+guanghe.gsite.framework.web.config.GuangheWebAutoConfiguration
+guanghe.gsite.framework.xss.config.GuangheXssAutoConfiguration
+guanghe.gsite.framework.banner.config.GuangheBannerAutoConfiguration
+guanghe.gsite.framework.encrypt.config.GuangheApiEncryptAutoConfiguration

@@ -1,0 +1,2 @@
+org.springframework.boot.env.EnvironmentPostProcessor=\
+  guanghe.gsite.framework.mybatis.config.IdTypeEnvironmentPostProcessor

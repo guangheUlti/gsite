@@ -1,0 +1,3 @@
+guanghe.gsite.framework.mq.redis.config.GuangheRedisMQProducerAutoConfiguration
+guanghe.gsite.framework.mq.redis.config.GuangheRedisMQConsumerAutoConfiguration
+guanghe.gsite.framework.mq.rabbitmq.config.GuangheRabbitMQAutoConfiguration

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>gsite 项目手动启动流程</title>
+<style>
+  @page { size: A4; margin: 16mm 14mm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Microsoft YaHei", "微软雅黑", "SimSun", sans-serif;
+    font-size: 10.5pt; line-height: 1.55; color: #111; margin: 0;
+  }
+  h1 { font-size: 17pt; margin: 0 0 2mm; }
+  h2 {
+    font-size: 12.5pt; margin: 6mm 0 2mm; padding-bottom: 1mm;
+    border-bottom: 1.2pt solid #333; page-break-after: avoid;
+  }
+  .sub { color: #555; font-size: 9.5pt; margin-bottom: 4mm; }
+  table { border-collapse: collapse; width: 100%; margin: 2mm 0; page-break-inside: avoid; }
+  th, td { border: 0.6pt solid #999; padding: 1.4mm 2mm; text-align: left; vertical-align: top; }
+  th { background: #e8e8e8; font-weight: 600; }
+  pre {
+    font-family: Consolas, "Courier New", monospace; font-size: 8.8pt;
+    background: #f4f4f4; border: 0.6pt solid #bbb; border-left: 2.5pt solid #555;
+    padding: 2mm 2.5mm; margin: 1.5mm 0 2.5mm; white-space: pre-wrap; word-break: break-all;
+    page-break-inside: avoid;
+  }
+  code { font-family: Consolas, "Courier New", monospace; font-size: 9.3pt; }
+  .step { font-weight: 700; }
+  .note { font-size: 9.3pt; color: #333; margin: 1mm 0 0; }
+  .warn { border: 0.8pt solid #333; padding: 2mm 2.5mm; margin: 2mm 0; background: #f7f7f7; }
+  ul, ol { margin: 1.5mm 0 2mm; padding-left: 6mm; }
+  li { margin: 0.6mm 0; }
+  .kv { width: 100%; }
+  footer { margin-top: 6mm; padding-top: 2mm; border-top: 0.6pt solid #999; font-size: 8.8pt; color: #555; }
+  .pagebreak { page-break-before: always; }
+</style>
+</head>
+<body>
+
+<h1>gsite 项目手动启动流程</h1>
+<div class="sub">光何快速开发平台（Spring Boot 2.7.18 / JDK 8 多模块）｜后端服务 + 接口文档｜整理 2026-08-28，2026-08-29 修订（my.ini 已修正，MySQL 改为 start.bat 启动）</div>
+
+<h2>〇、环境清单</h2>
+<table>
+  <tr><th style="width:20%">组件</th><th style="width:22%">版本</th><th>位置 / 说明</th></tr>
+  <tr><td>JDK</td><td>1.8.0_202</td><td>D:\devTools\jdk\jdk1.8.0_202（项目 java.version=1.8）</td></tr>
+  <tr><td>Maven</td><td>3.9.16</td><td>D:\devTools\maven（仓库 D:\devTools\maven\repository，镜像 aliyun）</td></tr>
+  <tr><td>MySQL</td><td>8.0.21</td><td>D:\devTools\mysql｜库 gsite｜root / root｜my.ini 已修正，可双击 start.bat 启动</td></tr>
+  <tr><td>Redis</td><td>3.0.504</td><td>D:\devTools\redis｜端口 6379 db0</td></tr>
+  <tr><td>项目</td><td>—</td><td>D:\workspace\lab\gsite</td></tr>
+</table>
+<p class="note">启动顺序固定为：<span class="step">① MySQL → ② Redis → ③ 后端</span>。全部命令在 <b>cmd（命令提示符）</b> 中执行；每一步各开一个窗口，窗口不要关（关闭窗口即停止该服务）。</p>
+
+<h2>① 启动 MySQL</h2>
+<p class="note"><b>方式一（推荐）</b>：双击 <code>D:\devTools\mysql\start.bat</code>。<br>
+<b>方式二</b>：命令行启动，效果相同（同目录 my.ini 生效）：</p>
+<pre>cd /d D:\devTools\mysql
+bin\mysqld.exe --console</pre>
+<p class="note">窗口光标停住、无报错即为成功。验证（新开窗口）：<br>
+<code>"D:\devTools\mysql\bin\mysqladmin.exe" -h 127.0.0.1 -uroot -proot ping</code> 返回 <code>mysqld is alive</code>。</p>
+<p class="note">my.ini 中 basedir / datadir 已修正为 <code>D:\\devTools\\mysql</code> 与 <code>D:\\devTools\\mysql\\data</code>（2026-08-29），所以无需再手工指定路径。若将来 my.ini 被改坏，可用下面命令兜底启动：</p>
+<pre>"D:\devTools\mysql\bin\mysqld.exe" --no-defaults ^
+  --basedir="D:\devTools\mysql" ^
+  --datadir="D:\devTools\mysql\data" ^
+  --port=3306 --character-set-server=utf8mb4</pre>
+
+<h2>② 启动 Redis</h2>
+<pre>cd /d D:\devTools\redis
+redis-server.exe redis.windows.conf</pre>
+<p class="note">验证（新开窗口）：<code>D:\devTools\redis\redis-cli.exe ping</code> 返回 <code>PONG</code>。</p>
+<p class="note">可选：执行 <code>install.bat</code> 可把 Redis 注册为 Windows 服务，开机自启。</p>
+
+<h2>③ 启动后端服务</h2>
+<pre>cd /d D:\workspace\lab\gsite
+"D:\devTools\jdk\jdk1.8.0_202\bin\java.exe" -jar ^
+  guanghe-server\target\guanghe-server.jar ^
+  --spring.profiles.active=local</pre>
+<p class="note">启动约 12 秒，日志出现下列两行即成功：</p>
+<pre>Tomcat started on port(s): 48080 (http) with context path ''
+Started GuangheServerApplication in 11.2 seconds</pre>
+<p class="note"><code>--spring.profiles.active=local</code> 可省略（application.yaml 中默认已是 local）；显式写出更保险。</p>
+
+<div class="pagebreak"></div>
+
+<h2>④ 只有 jar 不存在时才需要打包</h2>
+<pre>cd /d D:\workspace\lab\gsite
+set JAVA_HOME=D:\devTools\jdk\jdk1.8.0_202
+D:\devTools\maven\bin\mvn.bat -B -T1C clean install -DskipTests</pre>
+<p class="note">产物：<code>guanghe-server\target\guanghe-server.jar</code>。根 pom 默认只启用精简版模块（framework + server + module-system + module-infra），其余模块在 pom.xml 中以注释形式保留，按需取消注释后重新打包。</p>
+
+<h2>⑤ 首次建库（只需做一次）</h2>
+<pre>cd /d D:\workspace\lab\gsite
+
+"D:\devTools\mysql\bin\mysql.exe" -h 127.0.0.1 -uroot -proot ^
+  -e "CREATE DATABASE IF NOT EXISTS gsite DEFAULT CHARACTER SET utf8mb4;"
+
+"D:\devTools\mysql\bin\mysql.exe" -h 127.0.0.1 -uroot -proot gsite ^
+  &lt; sql\mysql\gsite.sql
+
+"D:\devTools\mysql\bin\mysql.exe" -h 127.0.0.1 -uroot -proot gsite ^
+  &lt; sql\mysql\quartz.sql</pre>
+<p class="note">导入后 gsite 库共 59 张表（48 业务表 + 11 张 Quartz 表），其中演示表名为 <code>guanghe_demo01_contact</code> 等。其余数据库方言脚本在 <code>sql\oracle</code>、<code>sql\postgresql</code>、<code>sql\dm</code> 等目录下。</p>
+
+<h2>⑥ 访问地址</h2>
+<table>
+  <tr><th style="width:30%">用途</th><th>地址</th></tr>
+  <tr><td>接口文档（主入口）</td><td>http://127.0.0.1:48080/doc.html</td></tr>
+  <tr><td>OpenAPI JSON</td><td>http://127.0.0.1:48080/v3/api-docs<br>分组：/v3/api-docs/all　｜　/v3/api-docs/admin</td></tr>
+  <tr><td>Druid 连接池监控</td><td>http://127.0.0.1:48080/druid/index.html</td></tr>
+  <tr><td>后端 API 前缀</td><td>http://127.0.0.1:48080/admin-api/...</td></tr>
+  <tr><td>根路径</td><td>http://127.0.0.1:48080/　→ 返回 <code>{"code":401,"msg":"账号未登录"}</code>（纯后端服务，无首页，属正常）</td></tr>
+  <tr><td>管理后台界面</td><td>本仓库无前端源码，Vue3 管理后台为独立仓库，故无本地界面地址</td></tr>
+</table>
+
+<h2>⑦ 登录凭据</h2>
+<table class="kv">
+  <tr><td style="width:26%">账号 / 密码</td><td><b>admin</b> / <b>admin</b></td></tr>
+  <tr><td>租户</td><td>tenant-id: 1（租户名"光何"）；接口调用需带请求头 <code>tenant-id: 1</code></td></tr>
+  <tr><td>另一演示账号</td><td><b>guanghe</b> / <b>guanghe</b>（system_users id=100，同属租户 1）</td></tr>
+  <tr><td>其余演示账号</td><td><b>yuanma</b> / <b>yuanma</b>、<b>test</b> / <b>test</b>（口令与用户名相同）</td></tr>
+  <tr><td>接口文档内调试</td><td>打开 doc.html → 左上角 Authorize → 填入登录返回的 accessToken</td></tr>
+</table>
+<p class="note">上述四个账号口令已同步写入 8 份方言种子脚本 <code>sql\*\gsite*.sql</code>，重新导入数据库也不会退回原始演示口令 admin123。</p>
+
+<h2>⑧ 停止服务</h2>
+<ul>
+  <li>后端 / Redis：直接关闭对应 cmd 窗口，或按 Ctrl+C。</li>
+  <li>MySQL 建议优雅关闭（避免下次启动做崩溃恢复）：
+<pre>"D:\devTools\mysql\bin\mysqladmin.exe" -h 127.0.0.1 -uroot -proot shutdown</pre></li>
+</ul>
+
+<h2>⑨ 注意事项</h2>
+<div class="warn">
+<ul>
+  <li><b>profile 选择</b>：<code>application-dev.yaml</code> 原先指向上游公网 Redis，现已改为本机 <code>127.0.0.1</code>，dev 与 local 都连本机 MySQL/Redis；本机开发仍用默认的 <code>local</code> 即可。</li>
+  <li><b>安全</b>：local 配置开启了接口 Mock（<code>guanghe.security.mock-enable: true</code>），带请求头 <code>Authorization: Bearer test&lt;用户ID&gt;</code> 可绕过密码；且 Druid 监控台未设账号密码。此机器不要直接暴露公网，对外部署前必须关闭 Mock 并加口令。</li>
+  <li><b>Redis 版本</b>：当前 3.0.504 可正常运行，但项目文档建议 Redis 5.0 及以上。</li>
+  <li><b>数据源</b>：local 的主/从库都指向本机 <code>gsite</code>（从库为模拟，懒加载）；换库请改 <code>guanghe-server\src\main\resources\application-local.yaml</code> 后重新打包。</li>
+  <li><b>MySQL 字符集</b>：my.ini 中 <code>character-set-server=utf8</code> 在 MySQL 8 里等价于 3 字节的 utf8mb3。实测现有 <code>gsite</code> 库与 59 张表都显式声明了 utf8mb4（table_collation 全为 utf8mb4_unicode_ci），<b>不受影响</b>；但今后新建库/表若不显式写字符集，emoji 等 4 字节字符会存不下。建议把该行改为 <code>character-set-server=utf8mb4</code> 并补一行 <code>collation-server=utf8mb4_unicode_ci</code>（改完需重启 MySQL）。</li>
+</ul>
+</div>
+
+<footer>
+gsite（光何）· 手动启动流程 · 修订于 2026-08-29 · 项目地址 https://github.com/guangheUlti/gsite
+</footer>
+
+</body>
+</html>

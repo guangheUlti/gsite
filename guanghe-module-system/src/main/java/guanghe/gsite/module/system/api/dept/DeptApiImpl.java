@@ -1,0 +1,53 @@
+package guanghe.gsite.module.system.api.dept;
+
+import guanghe.gsite.framework.common.util.object.BeanUtils;
+import guanghe.gsite.module.system.api.dept.dto.DeptRespDTO;
+import guanghe.gsite.module.system.dal.dataobject.dept.DeptDO;
+import guanghe.gsite.module.system.service.dept.DeptService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
+
+/**
+ * 部门 API 实现类
+ *
+ * @author 光何
+ */
+@Service
+public class DeptApiImpl implements DeptApi {
+
+    @Resource
+    private DeptService deptService;
+
+    @Override
+    public DeptRespDTO getDept(Long id) {
+        DeptDO dept = deptService.getDept(id);
+        return BeanUtils.toBean(dept, DeptRespDTO.class);
+    }
+
+    @Override
+    public List<DeptRespDTO> getDeptList(Collection<Long> ids) {
+        List<DeptDO> depts = deptService.getDeptList(ids);
+        return BeanUtils.toBean(depts, DeptRespDTO.class);
+    }
+
+    @Override
+    public void validateDeptList(Collection<Long> ids) {
+        deptService.validateDeptList(ids);
+    }
+
+    @Override
+    public List<DeptRespDTO> getChildDeptList(Collection<Long> ids) {
+        List<DeptDO> childDepts = deptService.getChildDeptList(ids);
+        return BeanUtils.toBean(childDepts, DeptRespDTO.class);
+    }
+
+    @Override
+    public List<DeptRespDTO> getParentDeptList(Long id) {
+        List<DeptDO> parentDepts = deptService.getParentDeptList(id);
+        return BeanUtils.toBean(parentDepts, DeptRespDTO.class);
+    }
+
+}

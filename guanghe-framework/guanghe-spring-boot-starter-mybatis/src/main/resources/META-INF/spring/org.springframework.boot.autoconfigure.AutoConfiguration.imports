@@ -1,0 +1,3 @@
+guanghe.gsite.framework.datasource.config.GuangheDataSourceAutoConfiguration
+guanghe.gsite.framework.mybatis.config.GuangheMybatisAutoConfiguration
+guanghe.gsite.framework.translate.config.GuangheTranslateAutoConfiguration
