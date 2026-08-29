@@ -22,7 +22,7 @@ public class MpAccountBaseVO {
     @NotEmpty(message = "公众号微信号不能为空")
     private String account;
 
-    @Schema(description = "公众号 appId", requiredMode = Schema.RequiredMode.REQUIRED, example = "wx5b23ba7a5589ecbb")
+    @Schema(description = "公众号 appId", requiredMode = Schema.RequiredMode.REQUIRED, example = "<scrubbed-wx-mp-appid-legacy>")
     @NotEmpty(message = "公众号 appId 不能为空")
     private String appId;
 

@@ -34,7 +34,7 @@ public class SocialClientSaveReqVO {
     @InEnum(UserTypeEnum.class)
     private Integer userType;
 
-    @Schema(description = "客户端编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "wwd411c69a39ad2e54")
+    @Schema(description = "客户端编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "<scrubbed-wecom-corp-id>")
     @NotNull(message = "客户端编号不能为空")
     private String clientId;
 

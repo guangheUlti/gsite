@@ -21,7 +21,7 @@ public class SocialClientRespVO {
     @Schema(description = "用户类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "2")
     private Integer userType;
 
-    @Schema(description = "客户端编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "wwd411c69a39ad2e54")
+    @Schema(description = "客户端编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "<scrubbed-wecom-corp-id>")
     private String clientId;
 
     @Schema(description = "客户端密钥", requiredMode = Schema.RequiredMode.REQUIRED, example = "peter")

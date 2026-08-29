@@ -12,8 +12,8 @@ spring:
   servlet:
     # 文件上传相关配置项
     multipart:
-      max-file-size: 16MB # 单个文件大小
-      max-request-size: 32MB # 设置总上传的文件大小
+      max-file-size: 500MB # 单个文件大小（系统更新需要上传大 jar）
+      max-request-size: 500MB # 设置总上传的文件大小
 
   # Jackson 配置项
   jackson:
@@ -324,7 +324,7 @@ guanghe:
     unit-test-enable: false # 是否生成单元测试
     import-enable: false # 是否生成 Excel 导入接口
   tenant: # 多租户相关配置项
-    enable: true
+    enable: false # 本项目单企业部署，关闭多租户隔离
     ignore-urls:
       - /jmreport/* # 积木报表，无法携带租户编号
     ignore-visit-urls:

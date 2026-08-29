@@ -36,7 +36,7 @@ public class PayClientFactoryImplIntegrationTest {
     public void testCreatePayClient_WX_PUB_V2() {
         // 创建配置
         WxPayClientConfig config = new WxPayClientConfig();
-        config.setAppId("wx041349c6f39b268b");
+        config.setAppId("<scrubbed-wx-mp-appid-test>");
         config.setMchId("1545083881");
         config.setApiVersion(WxPayClientConfig.API_VERSION_V2);
         config.setMchKey("0alL64UDQdlCwiKZ73ib7ypaIjMns06p");
@@ -57,7 +57,7 @@ public class PayClientFactoryImplIntegrationTest {
     public void testCreatePayClient_WX_PUB_V3() throws FileNotFoundException {
         // 创建配置
         WxPayClientConfig config = new WxPayClientConfig();
-        config.setAppId("wx041349c6f39b268b");
+        config.setAppId("<scrubbed-wx-mp-appid-test>");
         config.setMchId("1545083881");
         config.setApiVersion(WxPayClientConfig.API_VERSION_V3);
         config.setPrivateKeyContent(IoUtil.readUtf8(new FileInputStream("/Users/yunai/Downloads/wx_pay/apiclient_key.pem")));

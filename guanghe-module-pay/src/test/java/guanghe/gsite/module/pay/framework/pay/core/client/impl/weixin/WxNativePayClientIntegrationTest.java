@@ -72,7 +72,7 @@ public class WxNativePayClientIntegrationTest {
 
     private WxPayConfig buildWxPayConfigV3() {
         WxPayConfig config = new WxPayConfig();
-        config.setAppId("wx62056c0d5e8db250");
+        config.setAppId("<scrubbed-wx-miniapp-appid-test>");
         config.setMchId("1545083881");
         config.setApiV3Key("459arNsYHl1mgkiO6H9ZH5KkhFXSxaA4");
 //        config.setCertSerialNo(serialNo);
