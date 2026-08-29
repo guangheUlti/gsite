@@ -1,7 +1,8 @@
 export type WorkplaceTotal = {
-  project: number
-  access: number
-  todo: number
+  user: number
+  role: number
+  dept: number
+  menu: number
 }
 
 export type Project = {

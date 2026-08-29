@@ -3,7 +3,7 @@
     <el-card shadow="never">
       <el-skeleton :loading="loading" animated>
         <el-row :gutter="16" justify="space-between">
-          <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
+          <el-col :xl="12" :lg="12" :md="24" :sm="24" :xs="24">
             <div class="flex items-center">
               <el-avatar :src="avatar" :size="70" class="mr-16px">
                 <img src="@/assets/imgs/avatar.png" alt="" />
@@ -13,42 +13,25 @@
                   {{ t('workplace.welcome') }} {{ username }} {{ t('workplace.happyDay') }}
                 </div>
                 <div class="mt-10px text-14px text-gray-500">
-                  {{ t('workplace.toady') }}，20℃ - 32℃！
+                  {{ t('workplace.currentModules') }}
                 </div>
               </div>
             </div>
           </el-col>
-          <el-col :xl="12" :lg="12" :md="12" :sm="24" :xs="24">
+          <el-col :xl="12" :lg="12" :md="24" :sm="24" :xs="24">
             <div class="h-70px flex items-center justify-end lt-sm:mt-10px">
-              <div class="px-8px text-right">
-                <div class="mb-16px text-14px text-gray-400">{{ t('workplace.project') }}</div>
-                <CountTo
-                  class="text-20px"
-                  :start-val="0"
-                  :end-val="totalSate.project"
-                  :duration="2600"
-                />
-              </div>
-              <el-divider direction="vertical" />
-              <div class="px-8px text-right">
-                <div class="mb-16px text-14px text-gray-400">{{ t('workplace.toDo') }}</div>
-                <CountTo
-                  class="text-20px"
-                  :start-val="0"
-                  :end-val="totalSate.todo"
-                  :duration="2600"
-                />
-              </div>
-              <el-divider direction="vertical" border-style="dashed" />
-              <div class="px-8px text-right">
-                <div class="mb-16px text-14px text-gray-400">{{ t('workplace.access') }}</div>
-                <CountTo
-                  class="text-20px"
-                  :start-val="0"
-                  :end-val="totalSate.access"
-                  :duration="2600"
-                />
-              </div>
+              <template v-for="(item, index) in statList" :key="item.label">
+                <el-divider v-if="index > 0" direction="vertical" border-style="dashed" />
+                <div class="px-8px text-right">
+                  <div class="mb-16px text-14px text-gray-400">{{ item.label }}</div>
+                  <CountTo
+                    class="text-20px"
+                    :start-val="0"
+                    :end-val="item.value"
+                    :duration="2600"
+                  />
+                </div>
+              </template>
             </div>
           </el-col>
         </el-row>
@@ -57,29 +40,7 @@
   </div>
 
   <el-row class="mt-8px" :gutter="8" justify="space-between">
-    <el-col :xl="16" :lg="16" :md="24" :sm="24" :xs="24" class="mb-8px">
-      <el-card shadow="never">
-        <el-skeleton :loading="loading" animated>
-          <el-row :gutter="20" justify="space-between">
-            <el-col :xl="10" :lg="10" :md="24" :sm="24" :xs="24">
-              <el-card shadow="hover" class="mb-8px">
-                <el-skeleton :loading="loading" animated>
-                  <Echart :options="pieOptionsData" :height="280" />
-                </el-skeleton>
-              </el-card>
-            </el-col>
-            <el-col :xl="14" :lg="14" :md="24" :sm="24" :xs="24">
-              <el-card shadow="hover" class="mb-8px">
-                <el-skeleton :loading="loading" animated>
-                  <Echart :options="barOptionsData" :height="280" />
-                </el-skeleton>
-              </el-card>
-            </el-col>
-          </el-row>
-        </el-skeleton>
-      </el-card>
-    </el-col>
-    <el-col :xl="8" :lg="8" :md="24" :sm="24" :xs="24" class="mb-8px">
+    <el-col :xl="12" :lg="12" :md="24" :sm="24" :xs="24" class="mb-8px">
       <el-card shadow="never">
         <template #header>
           <div class="h-3 flex justify-between">
@@ -99,11 +60,12 @@
           </el-row>
         </el-skeleton>
       </el-card>
-      <el-card shadow="never" class="mt-8px">
+    </el-col>
+    <el-col :xl="12" :lg="12" :md="24" :sm="24" :xs="24" class="mb-8px">
+      <el-card shadow="never">
         <template #header>
           <div class="h-3 flex justify-between">
             <span>{{ t('workplace.notice') }}</span>
-            <el-link type="primary" :underline="false">{{ t('action.more') }}</el-link>
           </div>
         </template>
         <el-skeleton :loading="loading" animated>
@@ -131,175 +93,108 @@
   </el-row>
 </template>
 <script lang="ts" setup>
-import { set } from 'lodash-es'
-import { EChartsOption } from 'echarts'
 import { formatTime } from '@/utils'
 
 import { useUserStore } from '@/store/modules/user'
-// import { useWatermark } from '@/hooks/web/useWatermark'
-import type { WorkplaceTotal, Notice, Shortcut } from './types'
-import { pieOptions, barOptions } from './echarts-data'
+import type { Notice, Shortcut, WorkplaceTotal } from './types'
 import { useRouter } from 'vue-router'
+import { getUserPage } from '@/api/system/user'
+import { getRolePage } from '@/api/system/role'
+import { getSimpleDeptList } from '@/api/system/dept'
+import { getSimpleMenusList } from '@/api/system/menu'
 
 defineOptions({ name: 'Index' })
 
 const { t } = useI18n()
 const router = useRouter()
 const userStore = useUserStore()
-// const { setWatermark } = useWatermark()
 const loading = ref(true)
 const avatar = userStore.getUser.avatar
 const username = userStore.getUser.nickname
-const pieOptionsData = reactive<EChartsOption>(pieOptions) as EChartsOption
-// 获取统计数
-let totalSate = reactive<WorkplaceTotal>({
-  project: 0,
-  access: 0,
-  todo: 0
-})
 
-const getCount = async () => {
-  const data = {
-    project: 40,
-    access: 2340,
-    todo: 10
+// 平台规模统计。user/role 两个接口需要查询权限，无权限的用户自动隐藏对应指标
+const totalState = reactive<WorkplaceTotal>({ user: 0, role: 0, dept: 0, menu: 0 })
+const statList = computed(() =>
+  [
+    { key: 'user', label: t('workplace.userTotal'), value: totalState.user },
+    { key: 'role', label: t('workplace.roleTotal'), value: totalState.role },
+    { key: 'dept', label: t('workplace.deptTotal'), value: totalState.dept },
+    { key: 'menu', label: t('workplace.menuTotal'), value: totalState.menu }
+  ].filter((item) => item.value > 0)
+)
+
+const getTotal = async () => {
+  const [userRes, roleRes, deptRes, menuRes] = await Promise.allSettled([
+    getUserPage({ pageNo: 1, pageSize: 1 }),
+    getRolePage({ pageNo: 1, pageSize: 1 }),
+    getSimpleDeptList(),
+    getSimpleMenusList()
+  ])
+  if (userRes.status === 'fulfilled') {
+    totalState.user = userRes.value.total
   }
-  totalSate = Object.assign(totalSate, data)
+  if (roleRes.status === 'fulfilled') {
+    totalState.role = roleRes.value.total
+  }
+  if (deptRes.status === 'fulfilled') {
+    totalState.dept = deptRes.value.length
+  }
+  if (menuRes.status === 'fulfilled') {
+    totalState.menu = menuRes.value.length
+  }
 }
 
-// 获取通知公告
+// 通知公告
 let notice = reactive<Notice[]>([])
 const getNotice = async () => {
   const data = [
     {
-      title: '系统支持 JDK 8/17/21，Vue 2/3',
-      type: '技术兼容性',
-      keys: ['JDK', 'Vue'],
+      title: '定位 AI 驱动的企业智能中台，统一承载组织、权限与业务流程',
+      type: '平台定位',
+      keys: ['AI 驱动', '企业智能中台'],
       date: new Date()
     },
     {
-      title: '后端提供 Spring Boot 2.7/3.2 + Cloud 双架构',
-      type: '架构灵活性',
-      keys: ['Boot', 'Cloud'],
+      title: '后端 Spring Boot 2.7.18 + JDK 8，前端 Vue 3.5 + Vite 8',
+      type: '技术栈',
+      keys: ['Spring Boot', 'Vue'],
       date: new Date()
     },
     {
-      title: '全部开源，个人与企业可 100% 直接使用，无需授权',
-      type: '开源免授权',
-      keys: ['无需授权'],
+      title: '当前启用 system、infra 两个模块，其余业务模块按需装配',
+      type: '按需装配',
+      keys: ['system', 'infra'],
       date: new Date()
     },
     {
-      title: '国内使用最广泛的快速开发平台，远超 10w+ 企业使用',
-      type: '广泛企业认可',
-      keys: ['最广泛', '10w+'],
+      title: '单企业私有化部署，数据库适配 MySQL、Oracle、达梦等 9 种方言',
+      type: '部署形态',
+      keys: ['单企业', '9 种'],
       date: new Date()
     }
   ]
   notice = Object.assign(notice, data)
 }
 
-// 获取快捷入口
+// 快捷入口，仅指向已启用模块的真实路由
 let shortcut = reactive<Shortcut[]>([])
 
 const getShortcut = async () => {
   const data = [
-    {
-      name: '首页',
-      icon: 'ion:home-outline',
-      url: '/',
-      color: '#1fdaca'
-    },
-    {
-      name: '商城中心',
-      icon: 'ep:shop',
-      url: '/mall/home',
-      color: '#ff6b6b'
-    },
-    {
-      name: 'AI 大模型',
-      icon: 'tabler:ai',
-      url: '/ai/chat',
-      color: '#7c3aed'
-    },
-    {
-      name: 'ERP 系统',
-      icon: 'simple-icons:erpnext',
-      url: '/erp/home',
-      color: '#3fb27f'
-    },
-    {
-      name: 'CRM 系统',
-      icon: 'simple-icons:civicrm',
-      url: '/crm/backlog',
-      color: '#4daf1bc9'
-    },
-    {
-      name: 'IoT 物联网',
-      icon: 'fa-solid:hdd',
-      url: '/iot/home',
-      color: '#1a73e8'
-    }
+    { name: '用户管理', icon: 'ep:user', url: '/system/user', color: '#1fdaca' },
+    { name: '角色管理', icon: 'ep:user-filled', url: '/system/role', color: '#ff6b6b' },
+    { name: '部门管理', icon: 'ep:office-building', url: '/system/dept', color: '#7c3aed' },
+    { name: '菜单管理', icon: 'ep:menu', url: '/system/menu', color: '#3fb27f' },
+    { name: '字典管理', icon: 'ep:collection', url: '/system/dict', color: '#4daf1b' },
+    { name: '代码生成', icon: 'ep:magic-stick', url: '/infra/codegen', color: '#1a73e8' },
+    { name: '定时任务', icon: 'ep:timer', url: '/infra/job', color: '#e6a23c' },
+    { name: '配置管理', icon: 'ep:setting', url: '/infra/config', color: '#909399' }
   ]
   shortcut = Object.assign(shortcut, data)
 }
 
-// 用户来源
-const getUserAccessSource = async () => {
-  const data = [
-    { value: 335, name: 'analysis.directAccess' },
-    { value: 310, name: 'analysis.mailMarketing' },
-    { value: 234, name: 'analysis.allianceAdvertising' },
-    { value: 135, name: 'analysis.videoAdvertising' },
-    { value: 1548, name: 'analysis.searchEngines' }
-  ]
-  set(
-    pieOptionsData,
-    'legend.data',
-    data.map((v) => t(v.name))
-  )
-  pieOptionsData!.series![0].data = data.map((v) => {
-    return {
-      name: t(v.name),
-      value: v.value
-    }
-  })
-}
-const barOptionsData = reactive<EChartsOption>(barOptions) as EChartsOption
-
-// 周活跃量
-const getWeeklyUserActivity = async () => {
-  const data = [
-    { value: 13253, name: 'analysis.monday' },
-    { value: 34235, name: 'analysis.tuesday' },
-    { value: 26321, name: 'analysis.wednesday' },
-    { value: 12340, name: 'analysis.thursday' },
-    { value: 24643, name: 'analysis.friday' },
-    { value: 1322, name: 'analysis.saturday' },
-    { value: 1324, name: 'analysis.sunday' }
-  ]
-  set(
-    barOptionsData,
-    'xAxis.data',
-    data.map((v) => t(v.name))
-  )
-  set(barOptionsData, 'series', [
-    {
-      name: t('analysis.activeQuantity'),
-      data: data.map((v) => v.value),
-      type: 'bar'
-    }
-  ])
-}
-
 const getAllApi = async () => {
-  await Promise.all([
-    getCount(),
-    getNotice(),
-    getShortcut(),
-    getUserAccessSource(),
-    getWeeklyUserActivity()
-  ])
+  await Promise.all([getTotal(), getNotice(), getShortcut()])
   loading.value = false
 }
 
