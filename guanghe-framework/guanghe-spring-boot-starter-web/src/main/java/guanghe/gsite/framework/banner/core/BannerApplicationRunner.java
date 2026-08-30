@@ -66,14 +66,6 @@ public class BannerApplicationRunner implements ApplicationRunner {
             if (isNotPresent("guanghe.gsite.module.pay.framework.pay.config.PayConfiguration")) {
                 System.out.println("[支付系统 guanghe-module-pay - 已禁用][参考 https://github.com/guangheUlti/gsite 开启]");
             }
-            // AI 大模型
-            if (isNotPresent("guanghe.gsite.module.ai.framework.web.config.AiWebConfiguration")) {
-                System.out.println("[AI 大模型 guanghe-module-ai - 已禁用][参考 https://github.com/guangheUlti/gsite 开启]");
-            }
-            // IoT 物联网
-            if (isNotPresent("guanghe.gsite.module.iot.framework.web.config.IotWebConfiguration")) {
-                System.out.println("[IoT 物联网 guanghe-module-iot - 已禁用][参考 https://github.com/guangheUlti/gsite 开启]");
-            }
             // IM 即时通讯
             if (isNotPresent("guanghe.gsite.module.im.framework.web.config.ImWebConfiguration")) {
                 System.out.println("[IM 即时通讯 guanghe-module-im - 已禁用][参考 https://github.com/guangheUlti/gsite 开启]");

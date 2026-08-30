@@ -141,7 +141,8 @@ public class AdminUserServiceImpl implements AdminUserService {
 
         // 2. 插入用户
         AdminUserDO user = BeanUtils.toBean(registerReqVO, AdminUserDO.class);
-        user.setStatus(CommonStatusEnum.ENABLE.getStatus()); // 默认开启
+        // 停用状态在此复用为「待管理员审批」：登录会拒绝停用账号，管理员在「用户管理」启用即视为审批通过
+        user.setStatus(CommonStatusEnum.DISABLE.getStatus());
         user.setPassword(encodePassword(registerReqVO.getPassword())); // 加密密码
         userMapper.insert(user);
         return user;

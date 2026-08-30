@@ -51,6 +51,8 @@
           >
             <!-- 账号登录 -->
             <LoginForm class="m-auto h-auto p-20px lt-xl:(rounded-3xl light:bg-white)" />
+            <!-- 用户注册 -->
+            <RegisterForm class="m-auto h-auto p-20px lt-xl:(rounded-3xl light:bg-white)" />
             <!-- 三方登录 -->
             <SSOLoginVue class="m-auto h-auto p-20px lt-xl:(rounded-3xl light:bg-white)" />
           </div>
@@ -67,7 +69,7 @@ import { useAppStore } from '@/store/modules/app'
 import { ThemeSwitch } from '@/layout/components/ThemeSwitch'
 import { LocaleDropdown } from '@/layout/components/LocaleDropdown'
 
-import { LoginForm, SSOLoginVue } from './components'
+import { LoginForm, RegisterForm, SSOLoginVue } from './components'
 
 defineOptions({ name: 'Login' })
 

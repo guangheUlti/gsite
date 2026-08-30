@@ -24,6 +24,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import guanghe.gsite.framework.ratelimiter.core.annotation.RateLimiter;
+import guanghe.gsite.framework.ratelimiter.core.keyresolver.impl.ClientIpOnlyRateLimiterKeyResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -119,9 +121,12 @@ public class AuthController {
 
     @PostMapping("/register")
     @PermitAll
-    @Operation(summary = "注册用户")
-    public CommonResult<AuthLoginRespVO> register(@RequestBody @Valid AuthRegisterReqVO registerReqVO) {
-        return success(authService.register(registerReqVO));
+    @Operation(summary = "注册用户", description = "仅创建待审批账号，需管理员启用后方可登录")
+    @RateLimiter(time = 600, count = 5, keyResolver = ClientIpOnlyRateLimiterKeyResolver.class,
+            message = "注册过于频繁，请稍后再试（每 10 分钟最多 5 次）")
+    public CommonResult<Boolean> register(@RequestBody @Valid AuthRegisterReqVO registerReqVO) {
+        authService.register(registerReqVO);
+        return success(true);
     }
 
     // ========== 短信登录相关 ==========

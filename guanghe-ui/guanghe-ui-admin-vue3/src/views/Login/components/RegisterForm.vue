@@ -81,7 +81,6 @@
         </el-form-item>
       </el-col>
       <Verify
-        v-if="registerData.captchaEnable === 'true'"
         ref="verify"
         :captchaType="captchaType"
         :imgSize="{ width: '400px', height: '200px' }"
@@ -93,27 +92,22 @@
   </el-form>
 </template>
 <script lang="ts" setup>
-import { ElLoading } from 'element-plus'
 import LoginFormTitle from './LoginFormTitle.vue'
-import type { RouteLocationNormalizedLoaded } from 'vue-router'
 import { useIcon } from '@/hooks/web/useIcon'
 import * as authUtil from '@/utils/auth'
-import { usePermissionStore } from '@/store/modules/permission'
 import * as LoginApi from '@/api/login'
 import { LoginStateEnum, useLoginState, useFormValid } from './useLogin'
 
 defineOptions({ name: 'RegisterForm' })
 
 const { t } = useI18n()
+const message = useMessage()
 const iconHouse = useIcon({ icon: 'ep:house' })
 const iconAvatar = useIcon({ icon: 'ep:avatar' })
 const iconLock = useIcon({ icon: 'ep:lock' })
 const formLogin = ref()
 const { validForm } = useFormValid(formLogin)
 const { handleBackLogin, getLoginState } = useLoginState()
-const { currentRoute, push } = useRouter()
-const permissionStore = usePermissionStore()
-const redirect = ref<string>('')
 const loginLoading = ref(false)
 const verify = ref()
 const captchaType = ref('blockPuzzle') // blockPuzzle 滑块 clickWord 点击文字 pictureWord 文字验证码
@@ -153,7 +147,6 @@ const registerRules = {
 
 const registerData = reactive({
   isShowPassword: false,
-  captchaEnable: import.meta.env.VITE_APP_CAPTCHA_ENABLE,
   tenantEnable: import.meta.env.VITE_APP_TENANT_ENABLE,
   registerForm: {
     tenantName: import.meta.env.VITE_APP_DEFAULT_LOGIN_TENANT || '',
@@ -166,63 +159,38 @@ const registerData = reactive({
   }
 })
 
-const loading = ref() // ElLoading.service 返回的实例
 // 提交注册
 const handleRegister = async (params: any) => {
-  loading.value = true
+  // 注册接口始终强制验证码，不受 VITE_APP_CAPTCHA_ENABLE 影响
+  registerData.registerForm.captchaVerification = params.captchaVerification
+
+  const data = await validForm()
+  if (!data) {
+    return
+  }
+
+  loginLoading.value = true
   try {
     if (registerData.tenantEnable) {
       await getTenantId()
       registerData.registerForm.tenantId = authUtil.getTenantId()
     }
 
-    if (registerData.captchaEnable) {
-      registerData.registerForm.captchaVerification = params.captchaVerification
-    }
+    await LoginApi.register(registerData.registerForm)
 
-    const data = await validForm()
-    if (!data) {
-      return
-    }
-
-    const res = await LoginApi.register(registerData.registerForm)
-    if (!res) {
-      return
-    }
-    loading.value = ElLoading.service({
-      lock: true,
-      text: '正在加载系统中...',
-      background: 'rgba(0, 0, 0, 0.7)'
-    })
-
-    authUtil.removeLoginForm()
-
-    authUtil.setToken(res)
-    if (!redirect.value) {
-      redirect.value = '/'
-    }
-    // 判断是否为SSO登录
-    if (redirect.value.indexOf('sso') !== -1) {
-      window.location.href = window.location.href.replace('/login?redirect=', '')
-    } else {
-      push({ path: redirect.value || permissionStore.addRouters[0].path })
-    }
+    // 注册只创建待审批账号，不签发 Token：需管理员启用后才能登录
+    message.alertSuccess('注册成功，请等待管理员审批通过后登录')
+    formLogin.value?.resetFields()
+    handleBackLogin()
   } finally {
     loginLoading.value = false
-    loading.value.close()
   }
 }
 
 // 获取验证码
 const getCode = async () => {
-  // 情况一，未开启：则直接注册
-  if (registerData.captchaEnable === 'false') {
-    await handleRegister({})
-  } else {
-    // 情况二，已开启：则展示验证码；只有完成验证码的情况，才进行注册
-    // 弹出验证码
-    verify.value.show()
-  }
+  // 注册始终需要先通过滑块验证码，再提交注册请求
+  verify.value.show()
 }
 
 // 获取租户 ID
@@ -245,15 +213,6 @@ const getTenantByWebsite = async () => {
   }
 }
 
-watch(
-  () => currentRoute.value,
-  (route: RouteLocationNormalizedLoaded) => {
-    redirect.value = route?.query?.redirect as string
-  },
-  {
-    immediate: true
-  }
-)
 onMounted(() => {
   // getCookie()
   getTenantByWebsite()

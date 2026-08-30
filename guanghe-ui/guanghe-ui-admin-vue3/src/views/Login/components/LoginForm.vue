@@ -61,6 +61,11 @@
           </el-button>
         </el-form-item>
       </el-col>
+      <el-col :span="24" class="px-10px text-center">
+        <el-link type="primary" :underline="false" @click="setLoginState(LoginStateEnum.REGISTER)">
+          {{ t('login.register') }}
+        </el-link>
+      </el-col>
       <Verify
         v-if="loginData.captchaEnable === 'true'"
         ref="verify"
@@ -92,7 +97,7 @@ const iconAvatar = useIcon({ icon: 'ep:avatar' })
 const iconLock = useIcon({ icon: 'ep:lock' })
 const formLogin = ref()
 const { validForm } = useFormValid(formLogin)
-const { getLoginState } = useLoginState()
+const { getLoginState, setLoginState } = useLoginState()
 const { currentRoute, push } = useRouter()
 const permissionStore = usePermissionStore()
 const redirect = ref<string>('')

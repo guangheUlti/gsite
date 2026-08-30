@@ -62,7 +62,7 @@ const loading = ref(true) // 加载中
 
 /** 获得销售统计 */
 const saleSummary = ref<ErpSaleSummaryRespVO>() // 销售概况统计
-const saleTimeSummaryList = ref<ErpSaleTimeSummaryRespVO[]>() // 销售时段统计
+const saleTimeSummaryList = ref<ErpSaleTimeSummaryRespVO[]>([]) // 销售时段统计
 const getSaleSummary = async () => {
   saleSummary.value = await SaleStatisticsApi.getSaleSummary()
   saleTimeSummaryList.value = await SaleStatisticsApi.getSaleTimeSummary()
@@ -70,7 +70,7 @@ const getSaleSummary = async () => {
 
 /** 获得采购统计 */
 const purchaseSummary = ref<ErpPurchaseSummaryRespVO>() // 采购概况统计
-const purchaseTimeSummaryList = ref<ErpPurchaseTimeSummaryRespVO[]>() // 采购时段统计
+const purchaseTimeSummaryList = ref<ErpPurchaseTimeSummaryRespVO[]>([]) // 采购时段统计
 const getPurchaseSummary = async () => {
   purchaseSummary.value = await PurchaseStatisticsApi.getPurchaseSummary()
   purchaseTimeSummaryList.value = await PurchaseStatisticsApi.getPurchaseTimeSummary()

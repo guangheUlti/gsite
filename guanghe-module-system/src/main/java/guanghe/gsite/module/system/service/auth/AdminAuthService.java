@@ -72,11 +72,13 @@ public interface AdminAuthService {
 
     /**
      * 用户注册
+     * <p>
+     * 注册仅创建待审批账号（状态为停用），不签发登录令牌，
+     * 需管理员在「用户管理」中启用后方可登录。
      *
      * @param createReqVO 注册用户
-     * @return 注册结果
      */
-    AuthLoginRespVO register(AuthRegisterReqVO createReqVO);
+    void register(AuthRegisterReqVO createReqVO);
 
     /**
      * 重置密码

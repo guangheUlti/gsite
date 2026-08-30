@@ -121,7 +121,7 @@ export default {
   },
   login: {
     welcome: 'Welcome to the system',
-    message: 'AI-powered enterprise intelligence platform',
+    message: 'AI-powered economic-entity intelligence platform',
     tenantname: 'TenantName',
     username: 'Username',
     password: 'Password',
@@ -207,7 +207,7 @@ export default {
     welcome: 'Hello',
     happyDay: 'Wish you happy every day!',
     toady: `It's sunny today`,
-    currentModules: 'Enabled modules: System Management, Infrastructure',
+    currentModules: '15 business modules enabled',
     userTotal: 'Users',
     roleTotal: 'Roles',
     deptTotal: 'Active departments',

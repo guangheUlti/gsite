@@ -1,6 +1,7 @@
 package guanghe.gsite.module.system.service.auth;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import guanghe.gsite.framework.common.enums.CommonStatusEnum;
 import guanghe.gsite.framework.common.enums.UserTypeEnum;
 import guanghe.gsite.framework.common.util.monitor.TracerUtils;
@@ -206,6 +207,16 @@ public class AdminAuthServiceImpl implements AdminAuthService {
         return captchaService.verification(captchaVO);
     }
 
+    /**
+     * 无视 {@code guanghe.captcha.enable} 开关，始终校验验证码。
+     * 供注册等匿名建号接口使用，避免开发期关闭验证码后接口长期无防护。
+     */
+    private ResponseModel doValidateCaptchaAlways(CaptchaVerificationReqVO reqVO) {
+        CaptchaVO captchaVO = new CaptchaVO();
+        captchaVO.setCaptchaVerification(reqVO.getCaptchaVerification());
+        return captchaService.verification(captchaVO);
+    }
+
     private AuthLoginRespVO createTokenAfterLoginSuccess(AdminUserDO user, String username, LoginLogTypeEnum logType) {
         // 统一校验用户状态，避免短信、社交等登录方式遗漏
         validateUserStatus(user, username, logType);
@@ -273,20 +284,23 @@ public class AdminAuthServiceImpl implements AdminAuthService {
     }
 
     @Override
-    public AuthLoginRespVO register(AuthRegisterReqVO registerReqVO) {
+    public void register(AuthRegisterReqVO registerReqVO) {
         // 1. 校验验证码
         validateCaptcha(registerReqVO);
 
-        // 2. 校验用户名是否已存在
-        AdminUserDO user = userService.registerUser(registerReqVO);
+        // 2. 校验用户名是否已存在，并创建「待审批」账号
+        userService.registerUser(registerReqVO);
 
-        // 3. 创建 Token 令牌，记录登录日志
-        return createTokenAfterLoginSuccess(user, registerReqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME);
+        // 3. 不签发 Token：需管理员在「用户管理」中启用该账号后，才能登录
     }
 
     @VisibleForTesting
     void validateCaptcha(AuthRegisterReqVO reqVO) {
-        ResponseModel response = doValidateCaptcha(reqVO);
+        // 注册是匿名建号接口，始终强制验证码，不跟随 guanghe.captcha.enable 的开发期开关
+        if (StrUtil.isBlank(reqVO.getCaptchaVerification())) {
+            throw exception(AUTH_REGISTER_CAPTCHA_CODE_ERROR, "验证码不能为空");
+        }
+        ResponseModel response = doValidateCaptchaAlways(reqVO);
         // 验证不通过
         if (!response.isSuccess()) {
             throw exception(AUTH_REGISTER_CAPTCHA_CODE_ERROR, response.getRepMsg());

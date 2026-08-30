@@ -308,17 +308,15 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
         AuthRegisterReqVO reqVO = randomPojo(AuthRegisterReqVO.class);
         authService.setCaptchaEnable(false);
         AdminUserDO user = randomPojo(AdminUserDO.class, o -> o.setId(1L)
-                .setUsername(reqVO.getUsername()).setStatus(CommonStatusEnum.ENABLE.getStatus()));
+                .setUsername(reqVO.getUsername()).setStatus(CommonStatusEnum.DISABLE.getStatus()));
         when(userService.registerUser(reqVO)).thenReturn(user);
-        OAuth2AccessTokenDO accessTokenDO = randomPojo(OAuth2AccessTokenDO.class, o -> o.setUserId(user.getId())
-                .setUserType(UserTypeEnum.ADMIN.getValue()));
-        when(oauth2TokenService.createAccessToken(eq(user.getId()), eq(UserTypeEnum.ADMIN.getValue()),
-                eq("default"), isNull())).thenReturn(accessTokenDO);
 
-        // 调用，并断言
-        AuthLoginRespVO loginRespVO = authService.register(reqVO);
-        assertPojoEquals(accessTokenDO, loginRespVO);
-        verify(userService, never()).getUser(anyLong());
+        // 调用
+        authService.register(reqVO);
+
+        // 断言：创建了待审批账号，且没有签发任何登录令牌
+        verify(userService).registerUser(reqVO);
+        verify(oauth2TokenService, never()).createAccessToken(anyLong(), anyInt(), anyString(), any());
     }
 
     @Test

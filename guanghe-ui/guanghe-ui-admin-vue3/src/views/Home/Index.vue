@@ -40,7 +40,7 @@
   </div>
 
   <el-row class="mt-8px" :gutter="8" justify="space-between">
-    <el-col :xl="12" :lg="12" :md="24" :sm="24" :xs="24" class="mb-8px">
+    <el-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24" class="mb-8px">
       <el-card shadow="never">
         <template #header>
           <div class="h-3 flex justify-between">
@@ -61,7 +61,7 @@
         </el-skeleton>
       </el-card>
     </el-col>
-    <el-col :xl="12" :lg="12" :md="24" :sm="24" :xs="24" class="mb-8px">
+    <el-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24" class="mb-8px">
       <el-card shadow="never">
         <template #header>
           <div class="h-3 flex justify-between">
@@ -149,9 +149,9 @@ let notice = reactive<Notice[]>([])
 const getNotice = async () => {
   const data = [
     {
-      title: '定位 AI 驱动的企业智能中台，统一承载组织、权限与业务流程',
+      title: '定位企业管理中台，统一承载组织、权限与业务流程',
       type: '平台定位',
-      keys: ['AI 驱动', '企业智能中台'],
+      keys: ['企业管理中台', '统一权限'],
       date: new Date()
     },
     {
@@ -161,9 +161,9 @@ const getNotice = async () => {
       date: new Date()
     },
     {
-      title: '当前启用 system、infra 两个模块，其余业务模块按需装配',
-      type: '按需装配',
-      keys: ['system', 'infra'],
+      title: '已启用 15 个业务模块：系统、基础设施、工作流、支付、商城、CRM、ERP、MES、WMS、HRM、FMS、IM、公众号、报表',
+      type: '模块覆盖',
+      keys: ['15 个模块', '按需装配'],
       date: new Date()
     },
     {

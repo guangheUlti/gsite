@@ -74,3 +74,6 @@ release/gsite-deploy/run/
 
 ### runtime artifacts written into the repo root by the local Redis ###
 dump.rdb
+
+### system-update staging area ###
+backup/

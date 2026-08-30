@@ -43,6 +43,11 @@ public class GuangheRateLimiterConfiguration {
     }
 
     @Bean
+    public ClientIpOnlyRateLimiterKeyResolver clientIpOnlyRateLimiterKeyResolver() {
+        return new ClientIpOnlyRateLimiterKeyResolver();
+    }
+
+    @Bean
     public ServerNodeRateLimiterKeyResolver serverNodeRateLimiterKeyResolver() {
         return new ServerNodeRateLimiterKeyResolver();
     }

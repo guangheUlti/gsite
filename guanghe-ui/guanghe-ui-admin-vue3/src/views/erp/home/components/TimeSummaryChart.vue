@@ -12,12 +12,12 @@ import { EChartsOption } from 'echarts'
 import { CardTitle } from '@/components/Card'
 import { propTypes } from '@/utils/propTypes'
 
-/** 会员用户统计卡片 */
-defineOptions({ name: 'MemberStatisticsCard' })
+/** ERP 时段统计折线图 */
+defineOptions({ name: 'TimeSummaryChart' })
 
 const props = defineProps({
   title: propTypes.string.def('').isRequired,
-  value: propTypes.object.isRequired
+  value: propTypes.object
 })
 
 /** 折线图配置 */

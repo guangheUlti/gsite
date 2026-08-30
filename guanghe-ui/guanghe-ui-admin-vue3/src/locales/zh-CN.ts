@@ -122,7 +122,7 @@ export default {
   },
   login: {
     welcome: '欢迎使用本系统',
-    message: 'AI 驱动的企业智能中台',
+    message: 'AI 驱动的经济体智能中台',
     tenantname: '租户名称',
     username: '用户名',
     password: '密码',
@@ -209,7 +209,7 @@ export default {
     welcome: '你好',
     happyDay: '祝你开心每一天!',
     toady: '今日晴',
-    currentModules: '当前启用：系统管理、基础设施',
+    currentModules: '当前启用 15 个业务模块',
     userTotal: '用户数',
     roleTotal: '角色数',
     deptTotal: '启用部门数',
