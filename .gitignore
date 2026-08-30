@@ -55,5 +55,22 @@ application-my.yaml
 **/.DS_Store
 outputs/
 
-### locally built Windows deploy package (binaries, never commit) ###
-release/
+### Windows deploy package: track scripts/templates/SQL, exclude binaries ###
+release/*.zip
+release/gsite-deploy/jre/
+release/gsite-deploy/mysql/bin/
+release/gsite-deploy/mysql/data/
+release/gsite-deploy/mysql/lib/
+release/gsite-deploy/mysql/share/
+release/gsite-deploy/redis/*.exe
+release/gsite-deploy/redis/*.dll
+release/gsite-deploy/nginx/nginx.exe
+release/gsite-deploy/nginx/*.dll
+release/gsite-deploy/nginx/conf/htpasswd.exe
+release/gsite-deploy/backend/*.jar
+release/gsite-deploy/nginx/html/
+release/gsite-deploy/logs/
+release/gsite-deploy/run/
+
+### runtime artifacts written into the repo root by the local Redis ###
+dump.rdb
