@@ -245,7 +245,7 @@ guanghe:
     frontend-dir: D:\workspace\lab\gsite\guanghe-ui\guanghe-ui-admin-vue3\dist-deploy
     backup-dir: D:\workspace\lab\gsite\backup
     max-upload-size-mb: 500
-    java-command: D:\devTools\jdk\jdk1.8.0_202\bin\java.exe
+    java-command: D:\devTools\jdk\jdk1.8.0_504\bin\java.exe
     jvm-args: "-Dfile.encoding=UTF-8 -Duser.timezone=Asia/Shanghai"
     spring-args: "--spring.profiles.active=local --spring.config.additional-location=file:./config/"
 

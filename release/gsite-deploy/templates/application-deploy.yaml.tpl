@@ -18,9 +18,10 @@ spring:
     exclude:
       # use dynamic-datasource-spring-boot-starter instead of the Druid starter
       - com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
-      # the seed schema has no QRTZ_* tables, so the scheduler stays disabled
-      # (identical to the development environment). To enable the job module:
-      # import the Quartz tables into @MYSQL_DB@ and drop the next line.
+      # the scheduler stays off, exactly like the development profile. The QRTZ_*
+      # tables themselves ARE imported (sql\quartz.sql). To really enable the job
+      # scheduler: drop this exclude AND set spring.quartz.auto-startup: true +
+      # job-store-type: jdbc in the job section below, then restart.
       - org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration
       - org.springframework.ai.vectorstore.qdrant.autoconfigure.QdrantVectorStoreAutoConfiguration
       - org.springframework.ai.vectorstore.milvus.autoconfigure.MilvusVectorStoreAutoConfiguration
@@ -177,9 +178,17 @@ wx:
 --- #################### application specific ####################
 
 guanghe:
-  # must stay in sync with VITE_APP_CAPTCHA_ENABLE of the packed front-end (false)
+  # must stay in sync with VITE_APP_CAPTCHA_ENABLE of the packed front-end (false).
+  # exception: /system/auth/register always validates the slider captcha, whatever this flag says
   captcha:
     enable: false
+  pay:
+    # PayProperties rejects blank notify urls, so the backend would not even start without these.
+    # They point back at this package's nginx entry; replace them with the public address the
+    # payment channel can reach before enabling any real pay app.
+    order-notify-url: http://127.0.0.1:@WEB_PORT@/admin-api/pay/notify/order
+    refund-notify-url: http://127.0.0.1:@WEB_PORT@/admin-api/pay/notify/refund
+    transfer-notify-url: http://127.0.0.1:@WEB_PORT@/admin-api/pay/notify/transfer
   security:
     mock-enable: false # never enable in production: a mock token bypasses the login
   access-log:

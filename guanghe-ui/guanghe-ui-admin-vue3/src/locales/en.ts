@@ -207,7 +207,7 @@ export default {
     welcome: 'Hello',
     happyDay: 'Wish you happy every day!',
     toady: `It's sunny today`,
-    currentModules: '15 business modules enabled',
+    currentModules: '18 modules enabled',
     userTotal: 'Users',
     roleTotal: 'Roles',
     deptTotal: 'Active departments',

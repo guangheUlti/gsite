@@ -40,6 +40,8 @@ $MYSQL   = Join-Path $PKG 'mysql'
 $REDIS   = Join-Path $PKG 'redis'
 $NGX     = Join-Path $PKG 'nginx'
 $SQLDIR  = Join-Path $PKG 'sql'
+# single source for the seed list: pre-flight and init must agree on it
+$SEED_SQL = @('gsite.sql', 'quartz.sql', 'gsite_modules.sql')
 foreach ($d in @($RUNDIR, $LOGDIR, "$BACKEND\logs", "$MYSQL\logs", "$REDIS\logs", "$NGX\logs", "$NGX\temp")) {
     if (-not (Test-Path $d)) { New-Item -ItemType Directory -Path $d | Out-Null }
 }
@@ -288,12 +290,14 @@ function Do-Preflight {
         'java runtime' = (Join-Path $JRE 'bin\java.exe')
         'backend jar'  = (Join-Path $BACKEND 'guanghe-server.jar')
         'web root'     = (Join-Path $NGX 'html\index.html')
-        'seed sql'     = (Join-Path $SQLDIR 'gsite.sql + quartz.sql + gsite_modules.sql')
         'config.bat'      = $envFile
         'engine'       = (Join-Path $PKG 'bin\gsite.ps1')
     }
     foreach ($t in @('my.ini.tpl', 'redis.conf.tpl', 'nginx.conf.tpl', 'application-deploy.yaml.tpl')) {
         $want.Add('template ' + $t, (Join-Path $TPLDIR $t))
+    }
+    foreach ($s in $SEED_SQL) {
+        $want.Add('seed sql ' + $s, (Join-Path $SQLDIR $s))
     }
     $miss = 0
     foreach ($k in $want.Keys) {
@@ -705,7 +709,7 @@ FLUSH PRIVILEGES;
             Say "dropping and recreating '$db' (-force) ..."
             & $exeMysql @('--protocol=tcp', '-h', '127.0.0.1', '-P', $E['MYSQL_PORT'], '-u', 'root', '-e', "DROP DATABASE IF EXISTS ``$db``; CREATE DATABASE ``$db`` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;") 2>$null | Out-Null
         }
-        $seeds = @('gsite.sql', 'quartz.sql', 'gsite_modules.sql')
+        $seeds = $SEED_SQL
         foreach ($s in $seeds) {
             if (-not (Test-Path (Join-Path $SQLDIR $s))) { Die "seed not found: $SQLDIR\$s" }
         }

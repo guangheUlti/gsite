@@ -5,15 +5,15 @@
 
 | 内置组件 | 版本 | 位置 |
 | --- | --- | --- |
-| Java 运行时 | JRE 1.8.0_202 | `jre\` |
-| 后端服务 | guanghe-server.jar（Spring Boot 2.7.18，模块 system + infra，构建于 2026-08-29 14:08） | `backend\` |
-| 前端静态站 | admin-vue3（同源相对路径构建） | `nginx\html\` |
+| Java 运行时 | Temurin (OpenJDK) 1.8.0_504-b01 | `jre\` |
+| 后端服务 | guanghe-server.jar（Spring Boot 2.7.18，system/infra + 18 个业务模块共 20 个，构建于 2026-08-30 17:45） | `backend\` |
+| 前端静态站 | admin-vue3（`--mode deploy` 同源相对路径构建，构建于 2026-09-01 09:30） | `nginx\html\` |
 | 数据库 | MySQL 8.0.21（社区版，已精简） | `mysql\` |
 | 缓存 | Redis 3.0.504（Windows 版） | `redis\` |
 | Web 服务器 | nginx 1.31.1 | `nginx\` |
-| 初始数据 | `sql\gsite.sql`（48 张表，utf8mb4） | `sql\` |
+| 初始数据 | `sql\gsite.sql`（48 张：系统/基础设施）+ `sql\quartz.sql`（11 张：定时任务）+ `sql\gsite_modules.sql`（393 张：业务模块），共 452 张，utf8mb4 / utf8mb4_unicode_ci | `sql\` |
 
-整机大小约 510 MB。
+整机大小约 545 MB。
 
 ---
 
@@ -62,14 +62,15 @@
 端口是否合法且互不冲突、内置 mysqld / redis / java 能否在本机跑起来、四个端口有没有被**包外**程序占用。
 出现 `[FAIL]` 就当场退出，绝不会往下动。
 
-体检通过后做四件事：生成配置 → 初始化 `mysql\data` → 建库建账号 → 导入 `sql\gsite.sql`。
+体检通过后做四件事：生成配置 → 初始化 `mysql\data` → 建库建账号 → 依次导入 `sql\gsite.sql`、
+`sql\quartz.sql`、`sql\gsite_modules.sql`（共 452 张表，每份日志落在 `logs\import-*.log`）。
 耗时约 1 分钟；数据库已有内容时自动跳过导入，**不会覆盖数据**，所以这个脚本可以随时重跑。
 
 | 命令 | 作用 |
 | --- | --- |
 | `init.bat` | 体检 + 初始化（只补缺失的部分） |
 | `init.bat -start` | 同上，完成后顺手把整套服务拉起来，并打印访问地址 |
-| `init.bat -force -yes` | **清空**数据目录与 `gsite` 库，按 `sql\gsite.sql` 重建 |
+| `init.bat -force -yes` | **清空**数据目录与 `gsite` 库，按 `sql\` 下三个脚本重建 |
 
 > 只写 `-force` 不会执行，必须再加 `-yes`，防止手滑清库。
 
@@ -92,7 +93,8 @@ mysql      -              1234    3306    LISTENING
 http://服务器IP/            ← 就是 WEB_PORT，为 80 时可省略端口
 ```
 
-登录账号与原系统一致（`admin` 等，密码为原来在用的密码；本包不重置、不弱化任何口令）。
+初始账号沿用种子数据里的开发账号：全新安装后实测 `admin` / `admin` 可登录（租户默认 `1`）。
+**上线前请立刻在「个人中心 → 修改密码」里换掉**，其他内置账号同理，本包不会重置也不会弱化任何口令。
 
 ## 三、日常运维
 
@@ -173,11 +175,15 @@ mysql\bin\mysqldump.exe --protocol=tcp -h 127.0.0.1 -P 3306 -u root -p ^
   ①`80` 被 IIS、其它 web 或 Hyper-V 保留端口占用（实测会出现 `10013` 权限错误）→ 改 `WEB_PORT=8080`；
   ②改完记得在 **Windows 防火墙** 放行新端口：`netsh advfirewall firewall add rule name=GSite-In dir=in action=allow protocol=TCP localport=8080`。
 - **中文乱码？**
-  不会。`my.ini` 固定 `character-set-server=utf8mb4` + `collation utf8mb4_general_ci`，
-  导入脚本用 `--default-character-set=utf8mb4`，库/表/连接三层一致，无需再手工改。
+  不会。`my.ini` 固定 `character-set-server=utf8mb4` + `collation-server=utf8mb4_unicode_ci`，
+  建库语句和三个种子脚本的表也都是 `utf8mb4_unicode_ci`，导入时再带 `--default-character-set=utf8mb4`，
+  库/表/连接三层一致。统一排序规则还有一个硬理由：混用 `general_ci` 与 `unicode_ci` 会让跨表
+  `JOIN / UNION` 直接报 MySQL 1271。
 - **登录后没有“定时任务”页面 / 任务不执行**
-  初始数据中没有 Quartz 的 `QRTZ_*` 表，配置里已排除 `QuartzAutoConfiguration`。
-  需要定时任务时，先导入 Quartz 建表脚本，再去掉 `backend\config\application-deploy.yaml` 中对应的 exclude 并重启。
+  页面是有的，`init.bat` 已经导入 `sql\quartz.sql`（11 张 `QRTZ_*` 表）。任务不跑是因为
+  `backend\config\application-deploy.yaml` 排除了 `QuartzAutoConfiguration` 且 `auto-startup: false`
+  —— 这与开发环境的 `local` 配置完全一致，属于有意为之。要真正启用：删掉那行 exclude，
+  并把 `spring.quartz.auto-startup` 改为 `true`、`job-store-type` 改为 `jdbc`，然后重启后端。
 - **想直接看 Druid 监控 / Actuator**
   后端只监听 `127.0.0.1`，公网访问不到，这是有意的。Druid 控制台默认关闭，
   `actuator` 只放开 `health,info,metrics`。需要在其它机器上看，就在 `templates\nginx.conf.tpl` 里
@@ -188,9 +194,16 @@ mysql\bin\mysqldump.exe --protocol=tcp -h 127.0.0.1 -P 3306 -u root -p ^
 ## 八、安全清单（上线前逐条确认）
 
 - [ ] `config.bat` 中两个 MySQL 密码已改成强口令，并重新运行 `init.bat`（注意 §二 中 `MYSQL_APP_PASSWORD` 的限制）；
+- [ ] 系统内置账号（`admin` 等，初始口令 `admin`）已在后台逐个改密，至少改掉所有能登录的启用账号；
 - [ ] 只把 `WEB_PORT` 对外，`48080 / 3306 / 6379` 保持只绑回环（默认即如此）；
 - [ ] 防火墙入站规则只放行 `WEB_PORT`；
 - [ ] `backend\config\application-deploy.yaml` 中 `guanghe.security.mock-enable: false` 未被改回 `true`；
+- [ ] 开放注册的后果清楚：注册**只建待审批账号**（状态=禁用，不下发 token），必须由管理员在
+      「系统管理 → 用户管理」里启用才能登录；该接口强制滑块验证码（不受 `captcha.enable` 开关影响），
+      并按来源 IP 限流 5 次 / 10 分钟。不想让人自助注册，就在 `templates\nginx.conf.tpl` 里
+      把 `/admin-api/system/auth/register` 拒掉，或让前端不显示注册入口；
+- [ ] 用到支付模块时，把 `application-deploy.yaml` 里 `guanghe.pay` 的三个 `*-notify-url` 改成支付渠道
+      能访问到的公网地址（默认回指本包 nginx，仅用于保证后端能启动）；
 - [ ] 生产建议为 `WEB_PORT` 前置 HTTPS（自带证书时改 `templates\nginx.conf.tpl`）。
 
 ## 九、配置是怎么生成的
@@ -205,17 +218,17 @@ mysql\bin\mysqldump.exe --protocol=tcp -h 127.0.0.1 -P 3306 -u root -p ^
 本机需有 JDK 8 + Maven + Node（pnpm），在仓库根目录执行：
 
 ```
-rem 1) 后端 jar（只打 system + infra 所依赖的模块）
-set JAVA_HOME=D:\devTools\jdk\jdk1.8.0_202
+rem 1) 后端 jar（guanghe-server 依赖哪些模块就打哪些，当前 pom 启用 18 个模块）
+set JAVA_HOME=D:\devTools\jdk\jdk1.8.0_504
 mvn -B -pl guanghe-server -am -Dmaven.test.skip=true package
 rem   -> guanghe-server\target\guanghe-server.jar   拷到 backend\
 
 rem 2) 前端（guanghe-ui\guanghe-ui-admin-vue3，使用仓库里的 .env.deploy：VITE_BASE_URL 为空 = 同源相对路径）
 cd guanghe-ui\guanghe-ui-admin-vue3
 node --max_old_space_size=8192 .\node_modules\vite\bin\vite.js build --mode deploy
-rem   -> dist-deploy\（由 .env.deploy 的 VITE_OUT_DIR 控制）  拷到 nginx\html\
+rem   -> dist-deploy\（由 .env.deploy 的 VITE_OUT_DIR 控制）  清空 nginx\html\ 后整体拷入
 
-rem 3) 种子数据：sql\mysql\gsite.sql   拷到 sql\
+rem 3) 种子数据：sql\mysql\gsite.sql + quartz.sql + gsite_modules.sql  拷到 sql\
 ```
 
 依赖应用（`jre\`、`mysql\`、`redis\`、`nginx\`）从本机 `D:\devTools` 下对应目录拷贝，

@@ -1,6 +1,6 @@
 # 光何企业管理平台（gsite）
 
-基于 Spring Boot 2.7 + Vue 3 的企业级后台管理系统，内置 15 个业务模块，覆盖系统管理、工作流、支付、商城、CRM、ERP、MES、WMS、HRM、FMS、IM、微信公众号、数据报表等场景。
+基于 Spring Boot 2.7 + Vue 3 的企业级后台管理系统，内置 18 个模块，覆盖系统管理、基础设施、工作流、支付、会员、商城（商品 / 营销 / 交易 / 统计）、CRM、ERP、MES、WMS、HRM、FMS、IM、微信公众号、数据报表等场景。
 
 - 仓库地址：<https://github.com/guangheUlti/gsite>
 - 联系邮箱：18903378092@163.com
@@ -26,7 +26,7 @@
 
 ## 已启用模块
 
-以下模块已在当前构建中启用并通过验证：
+以下 15 组业务菜单（对应 18 个模块，商城一行含商品 / 营销 / 交易 / 统计四个模块）已在当前构建中启用并通过验证：
 
 | 模块 | 说明 | 预览 |
 |---|---|---|
@@ -112,7 +112,7 @@ cd /d D:\devTools\redis && redis-server.exe redis.conf
 # 验证：redis-cli.exe ping → PONG
 
 # ④ 构建（仅首次或代码变更后）
-set JAVA_HOME=D:\devTools\jdk\jdk1.8.0_202
+set JAVA_HOME=D:\devTools\jdk\jdk1.8.0_504
 mvn -B -T1C clean install -DskipTests
 
 # ⑤ 启动后端（端口 48080，约 30 秒）

@@ -161,9 +161,9 @@ const getNotice = async () => {
       date: new Date()
     },
     {
-      title: '已启用 15 个业务模块：系统、基础设施、工作流、支付、商城、CRM、ERP、MES、WMS、HRM、FMS、IM、公众号、报表',
+      title: '已启用 18 个模块：系统、基础设施、工作流、支付、商品、营销、交易、统计、会员、公众号、CRM、ERP、MES、WMS、HRM、FMS、IM、报表',
       type: '模块覆盖',
-      keys: ['15 个模块', '按需装配'],
+      keys: ['18 个模块', '按需装配'],
       date: new Date()
     },
     {

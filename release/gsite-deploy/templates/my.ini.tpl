@@ -12,8 +12,11 @@ datadir=@MYSQL_DATADIR@
 log-error=@MYSQL_LOGDIR@/mysqld.err
 
 # ---- charset: utf8mb4 everywhere, this is what prevents the mojibake ----
+# unicode_ci matches the COLLATE the seed scripts and CREATE DATABASE use, so objects
+# created without an explicit collation (e.g. the Flowable act_* tables the BPM module
+# auto-creates) inherit it too - a mix of collations breaks JOIN/UNION with error 1271.
 character-set-server=utf8mb4
-collation-server=utf8mb4_general_ci
+collation-server=utf8mb4_unicode_ci
 
 # ---- general ----
 default-storage-engine=INNODB

@@ -209,7 +209,7 @@ export default {
     welcome: '你好',
     happyDay: '祝你开心每一天!',
     toady: '今日晴',
-    currentModules: '当前启用 15 个业务模块',
+    currentModules: '当前启用 18 个模块',
     userTotal: '用户数',
     roleTotal: '角色数',
     deptTotal: '启用部门数',
