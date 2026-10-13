@@ -1,7 +1,7 @@
 # encoding=utf8
 """光何系统数据库迁移工具
 
-Author: dhb52 (https://gitee.com/dhb52)
+Author: guanghe
 
 pip install simple-ddl-parser
 
