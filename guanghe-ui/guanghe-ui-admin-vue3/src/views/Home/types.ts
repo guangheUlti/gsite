@@ -14,13 +14,6 @@ export type Project = {
   color: string
 }
 
-export type Notice = {
-  title: string
-  type: string
-  keys: string[]
-  date: Date | number | string
-}
-
 export type Shortcut = {
   name: string
   icon: string

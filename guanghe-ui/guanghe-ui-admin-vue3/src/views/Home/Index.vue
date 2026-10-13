@@ -61,42 +61,11 @@
         </el-skeleton>
       </el-card>
     </el-col>
-    <el-col :xl="24" :lg="24" :md="24" :sm="24" :xs="24" class="mb-8px">
-      <el-card shadow="never">
-        <template #header>
-          <div class="h-3 flex justify-between">
-            <span>{{ t('workplace.notice') }}</span>
-          </div>
-        </template>
-        <el-skeleton :loading="loading" animated>
-          <div v-for="(item, index) in notice" :key="`dynamics-${index}`">
-            <div class="flex items-center">
-              <el-avatar :src="avatar" :size="35" class="mr-16px">
-                <img src="@/assets/imgs/avatar.png" alt="" />
-              </el-avatar>
-              <div>
-                <div class="text-14px">
-                  <Highlight :keys="item.keys.map((v) => t(v))">
-                    {{ item.type }} : {{ item.title }}
-                  </Highlight>
-                </div>
-                <div class="mt-16px text-12px text-gray-400">
-                  {{ formatTime(item.date, 'yyyy-MM-dd') }}
-                </div>
-              </div>
-            </div>
-            <el-divider />
-          </div>
-        </el-skeleton>
-      </el-card>
-    </el-col>
   </el-row>
 </template>
 <script lang="ts" setup>
-import { formatTime } from '@/utils'
-
 import { useUserStore } from '@/store/modules/user'
-import type { Notice, Shortcut, WorkplaceTotal } from './types'
+import type { Shortcut, WorkplaceTotal } from './types'
 import { useRouter } from 'vue-router'
 import { getUserPage } from '@/api/system/user'
 import { getRolePage } from '@/api/system/role'
@@ -144,38 +113,6 @@ const getTotal = async () => {
   }
 }
 
-// 通知公告
-let notice = reactive<Notice[]>([])
-const getNotice = async () => {
-  const data = [
-    {
-      title: '定位企业管理中台，统一承载组织、权限与业务流程',
-      type: '平台定位',
-      keys: ['企业管理中台', '统一权限'],
-      date: new Date()
-    },
-    {
-      title: '后端 Spring Boot 2.7.18 + JDK 8，前端 Vue 3.5 + Vite 8',
-      type: '技术栈',
-      keys: ['Spring Boot', 'Vue'],
-      date: new Date()
-    },
-    {
-      title: '已启用 18 个模块：系统、基础设施、工作流、支付、商品、营销、交易、统计、会员、公众号、CRM、ERP、MES、WMS、HRM、FMS、IM、报表',
-      type: '模块覆盖',
-      keys: ['18 个模块', '按需装配'],
-      date: new Date()
-    },
-    {
-      title: '单企业私有化部署，数据库适配 MySQL、Oracle、达梦等 9 种方言',
-      type: '部署形态',
-      keys: ['单企业', '9 种'],
-      date: new Date()
-    }
-  ]
-  notice = Object.assign(notice, data)
-}
-
 // 快捷入口，仅指向已启用模块的真实路由
 let shortcut = reactive<Shortcut[]>([])
 
@@ -194,7 +131,7 @@ const getShortcut = async () => {
 }
 
 const getAllApi = async () => {
-  await Promise.all([getTotal(), getNotice(), getShortcut()])
+  await Promise.all([getTotal(), getShortcut()])
   loading.value = false
 }
 
