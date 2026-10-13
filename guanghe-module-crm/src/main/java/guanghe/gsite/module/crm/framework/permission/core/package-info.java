@@ -1,1 +1,0 @@
-package guanghe.gsite.module.crm.framework.permission.core;

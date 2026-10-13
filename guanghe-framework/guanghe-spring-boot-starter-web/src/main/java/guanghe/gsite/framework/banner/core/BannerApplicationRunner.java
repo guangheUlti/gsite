@@ -30,14 +30,6 @@ public class BannerApplicationRunner implements ApplicationRunner {
                     "https://github.com/guangheUlti/gsite",
                     "https://github.com/guangheUlti/gsite");
 
-            // 数据报表
-            if (isNotPresent("guanghe.gsite.module.report.framework.security.config.SecurityConfiguration")) {
-                System.out.println("[报表模块 guanghe-module-report - 已禁用][参考 https://github.com/guangheUlti/gsite 开启]");
-            }
-            // 工作流
-            if (isNotPresent("guanghe.gsite.module.bpm.framework.flowable.config.BpmFlowableConfiguration")) {
-                System.out.println("[工作流模块 guanghe-module-bpm - 已禁用][参考 https://github.com/guangheUlti/gsite 开启]");
-            }
             // 商城系统
             if (isNotPresent("guanghe.gsite.module.trade.framework.web.config.TradeWebConfiguration")) {
                 System.out.println("[商城系统 guanghe-module-mall - 已禁用][参考 https://github.com/guangheUlti/gsite 开启]");
@@ -50,26 +42,11 @@ public class BannerApplicationRunner implements ApplicationRunner {
             if (isNotPresent("guanghe.gsite.module.wms.framework.web.config.WmsWebConfiguration")) {
                 System.out.println("[WMS 仓库管理系统 guanghe-module-wms - 已禁用][参考 https://github.com/guangheUlti/gsite 开启]");
             }
-            // CRM 系统
-            if (isNotPresent("guanghe.gsite.module.crm.framework.web.config.CrmWebConfiguration")) {
-                System.out.println("[CRM 系统 guanghe-module-crm - 已禁用][参考 https://github.com/guangheUlti/gsite 开启]");
-            }
-            // MES 系统
-            if (isNotPresent("guanghe.gsite.module.mes.framework.web.config.MesWebConfiguration")) {
-                System.out.println("[MES 系统 guanghe-module-mes - 已禁用][参考 https://github.com/guangheUlti/gsite 开启]");
-            }
-            // 微信公众号
-            if (isNotPresent("guanghe.gsite.module.mp.framework.mp.config.MpConfiguration")) {
-                System.out.println("[微信公众号 guanghe-module-mp - 已禁用][参考 https://github.com/guangheUlti/gsite 开启]");
-            }
             // 支付平台
             if (isNotPresent("guanghe.gsite.module.pay.framework.pay.config.PayConfiguration")) {
                 System.out.println("[支付系统 guanghe-module-pay - 已禁用][参考 https://github.com/guangheUlti/gsite 开启]");
             }
-            // IM 即时通讯
-            if (isNotPresent("guanghe.gsite.module.im.framework.web.config.ImWebConfiguration")) {
-                System.out.println("[IM 即时通讯 guanghe-module-im - 已禁用][参考 https://github.com/guangheUlti/gsite 开启]");
-            }
+            // IM 即时通讯提示随模块裁剪移除
         });
     }
 

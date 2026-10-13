@@ -49,8 +49,6 @@
         <podam.version>7.2.11.RELEASE</podam.version> <!-- Spring Boot 2.X 最多使用 7.2.11 版本 -->
         <jedis-mock.version>1.1.15</jedis-mock.version>
         <mockito-inline.version>4.11.0</mockito-inline.version>
-        <!-- Bpm 工作流相关 -->
-        <flowable.version>6.8.0</flowable.version> <!-- 不要升级 6.8.1：退回有 bug https://github.com/flowable/flowable-engine/issues/3944 -->
         <!-- 工具类相关 -->
         <anji-plus-captcha.version>1.4.0</anji-plus-captcha.version>
         <jsoup.version>1.22.2</jsoup.version>
@@ -203,7 +201,7 @@
                 <version>${druid.version}</version>
             </dependency>
             <dependency>
-                <!-- 注意：必须声明，避免 flowable 和 mybatis-plus 引入的 mybatis 版本不一致！！！ -->
+                <!-- 注意：必须声明，避免 mybatis-plus 引入的 mybatis 版本不一致！！！ -->
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>
                 <version>${mybatis.version}</version>
@@ -454,19 +452,6 @@
                 <artifactId>podam</artifactId>
                 <version>${podam.version}</version>
             </dependency>
-
-            <!-- 工作流相关 -->
-            <dependency>
-                <groupId>org.flowable</groupId>
-                <artifactId>flowable-spring-boot-starter-process</artifactId>
-                <version>${flowable.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.flowable</groupId>
-                <artifactId>flowable-spring-boot-starter-actuator</artifactId>
-                <version>${flowable.version}</version>
-            </dependency>
-            <!-- 工作流相关结束 -->
 
             <!-- 工具类相关 -->
             <dependency>

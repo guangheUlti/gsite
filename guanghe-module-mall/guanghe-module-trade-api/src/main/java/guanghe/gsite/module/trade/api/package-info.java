@@ -1,1 +1,0 @@
-package guanghe.gsite.module.trade.api;

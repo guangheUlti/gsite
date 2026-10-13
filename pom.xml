@@ -13,23 +13,10 @@
         <!-- 各种 module 拓展 -->
         <module>guanghe-module-system</module>
         <module>guanghe-module-infra</module>
-        <module>guanghe-module-member</module>
-        <module>guanghe-module-bpm</module>
-        <module>guanghe-module-report</module>
-        <module>guanghe-module-mp</module>
-        <module>guanghe-module-pay</module>
-        <module>guanghe-module-mall</module>
-        <module>guanghe-module-crm</module>
-        <module>guanghe-module-erp</module>
+
         <!-- IoT 需要 TDengine 时序数据库，当前环境不支持 -->
-        <!-- <module>guanghe-module-iot</module> -->
-        <module>guanghe-module-mes</module>
-        <module>guanghe-module-wms</module>
-        <module>guanghe-module-hrm</module>
-        <module>guanghe-module-fms</module>
-        <module>guanghe-module-im</module>
+
         <!-- AI 模块需要 JDK 17+，当前 JDK 8 分支不支持 -->
-        <!-- <module>guanghe-module-ai</module> -->
         <!-- Server 主项目（必须在所有 module 之后） -->
         <module>guanghe-server</module>
     </modules>
