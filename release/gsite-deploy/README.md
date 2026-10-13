@@ -6,8 +6,8 @@
 | 内置组件 | 版本 | 位置 |
 | --- | --- | --- |
 | Java 运行时 | Temurin (OpenJDK) 1.8.0_504-b01 | `jre\` |
-| 后端服务 | guanghe-server.jar（Spring Boot 2.7.18，system/infra + 18 个业务模块共 20 个，构建于 2026-08-30 17:45） | `backend\` |
-| 前端静态站 | admin-vue3（`--mode deploy` 同源相对路径构建，构建于 2026-09-01 09:30） | `nginx\html\` |
+| 后端服务 | guanghe-server.jar（Spring Boot 2.7.18，system + infra 共 2 个模块，构建于 2026-10-13 16:11，约 148MB） | `backend\` |
+| 前端静态站 | admin-vue3（`--mode deploy` 同源相对路径构建，构建于 2026-10-13 17:12） | `nginx\html\` |
 | 数据库 | MySQL 8.0.21（社区版，已精简） | `mysql\` |
 | 缓存 | Redis 3.0.504（Windows 版） | `redis\` |
 | Web 服务器 | nginx 1.31.1 | `nginx\` |
@@ -202,8 +202,6 @@ mysql\bin\mysqldump.exe --protocol=tcp -h 127.0.0.1 -P 3306 -u root -p ^
       「系统管理 → 用户管理」里启用才能登录；该接口强制滑块验证码（不受 `captcha.enable` 开关影响），
       并按来源 IP 限流 5 次 / 10 分钟。不想让人自助注册，就在 `templates\nginx.conf.tpl` 里
       把 `/admin-api/system/auth/register` 拒掉，或让前端不显示注册入口；
-- [ ] 用到支付模块时，把 `application-deploy.yaml` 里 `guanghe.pay` 的三个 `*-notify-url` 改成支付渠道
-      能访问到的公网地址（默认回指本包 nginx，仅用于保证后端能启动）；
 - [ ] 生产建议为 `WEB_PORT` 前置 HTTPS（自带证书时改 `templates\nginx.conf.tpl`）。
 
 ## 九、配置是怎么生成的
@@ -218,7 +216,7 @@ mysql\bin\mysqldump.exe --protocol=tcp -h 127.0.0.1 -P 3306 -u root -p ^
 本机需有 JDK 8 + Maven + Node（pnpm），在仓库根目录执行：
 
 ```
-rem 1) 后端 jar（guanghe-server 依赖哪些模块就打哪些，当前 pom 启用 18 个模块）
+rem 1) 后端 jar（guanghe-server 依赖哪些模块就打哪些，当前 pom 启用 5 个业务模块）
 set JAVA_HOME=D:\devTools\jdk\jdk1.8.0_504
 mvn -B -pl guanghe-server -am -Dmaven.test.skip=true package
 rem   -> guanghe-server\target\guanghe-server.jar   拷到 backend\
