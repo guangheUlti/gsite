@@ -93,7 +93,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
     @BeforeEach
     public void before() {
         // mock 初始化密码
-        when(configApi.getConfigValueByKey(USER_INIT_PASSWORD_KEY)).thenReturn("guangheyuanma");
+        when(configApi.getConfigValueByKey(USER_INIT_PASSWORD_KEY)).thenReturn("guanghe-test");
     }
 
     @Test
@@ -124,14 +124,14 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
                 }));
         when(postService.getPostList(eq(reqVO.getPostIds()), isNull())).thenReturn(posts);
         // mock passwordEncoder 的方法
-        when(passwordEncoder.encode(eq(reqVO.getPassword()))).thenReturn("guangheyuanma");
+        when(passwordEncoder.encode(eq(reqVO.getPassword()))).thenReturn("guanghe-test");
 
         // 调用
         Long userId = userService.createUser(reqVO);
         // 断言
         AdminUserDO user = userMapper.selectById(userId);
         assertPojoEquals(reqVO, user, "password", "id");
-        assertEquals("guangheyuanma", user.getPassword());
+        assertEquals("guanghe-test", user.getPassword());
         assertEquals(CommonStatusEnum.ENABLE.getStatus(), user.getStatus());
         // 断言关联岗位
         List<UserPostDO> userPosts = userPostMapper.selectListByUserId(user.getId());
@@ -239,7 +239,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         Long userId = dbUser.getId();
         UserProfileUpdatePasswordReqVO reqVO = randomPojo(UserProfileUpdatePasswordReqVO.class, o -> {
             o.setOldPassword("tudou");
-            o.setNewPassword("yuanma");
+            o.setNewPassword("test-code");
         });
         // mock 方法
         when(passwordEncoder.encode(anyString())).then(
@@ -250,7 +250,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         userService.updateUserPassword(userId, reqVO);
         // 断言
         AdminUserDO user = userMapper.selectById(userId);
-        assertEquals("encode:yuanma", user.getPassword());
+        assertEquals("encode:test-code", user.getPassword());
     }
 
     @Test
@@ -454,7 +454,7 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
         });
         when(deptService.getDept(eq(dept.getId()))).thenReturn(dept);
         // mock passwordEncoder 的方法
-        when(passwordEncoder.encode(eq("guangheyuanma"))).thenReturn("java");
+        when(passwordEncoder.encode(eq("guanghe-test"))).thenReturn("java");
 
         // 调用
         UserImportRespVO respVO = userService.importUserList(newArrayList(importUser), true);
@@ -692,12 +692,12 @@ public class AdminUserServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetUserListByNickname() {
         // mock 数据
-        AdminUserDO user = randomAdminUserDO(o -> o.setNickname("芋头"));
+        AdminUserDO user = randomAdminUserDO(o -> o.setNickname("光何"));
         userMapper.insert(user);
         // 测试 nickname 不匹配
-        userMapper.insert(randomAdminUserDO(o -> o.setNickname("源码")));
+        userMapper.insert(randomAdminUserDO(o -> o.setNickname("测试昵称")));
         // 准备参数
-        String nickname = "芋";
+        String nickname = "光何";
 
         // 调用
         List<AdminUserDO> result = userService.getUserListByNickname(nickname);

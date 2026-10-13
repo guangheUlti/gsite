@@ -136,7 +136,7 @@ public class SocialUserServiceImplTest extends BaseDbUnitTest {
         Integer userType = UserTypeEnum.ADMIN.getValue();
         Integer type = SocialTypeEnum.GITEE.getType();
         String code = "tudou";
-        String state = "yuanma";
+        String state = "test-state";
         // mock 社交用户
         SocialUserDO socialUserDO = randomPojo(SocialUserDO.class).setType(type).setCode(code).setState(state);
         socialUserMapper.insert(socialUserDO);
@@ -159,7 +159,7 @@ public class SocialUserServiceImplTest extends BaseDbUnitTest {
         Integer socialType = SocialTypeEnum.GITEE.getType();
         Integer userType = randomEle(SocialTypeEnum.values()).getType();
         String code = "tudou";
-        String state = "yuanma";
+        String state = "test-state";
         // mock 方法
         SocialUserDO socialUser = randomPojo(SocialUserDO.class).setType(socialType).setCode(code).setState(state);
         socialUserMapper.insert(socialUser);
@@ -174,13 +174,13 @@ public class SocialUserServiceImplTest extends BaseDbUnitTest {
     public void testAuthSocialUser_notNull() {
         // mock 数据
         SocialUserDO socialUser = randomPojo(SocialUserDO.class,
-                o -> o.setType(SocialTypeEnum.GITEE.getType()).setCode("tudou").setState("yuanma"));
+                o -> o.setType(SocialTypeEnum.GITEE.getType()).setCode("tudou").setState("test-state"));
         socialUserMapper.insert(socialUser);
         // 准备参数
         Integer socialType = SocialTypeEnum.GITEE.getType();
         Integer userType = randomEle(SocialTypeEnum.values()).getType();
         String code = "tudou";
-        String state = "yuanma";
+        String state = "test-state";
 
         // 调用
         SocialUserDO result = socialUserService.authSocialUser(socialType, userType, code, state);
@@ -194,7 +194,7 @@ public class SocialUserServiceImplTest extends BaseDbUnitTest {
         Integer socialType = SocialTypeEnum.GITEE.getType();
         Integer userType = randomEle(SocialTypeEnum.values()).getType();
         String code = "tudou";
-        String state = "yuanma";
+        String state = "test-state";
         // mock 方法
         AuthUser authUser = randomPojo(AuthUser.class);
         when(socialClientService.getAuthUser(eq(socialType), eq(userType), eq(code), eq(state))).thenReturn(authUser);
@@ -213,7 +213,7 @@ public class SocialUserServiceImplTest extends BaseDbUnitTest {
         Integer socialType = SocialTypeEnum.GITEE.getType();
         Integer userType = randomEle(SocialTypeEnum.values()).getType();
         String code = "tudou";
-        String state = "yuanma";
+        String state = "test-state";
         // mock 数据
         socialUserMapper.insert(randomPojo(SocialUserDO.class).setType(socialType).setOpenid("test_openid"));
         // mock 方法
@@ -258,7 +258,7 @@ public class SocialUserServiceImplTest extends BaseDbUnitTest {
         SocialUserDO dbSocialUser = randomPojo(SocialUserDO.class, o -> { // 等会查询到
             o.setType(SocialTypeEnum.GITEE.getType());
             o.setNickname("光何");
-            o.setOpenid("guangheyuanma");
+            o.setOpenid("guanghe-test");
             o.setCreateTime(buildTime(2020, 1, 15));
         });
         socialUserMapper.insert(dbSocialUser);
@@ -273,7 +273,7 @@ public class SocialUserServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         SocialUserPageReqVO reqVO = new SocialUserPageReqVO();
         reqVO.setType(SocialTypeEnum.GITEE.getType());
-        reqVO.setNickname("芋");
+        reqVO.setNickname("光何");
         reqVO.setOpenid("guanghe");
         reqVO.setCreateTime(buildBetweenTime(2020, 1, 10, 2020, 1, 20));
 

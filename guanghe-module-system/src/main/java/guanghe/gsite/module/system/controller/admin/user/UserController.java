@@ -176,10 +176,10 @@ public class UserController {
     public void importTemplate(HttpServletResponse response) throws IOException {
         // 手动创建导出 demo
         List<UserImportExcelVO> list = Arrays.asList(
-                UserImportExcelVO.builder().username("yunai").deptId(1L).email("yunai@example.com").mobile("15601691300")
+                UserImportExcelVO.builder().username("guanghe").deptId(1L).email("guanghe@example.com").mobile("15601691300")
                         .nickname("光何").status(CommonStatusEnum.ENABLE.getStatus()).sex(SexEnum.MALE.getSex()).build(),
-                UserImportExcelVO.builder().username("yuanma").deptId(2L).email("yuanma@example.com").mobile("15601701300")
-                        .nickname("源码").status(CommonStatusEnum.DISABLE.getStatus()).sex(SexEnum.FEMALE.getSex()).build()
+                UserImportExcelVO.builder().username("testuser").deptId(2L).email("testuser@example.com").mobile("15601701300")
+                        .nickname("测试用户").status(CommonStatusEnum.DISABLE.getStatus()).sex(SexEnum.FEMALE.getSex()).build()
         );
         // 输出
         ExcelUtils.write(response, "用户导入模板.xls", "用户列表", UserImportExcelVO.class, list);

@@ -44,7 +44,7 @@ public class LoginLogServiceImplTest extends BaseDbUnitTest {
         // 测试 ip 不匹配
         loginLogMapper.insert(cloneIgnoreId(loginLogDO, o -> o.setUserIp("192.168.128.18")));
         // 测试 username 不匹配
-        loginLogMapper.insert(cloneIgnoreId(loginLogDO, o -> o.setUsername("yunai")));
+        loginLogMapper.insert(cloneIgnoreId(loginLogDO, o -> o.setUsername("guanghe")));
         // 测试 createTime 不匹配
         loginLogMapper.insert(cloneIgnoreId(loginLogDO, o -> o.setCreateTime(buildTime(2021, 2, 6))));
         // 构造调用参数

@@ -24,7 +24,7 @@ public class MailTemplateRespVO {
     @Schema(description = "发送的邮箱账号编号", requiredMode = Schema.RequiredMode.REQUIRED, example = "1")
     private Long accountId;
 
-    @Schema(description = "发送人名称", example = "芋头")
+    @Schema(description = "发送人名称", example = "测试发送人")
     private String nickname;
 
     @Schema(description = "标题", requiredMode = Schema.RequiredMode.REQUIRED, example = "注册成功")

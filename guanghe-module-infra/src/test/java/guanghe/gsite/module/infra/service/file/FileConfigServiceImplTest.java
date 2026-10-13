@@ -61,7 +61,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testCreateFileConfig_success() {
         // 准备参数
-        Map<String, Object> config = MapUtil.<String, Object>builder().put("basePath", "/yunai")
+        Map<String, Object> config = MapUtil.<String, Object>builder().put("basePath", "/guanghe")
                 .put("domain", "https://github.com/guangheUlti/gsite").build();
         FileConfigSaveReqVO reqVO = randomPojo(FileConfigSaveReqVO.class,
                 o -> o.setStorage(FileStorageEnum.LOCAL.getStorage()).setConfig(config))
@@ -75,7 +75,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
         FileConfigDO fileConfig = fileConfigMapper.selectById(fileConfigId);
         assertPojoEquals(reqVO, fileConfig, "id", "config");
         assertFalse(fileConfig.getMaster());
-        assertEquals("/yunai", ((LocalFileClientConfig) fileConfig.getConfig()).getBasePath());
+        assertEquals("/guanghe", ((LocalFileClientConfig) fileConfig.getConfig()).getBasePath());
         assertEquals("https://github.com/guangheUlti/gsite", ((LocalFileClientConfig) fileConfig.getConfig()).getDomain());
         // 验证 cache
         assertNull(fileConfigService.getClientCache().getIfPresent(fileConfigId));
@@ -85,13 +85,13 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
     public void testUpdateFileConfig_success() {
         // mock 数据
         FileConfigDO dbFileConfig = randomPojo(FileConfigDO.class, o -> o.setStorage(FileStorageEnum.LOCAL.getStorage())
-                .setConfig(new LocalFileClientConfig().setBasePath("/yunai").setDomain("https://github.com/guangheUlti/gsite")));
+                .setConfig(new LocalFileClientConfig().setBasePath("/guanghe").setDomain("https://github.com/guangheUlti/gsite")));
         fileConfigMapper.insert(dbFileConfig);// @Sql: 先插入出一条存在的数据
         // 准备参数
         FileConfigSaveReqVO reqVO = randomPojo(FileConfigSaveReqVO.class, o -> {
             o.setId(dbFileConfig.getId()); // 设置更新的 ID
             o.setStorage(FileStorageEnum.LOCAL.getStorage());
-            Map<String, Object> config = MapUtil.<String, Object>builder().put("basePath", "/yunai2")
+            Map<String, Object> config = MapUtil.<String, Object>builder().put("basePath", "/guanghe2")
                     .put("domain", "https://github.com/guangheUlti/gsite").build();
             o.setConfig(config);
         });
@@ -101,7 +101,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
         // 校验是否更新正确
         FileConfigDO fileConfig = fileConfigMapper.selectById(reqVO.getId()); // 获取最新的
         assertPojoEquals(reqVO, fileConfig, "config");
-        assertEquals("/yunai2", ((LocalFileClientConfig) fileConfig.getConfig()).getBasePath());
+        assertEquals("/guanghe2", ((LocalFileClientConfig) fileConfig.getConfig()).getBasePath());
         assertEquals("https://github.com/guangheUlti/gsite", ((LocalFileClientConfig) fileConfig.getConfig()).getDomain());
         // 验证 cache
         assertNull(fileConfigService.getClientCache().getIfPresent(fileConfig.getId()));
@@ -184,7 +184,7 @@ public class FileConfigServiceImplTest extends BaseDbUnitTest {
         dbFileConfig.setCreateTime(LocalDateTimeUtil.parse("2020-01-23", DatePattern.NORM_DATE_PATTERN));// 等会查询到
         fileConfigMapper.insert(dbFileConfig);
         // 测试 name 不匹配
-        fileConfigMapper.insert(cloneIgnoreId(dbFileConfig, o -> o.setName("源码")));
+        fileConfigMapper.insert(cloneIgnoreId(dbFileConfig, o -> o.setName("测试存储")));
         // 测试 storage 不匹配
         fileConfigMapper.insert(cloneIgnoreId(dbFileConfig, o -> o.setStorage(FileStorageEnum.DB.getStorage())));
         // 测试 createTime 不匹配

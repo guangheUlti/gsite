@@ -108,7 +108,7 @@ public class NotifyTemplateServiceImplTest extends BaseDbUnitTest {
     public void testGetNotifyTemplatePage() {
         // mock 数据
         NotifyTemplateDO dbNotifyTemplate = randomPojo(NotifyTemplateDO.class, o -> { // 等会查询到
-            o.setName("芋头");
+            o.setName("光何");
             o.setCode("test_01");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
             o.setCreateTime(buildTime(2022, 2, 3));
@@ -124,7 +124,7 @@ public class NotifyTemplateServiceImplTest extends BaseDbUnitTest {
         notifyTemplateMapper.insert(cloneIgnoreId(dbNotifyTemplate, o -> o.setCreateTime(buildTime(2022, 1, 5))));
         // 准备参数
         NotifyTemplatePageReqVO reqVO = new NotifyTemplatePageReqVO();
-        reqVO.setName("芋");
+        reqVO.setName("光何");
         reqVO.setCode("est_01");
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
         reqVO.setCreateTime(buildBetweenTime(2022, 2, 1, 2022, 2, 5));

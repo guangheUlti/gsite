@@ -30,7 +30,7 @@
     "columnComment" : "名字",
     "javaType" : "String",
     "javaField" : "name",
-    "example" : "芋头",
+    "example" : "测试分类",
     "createOperation" : true,
     "updateOperation" : true,
     "listOperation" : true,

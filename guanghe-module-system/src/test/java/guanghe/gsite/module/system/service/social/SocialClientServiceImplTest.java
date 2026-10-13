@@ -93,7 +93,7 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
             // 调用
             String url = socialClientService.getAuthorizeUrl(socialType, userType, redirectUri);
             // 断言
-            assertEquals("https://github.com/guangheUlti/gsite", url);
+            assertEquals("https://github.com/guangheUlti/gsite?redirect_uri=sss", url);
         }
     }
 
@@ -442,7 +442,7 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
     public void testGetSocialClientPage() {
         // mock 数据
         SocialClientDO dbSocialClient = randomPojo(SocialClientDO.class, o -> { // 等会查询到
-            o.setName("芋头");
+            o.setName("光何");
             o.setSocialType(SocialTypeEnum.GITEE.getType());
             o.setUserType(UserTypeEnum.ADMIN.getValue());
             o.setClientId("guanghe");
@@ -461,10 +461,10 @@ public class SocialClientServiceImplTest extends BaseDbUnitTest {
         socialClientMapper.insert(cloneIgnoreId(dbSocialClient, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // 准备参数
         SocialClientPageReqVO reqVO = new SocialClientPageReqVO();
-        reqVO.setName("芋");
+        reqVO.setName("光何");
         reqVO.setSocialType(SocialTypeEnum.GITEE.getType());
         reqVO.setUserType(UserTypeEnum.ADMIN.getValue());
-        reqVO.setClientId("yu");
+        reqVO.setClientId("guanghe");
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用

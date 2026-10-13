@@ -164,7 +164,7 @@ public class SmsChannelServiceTest extends BaseDbUnitTest {
        });
        smsChannelMapper.insert(dbSmsChannel);
        // 测试 signature 不匹配
-       smsChannelMapper.insert(cloneIgnoreId(dbSmsChannel, o -> o.setSignature("源码")));
+       smsChannelMapper.insert(cloneIgnoreId(dbSmsChannel, o -> o.setSignature("测试签名")));
        // 测试 status 不匹配
        smsChannelMapper.insert(cloneIgnoreId(dbSmsChannel, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
        // 测试 createTime 不匹配

@@ -27,7 +27,7 @@ public class S3FileClientTest {
         String result = client.presignGetUrl("avatar/中文 100%+文件.jpg", 300);
 
         // 断言
-        assertEquals("https://github.com/guangheUlti/gsite", result);
+        assertEquals("https://github.com/guangheUlti/gsite/avatar/%E4%B8%AD%E6%96%87%20100%25+%E6%96%87%E4%BB%B6.jpg", result);
     }
 
     @Test
@@ -39,10 +39,10 @@ public class S3FileClientTest {
         S3FileClient client = new S3FileClient(0L, config);
 
         // 调用
-        String result = client.presignGetUrl("https://github.com/guangheUlti/gsite", 300);
+        String result = client.presignGetUrl("https://github.com/guangheUlti/gsite/avatar/%E4%B8%AD%E6%96%87%20100%25+%E6%96%87%E4%BB%B6.jpg", 300);
 
         // 断言
-        assertEquals("https://github.com/guangheUlti/gsite", result);
+        assertEquals("https://github.com/guangheUlti/gsite/avatar/%E4%B8%AD%E6%96%87%20100%25+%E6%96%87%E4%BB%B6.jpg", result);
     }
 
     @Test
@@ -75,7 +75,7 @@ public class S3FileClientTest {
         // 配置成你自己的
         config.setAccessKey("admin");
         config.setAccessSecret("password");
-        config.setBucket("guangheyuanma");
+        config.setBucket("guanghe-test");
         config.setDomain(null);
         // 默认 9000 endpoint
         config.setEndpoint("http://127.0.0.1:9000");

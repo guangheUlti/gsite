@@ -9,7 +9,7 @@ import guanghe.gsite.framework.common.pojo.PageParam;
 @Data
 public class InfraCategoryListReqVO {
 
-    @Schema(description = "名字", example = "芋头")
+    @Schema(description = "名字", example = "测试分类")
     private String name;
 
 }

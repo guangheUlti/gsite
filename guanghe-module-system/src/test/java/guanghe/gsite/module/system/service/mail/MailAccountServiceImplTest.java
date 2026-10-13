@@ -125,7 +125,7 @@ public class MailAccountServiceImplTest extends BaseDbUnitTest {
         // mock 数据
         MailAccountDO dbMailAccount = randomPojo(MailAccountDO.class, o -> { // 等会查询到
             o.setMail("768@qq.com");
-            o.setUsername("yunai");
+            o.setUsername("guanghe");
         });
         mailAccountMapper.insert(dbMailAccount);
         // 测试 mail 不匹配
@@ -135,7 +135,7 @@ public class MailAccountServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         MailAccountPageReqVO reqVO = new MailAccountPageReqVO();
         reqVO.setMail("768");
-        reqVO.setUsername("yu");
+        reqVO.setUsername("guanghe");
 
         // 调用
         PageResult<MailAccountDO> pageResult = mailAccountService.getMailAccountPage(reqVO);

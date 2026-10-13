@@ -43,7 +43,7 @@ public class DictTypeServiceImplTest extends BaseDbUnitTest {
     public void testGetDictTypePage() {
        // mock 数据
        DictTypeDO dbDictType = randomPojo(DictTypeDO.class, o -> { // 等会查询到
-           o.setName("yunai");
+           o.setName("guanghe");
            o.setType("光何");
            o.setStatus(CommonStatusEnum.ENABLE.getStatus());
            o.setCreateTime(buildTime(2021, 1, 15));
@@ -59,8 +59,8 @@ public class DictTypeServiceImplTest extends BaseDbUnitTest {
        dictTypeMapper.insert(cloneIgnoreId(dbDictType, o -> o.setCreateTime(buildTime(2021, 1, 1))));
        // 准备参数
        DictTypePageReqVO reqVO = new DictTypePageReqVO();
-       reqVO.setName("nai");
-       reqVO.setType("艿");
+       reqVO.setName("guanghe");
+       reqVO.setType("光何");
        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
        reqVO.setCreateTime(buildBetweenTime(2021, 1, 10, 2021, 1, 20));
 

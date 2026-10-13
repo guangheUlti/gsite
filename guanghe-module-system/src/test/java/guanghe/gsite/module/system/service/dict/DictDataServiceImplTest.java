@@ -41,21 +41,21 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetDictDataList() {
         // mock 数据
-        DictDataDO dictDataDO01 = randomDictDataDO().setDictType("yunai").setSort(2)
+        DictDataDO dictDataDO01 = randomDictDataDO().setDictType("guanghe").setSort(2)
                 .setStatus(CommonStatusEnum.ENABLE.getStatus());
         dictDataMapper.insert(dictDataDO01);
-        DictDataDO dictDataDO02 = randomDictDataDO().setDictType("yunai").setSort(1)
+        DictDataDO dictDataDO02 = randomDictDataDO().setDictType("guanghe").setSort(1)
                 .setStatus(CommonStatusEnum.ENABLE.getStatus());
         dictDataMapper.insert(dictDataDO02);
-        DictDataDO dictDataDO03 = randomDictDataDO().setDictType("yunai").setSort(3)
+        DictDataDO dictDataDO03 = randomDictDataDO().setDictType("guanghe").setSort(3)
                 .setStatus(CommonStatusEnum.DISABLE.getStatus());
         dictDataMapper.insert(dictDataDO03);
-        DictDataDO dictDataDO04 = randomDictDataDO().setDictType("yunai2").setSort(3)
+        DictDataDO dictDataDO04 = randomDictDataDO().setDictType("guanghe2").setSort(3)
                 .setStatus(CommonStatusEnum.DISABLE.getStatus());
         dictDataMapper.insert(dictDataDO04);
         // 准备参数
         Integer status = CommonStatusEnum.ENABLE.getStatus();
-        String dictType = "yunai";
+        String dictType = "guanghe";
 
         // 调用
         List<DictDataDO> dictDataDOList = dictDataService.getDictDataList(status, dictType);
@@ -70,20 +70,20 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
         // mock 数据
         DictDataDO dbDictData = randomPojo(DictDataDO.class, o -> { // 等会查询到
             o.setLabel("光何");
-            o.setDictType("yunai");
+            o.setDictType("guanghe");
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
         });
         dictDataMapper.insert(dbDictData);
         // 测试 label 不匹配
-        dictDataMapper.insert(cloneIgnoreId(dbDictData, o -> o.setLabel("艿")));
+        dictDataMapper.insert(cloneIgnoreId(dbDictData, o -> o.setLabel("匹配不到")));
         // 测试 dictType 不匹配
         dictDataMapper.insert(cloneIgnoreId(dbDictData, o -> o.setDictType("nai")));
         // 测试 status 不匹配
         dictDataMapper.insert(cloneIgnoreId(dbDictData, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // 准备参数
         DictDataPageReqVO reqVO = new DictDataPageReqVO();
-        reqVO.setLabel("芋");
-        reqVO.setDictType("yunai");
+        reqVO.setLabel("光何");
+        reqVO.setDictType("guanghe");
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
         // 调用
@@ -243,11 +243,11 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetDictDataCountByDictType() {
         // mock 数据
-        dictDataMapper.insert(randomDictDataDO(o -> o.setDictType("yunai")));
+        dictDataMapper.insert(randomDictDataDO(o -> o.setDictType("guanghe")));
         dictDataMapper.insert(randomDictDataDO(o -> o.setDictType("tudou")));
-        dictDataMapper.insert(randomDictDataDO(o -> o.setDictType("yunai")));
+        dictDataMapper.insert(randomDictDataDO(o -> o.setDictType("guanghe")));
         // 准备参数
-        String dictType = "yunai";
+        String dictType = "guanghe";
 
         // 调用
         long count = dictDataService.getDictDataCountByDictType(dictType);
@@ -295,12 +295,12 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testGetDictData_dictType() {
         // mock 数据
-        DictDataDO dictDataDO = randomDictDataDO().setDictType("yunai").setValue("1");
+        DictDataDO dictDataDO = randomDictDataDO().setDictType("guanghe").setValue("1");
         dictDataMapper.insert(dictDataDO);
-        DictDataDO dictDataDO02 = randomDictDataDO().setDictType("yunai").setValue("2");
+        DictDataDO dictDataDO02 = randomDictDataDO().setDictType("guanghe").setValue("2");
         dictDataMapper.insert(dictDataDO02);
         // 准备参数
-        String dictType = "yunai";
+        String dictType = "guanghe";
         String value = "1";
 
         // 调用
@@ -312,12 +312,12 @@ public class DictDataServiceImplTest extends BaseDbUnitTest {
     @Test
     public void testParseDictData() {
         // mock 数据
-        DictDataDO dictDataDO = randomDictDataDO().setDictType("yunai").setLabel("1");
+        DictDataDO dictDataDO = randomDictDataDO().setDictType("guanghe").setLabel("1");
         dictDataMapper.insert(dictDataDO);
-        DictDataDO dictDataDO02 = randomDictDataDO().setDictType("yunai").setLabel("2");
+        DictDataDO dictDataDO02 = randomDictDataDO().setDictType("guanghe").setLabel("2");
         dictDataMapper.insert(dictDataDO02);
         // 准备参数
-        String dictType = "yunai";
+        String dictType = "guanghe";
         String label = "1";
 
         // 调用

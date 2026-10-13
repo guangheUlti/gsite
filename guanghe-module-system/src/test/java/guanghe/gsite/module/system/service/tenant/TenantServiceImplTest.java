@@ -143,8 +143,8 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         }), eq(RoleTypeEnum.SYSTEM.getType()))).thenReturn(200L);
         // mock 用户 300L
         when(userService.createUser(argThat(user -> {
-            assertEquals("yunai", user.getUsername());
-            assertEquals("yuanma", user.getPassword());
+            assertEquals("guanghe", user.getUsername());
+            assertEquals("test-code", user.getPassword());
             assertEquals("光何", user.getNickname());
             assertEquals("15601691300", user.getMobile());
             return true;
@@ -157,8 +157,8 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
             o.setPackageId(100L);
             o.setStatus(randomCommonStatus());
             o.setWebsites(singletonList("https://github.com/guangheUlti/gsite"));
-            o.setUsername("yunai");
-            o.setPassword("yuanma");
+            o.setUsername("guanghe");
+            o.setPassword("test-code");
         }).setId(null); // 设置为 null，方便后面校验
 
         // 调用
@@ -307,7 +307,7 @@ public class TenantServiceImplTest extends BaseDbUnitTest {
         // 准备参数
         TenantPageReqVO reqVO = new TenantPageReqVO();
         reqVO.setName("光何");
-        reqVO.setContactName("艿");
+        reqVO.setContactName("光何");
         reqVO.setContactMobile("1560");
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
         reqVO.setCreateTime(buildBetweenTime(2020, 12, 1, 2020, 12, 24));

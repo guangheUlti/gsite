@@ -107,7 +107,7 @@ public class MailTemplateServiceImplTest extends BaseDbUnitTest {
     public void testGetMailTemplatePage() {
         // mock 数据
         MailTemplateDO dbMailTemplate = randomPojo(MailTemplateDO.class, o -> { // 等会查询到
-            o.setName("源码");
+            o.setName("测试模板");
             o.setCode("test_01");
             o.setAccountId(1L);
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
@@ -126,7 +126,7 @@ public class MailTemplateServiceImplTest extends BaseDbUnitTest {
         mailTemplateMapper.insert(cloneIgnoreId(dbMailTemplate, o -> o.setCreateTime(buildTime(2023, 1, 5))));
         // 准备参数
         MailTemplatePageReqVO reqVO = new MailTemplatePageReqVO();
-        reqVO.setName("源");
+        reqVO.setName("测试模板");
         reqVO.setCode("est_01");
         reqVO.setAccountId(1L);
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());

@@ -13,7 +13,7 @@ import static guanghe.gsite.framework.common.util.date.DateUtils.FORMAT_YEAR_MON
 @Data
 public class InfraStudentPageReqVO extends PageParam {
 
-    @Schema(description = "名字", example = "芋头")
+    @Schema(description = "名字", example = "测试分类")
     private String name;
 
     @Schema(description = "出生日期")

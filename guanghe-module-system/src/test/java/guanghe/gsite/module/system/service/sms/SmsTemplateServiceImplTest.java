@@ -207,7 +207,7 @@ public class SmsTemplateServiceImplTest extends BaseDbUnitTest {
             o.setStatus(CommonStatusEnum.ENABLE.getStatus());
             o.setCode("tudou");
             o.setContent("光何");
-            o.setApiTemplateId("yunai");
+            o.setApiTemplateId("guanghe");
             o.setChannelId(1L);
             o.setCreateTime(buildTime(2021, 11, 11));
         });
@@ -217,9 +217,9 @@ public class SmsTemplateServiceImplTest extends BaseDbUnitTest {
         // 测试 status 不匹配
         smsTemplateMapper.insert(ObjectUtils.cloneIgnoreId(dbSmsTemplate, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
         // 测试 code 不匹配
-        smsTemplateMapper.insert(ObjectUtils.cloneIgnoreId(dbSmsTemplate, o -> o.setCode("yuanma")));
+        smsTemplateMapper.insert(ObjectUtils.cloneIgnoreId(dbSmsTemplate, o -> o.setCode("test-code")));
         // 测试 content 不匹配
-        smsTemplateMapper.insert(ObjectUtils.cloneIgnoreId(dbSmsTemplate, o -> o.setContent("源码")));
+        smsTemplateMapper.insert(ObjectUtils.cloneIgnoreId(dbSmsTemplate, o -> o.setContent("测试内容")));
         // 测试 apiTemplateId 不匹配
         smsTemplateMapper.insert(ObjectUtils.cloneIgnoreId(dbSmsTemplate, o -> o.setApiTemplateId("nai")));
         // 测试 channelId 不匹配
@@ -232,7 +232,7 @@ public class SmsTemplateServiceImplTest extends BaseDbUnitTest {
         reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
         reqVO.setCode("tu");
         reqVO.setContent("光何");
-        reqVO.setApiTemplateId("yu");
+        reqVO.setApiTemplateId("guanghe");
         reqVO.setChannelId(1L);
         reqVO.setCreateTime(buildBetweenTime(2021, 11, 1, 2021, 12, 1));
 

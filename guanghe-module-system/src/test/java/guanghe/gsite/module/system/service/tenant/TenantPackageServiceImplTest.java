@@ -143,12 +143,12 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
        TenantPackageDO dbTenantPackage = randomPojo(TenantPackageDO.class, o -> { // 等会查询到
            o.setName("光何");
            o.setStatus(CommonStatusEnum.ENABLE.getStatus());
-           o.setRemark("源码解析");
+           o.setRemark("测试备注");
            o.setCreateTime(buildTime(2022, 10, 10));
        });
        tenantPackageMapper.insert(dbTenantPackage);
        // 测试 name 不匹配
-       tenantPackageMapper.insert(cloneIgnoreId(dbTenantPackage, o -> o.setName("源码")));
+       tenantPackageMapper.insert(cloneIgnoreId(dbTenantPackage, o -> o.setName("测试套餐")));
        // 测试 status 不匹配
        tenantPackageMapper.insert(cloneIgnoreId(dbTenantPackage, o -> o.setStatus(CommonStatusEnum.DISABLE.getStatus())));
        // 测试 remark 不匹配
@@ -159,7 +159,7 @@ public class TenantPackageServiceImplTest extends BaseDbUnitTest {
        TenantPackagePageReqVO reqVO = new TenantPackagePageReqVO();
        reqVO.setName("光何");
        reqVO.setStatus(CommonStatusEnum.ENABLE.getStatus());
-       reqVO.setRemark("源码");
+       reqVO.setRemark("测试备注");
        reqVO.setCreateTime(buildBetweenTime(2022, 10, 9, 2022, 10, 11));
 
        // 调用

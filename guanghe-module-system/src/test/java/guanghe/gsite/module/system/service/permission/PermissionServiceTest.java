@@ -112,7 +112,7 @@ public class PermissionServiceTest extends BaseDbUnitTest {
 
             // 准备参数
             Long userId = 1L;
-            String[] roles = new String[]{"yunai", "tudou"};
+            String[] roles = new String[]{"guanghe", "tudou"};
             // mock 用户与角色的缓存
             userRoleMapper.insert(randomPojo(UserRoleDO.class).setUserId(userId).setRoleId(100L));
             RoleDO role = randomPojo(RoleDO.class, o -> o.setId(100L).setCode("tudou")

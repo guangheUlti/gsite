@@ -21,7 +21,7 @@ import javax.validation.constraints.Pattern;
 @Builder
 public class AuthLoginReqVO extends CaptchaVerificationReqVO {
 
-    @Schema(description = "账号", requiredMode = Schema.RequiredMode.REQUIRED, example = "guangheyuanma")
+    @Schema(description = "账号", requiredMode = Schema.RequiredMode.REQUIRED, example = "admin")
     @NotEmpty(message = "登录账号不能为空")
     @Length(min = 4, max = 30, message = "账号长度为 4-30 位")
     @Pattern(regexp = "^[a-zA-Z0-9]{4,30}$", message = "账号格式为数字以及字母")
