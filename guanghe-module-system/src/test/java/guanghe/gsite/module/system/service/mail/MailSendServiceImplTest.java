@@ -2,7 +2,7 @@ package guanghe.gsite.module.system.service.mail;
 
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.extra.mail.MailAccount;
-import cn.hutool.extra.mail.MailUtil;
+import cn.hutool.extra.mail.JakartaMailUtil;
 import guanghe.gsite.framework.common.enums.CommonStatusEnum;
 import guanghe.gsite.framework.common.enums.UserTypeEnum;
 import guanghe.gsite.framework.test.core.ut.BaseMockitoUnitTest;
@@ -63,7 +63,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
                 .setFrom("ydym_test@163.com") // 邮箱地址
                 .setHost("smtp.163.com").setPort(465).setSslEnable(true) // SMTP 服务器
                 .setAuth(true).setUser("ydym_test@163.com").setPass("WBZTEINMIFVRYSOE"); // 登录账号密码
-        String messageId = MailUtil.send(mailAccount, "7685413@qq.com", "主题", "内容", false);
+        String messageId = JakartaMailUtil.send(mailAccount, "7685413@qq.com", "主题", "内容", false);
         System.out.println("发送结果：" + messageId);
     }
 
@@ -269,9 +269,10 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
 
     @Test
     public void testDoSendMail_success() {
-        try (final MockedStatic<MailUtil> mailUtilMock = mockStatic(MailUtil.class)) {
-            // 准备参数
+        try (final MockedStatic<JakartaMailUtil> mailUtilMock = mockStatic(JakartaMailUtil.class)) {
+            // 准备参数（附件置空：静态 mock 的可变参数在录制与调用时展开一致）
             MailSendMessage message = randomPojo(MailSendMessage.class, o -> o.setNickname("光何"));
+            message.setAttachments(new File[0]);
             // mock 方法（获得邮箱账号）
             MailAccountDO account = randomPojo(MailAccountDO.class, o -> o.setMail("7685@qq.com"));
             when(mailAccountService.getMailAccountFromCache(eq(message.getAccountId())))
@@ -279,7 +280,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
 
             // mock 方法（发送邮件）
             String messageId = randomString();
-            mailUtilMock.when(() -> MailUtil.send(
+            mailUtilMock.when(() -> JakartaMailUtil.send(
                             argThat(mailAccount -> {
                                 assertEquals("光何 <7685@qq.com>", mailAccount.getFrom());
                                 assertTrue(mailAccount.isAuth());
@@ -290,7 +291,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
                                 assertEquals(account.getSslEnable(), mailAccount.isSslEnable());
                                 return true;
                             }), eq(message.getToMails()), eq(message.getCcMails()), eq(message.getBccMails()),
-                            eq(message.getTitle()), eq(message.getContent()), eq(true), any()))
+                            eq(message.getTitle()), eq(message.getContent()), eq(true)))
                     .thenReturn(messageId);
 
             // 调用
@@ -302,9 +303,10 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
 
     @Test
     public void testDoSendMail_exception() {
-        try (MockedStatic<MailUtil> mailUtilMock = mockStatic(MailUtil.class)) {
-            // 准备参数
+        try (MockedStatic<JakartaMailUtil> mailUtilMock = mockStatic(JakartaMailUtil.class)) {
+            // 准备参数（附件置空：静态 mock 的可变参数在录制与调用时展开一致）
             MailSendMessage message = randomPojo(MailSendMessage.class, o -> o.setNickname("光何"));
+            message.setAttachments(new File[0]);
             // mock 方法（获得邮箱账号）
             MailAccountDO account = randomPojo(MailAccountDO.class, o -> o.setMail("7685@qq.com"));
             when(mailAccountService.getMailAccountFromCache(eq(message.getAccountId())))
@@ -312,7 +314,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
 
             // mock 方法（发送邮件）
             Exception e = new NullPointerException("啦啦啦");
-            mailUtilMock.when(() -> MailUtil.send(argThat(mailAccount -> {
+            mailUtilMock.when(() -> JakartaMailUtil.send(argThat(mailAccount -> {
                         assertEquals("光何 <7685@qq.com>", mailAccount.getFrom());
                         assertTrue(mailAccount.isAuth());
                         assertEquals(account.getUsername(), mailAccount.getUser());
@@ -322,7 +324,7 @@ public class MailSendServiceImplTest extends BaseMockitoUnitTest {
                         assertEquals(account.getSslEnable(), mailAccount.isSslEnable());
                         return true;
                     }), eq(message.getToMails()), eq(message.getCcMails()), eq(message.getBccMails()),
-                    eq(message.getTitle()), eq(message.getContent()), eq(true), any())).thenThrow(e);
+                    eq(message.getTitle()), eq(message.getContent()), eq(true))).thenThrow(e);
 
             // 调用
             mailSendService.doSendMail(message);

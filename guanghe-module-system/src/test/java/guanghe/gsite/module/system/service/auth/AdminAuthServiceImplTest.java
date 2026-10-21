@@ -26,9 +26,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 
-import javax.annotation.Resource;
-import javax.validation.Validation;
-import javax.validation.Validator;
+import jakarta.annotation.Resource;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 
 import static cn.hutool.core.util.RandomUtil.randomEle;
 import static guanghe.gsite.framework.test.core.util.AssertUtils.assertPojoEquals;
@@ -306,7 +306,9 @@ public class AdminAuthServiceImplTest extends BaseDbUnitTest {
     public void testRegister_success() {
         // 准备参数
         AuthRegisterReqVO reqVO = randomPojo(AuthRegisterReqVO.class);
-        authService.setCaptchaEnable(false);
+        reqVO.setCaptchaVerification(randomString());
+        // 注册接口为了让匿名建号不被绕过，始终强制校验验证码（不跟随 guanghe.captcha.enable 开关）
+        when(captchaService.verification(any())).thenReturn(ResponseModel.success());
         AdminUserDO user = randomPojo(AdminUserDO.class, o -> o.setId(1L)
                 .setUsername(reqVO.getUsername()).setStatus(CommonStatusEnum.DISABLE.getStatus()));
         when(userService.registerUser(reqVO)).thenReturn(user);

@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -263,7 +263,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
                 scope, redirectUri, false, state);
         // 断言
         assertEquals(0, result.getCode());
-        assertEquals("https://github.com/guangheUlti/gsite", result.getData());
+        assertEquals("https://github.com/guangheUlti/gsite#error=access_denied&error_description=User%20denied%20access&state=test", result.getData());
     }
 
     @Test // autoApprove = true，通过 + token
@@ -293,8 +293,8 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
         // 断言
         assertEquals(0, result.getCode());
         assertThat(result.getData(), anyOf( // 29 和 30 都有一定概率，主要是时间计算
-                is("https://github.com/guangheUlti/gsite"),
-                is("https://github.com/guangheUlti/gsite")
+                is("https://github.com/guangheUlti/gsite#access_token=test_access_token&token_type=bearer&state=test&expires_in=30&scope=read"),
+                is("https://github.com/guangheUlti/gsite#access_token=test_access_token&token_type=bearer&state=test&expires_in=29&scope=read")
         ));
     }
 
@@ -324,7 +324,7 @@ public class OAuth2OpenControllerTest extends BaseMockitoUnitTest {
                 scope, redirectUri, false, state);
         // 断言
         assertEquals(0, result.getCode());
-        assertEquals("https://github.com/guangheUlti/gsite", result.getData());
+        assertEquals("https://github.com/guangheUlti/gsite?code=test_code&state=test", result.getData());
     }
 
     private HttpServletRequest mockRequest(String clientId, String secret) {
