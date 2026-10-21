@@ -5,7 +5,7 @@ import guanghe.gsite.module.infra.controller.admin.file.vo.file.FileCreateReqVO;
 import guanghe.gsite.module.infra.controller.admin.file.vo.file.FilePageReqVO;
 import guanghe.gsite.module.infra.controller.admin.file.vo.file.FilePresignedUrlRespVO;
 import guanghe.gsite.module.infra.dal.dataobject.file.FileDO;
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 

@@ -4,7 +4,7 @@ import guanghe.gsite.framework.common.exception.ServiceException;
 import guanghe.gsite.module.system.api.social.dto.SocialUserBindReqDTO;
 import guanghe.gsite.module.system.api.social.dto.SocialUserRespDTO;
 import guanghe.gsite.module.system.api.social.dto.SocialUserUnbindReqDTO;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * 社交用户的 API 接口

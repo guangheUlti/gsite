@@ -4,7 +4,7 @@ import guanghe.gsite.framework.common.pojo.PageResult;
 import guanghe.gsite.module.infra.controller.admin.job.vo.job.JobPageReqVO;
 import guanghe.gsite.module.infra.controller.admin.job.vo.job.JobSaveReqVO;
 import guanghe.gsite.module.infra.dal.dataobject.job.JobDO;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import org.quartz.SchedulerException;
 
 import java.util.List;

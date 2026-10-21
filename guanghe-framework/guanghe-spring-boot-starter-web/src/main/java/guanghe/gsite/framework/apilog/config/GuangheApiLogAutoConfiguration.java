@@ -6,7 +6,7 @@ import guanghe.gsite.framework.common.biz.infra.logger.ApiAccessLogCommonApi;
 import guanghe.gsite.framework.common.enums.WebFilterOrderEnum;
 import guanghe.gsite.framework.web.config.WebProperties;
 import guanghe.gsite.framework.web.config.GuangheWebAutoConfiguration;
-import javax.servlet.Filter;
+import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

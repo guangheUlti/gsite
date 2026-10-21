@@ -8,7 +8,7 @@ import guanghe.gsite.module.system.controller.admin.socail.vo.user.SocialUserPag
 import guanghe.gsite.module.system.dal.dataobject.social.SocialUserDO;
 import guanghe.gsite.module.system.enums.social.SocialTypeEnum;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 
 /**

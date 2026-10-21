@@ -4,7 +4,7 @@ import guanghe.gsite.framework.common.biz.system.permission.dto.DeptDataPermissi
 import guanghe.gsite.module.system.service.permission.PermissionService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Collection;
 import java.util.Set;
 

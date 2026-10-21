@@ -11,7 +11,7 @@ import guanghe.gsite.module.system.controller.admin.user.vo.user.UserImportRespV
 import guanghe.gsite.module.system.controller.admin.user.vo.user.UserPageReqVO;
 import guanghe.gsite.module.system.controller.admin.user.vo.user.UserSaveReqVO;
 import guanghe.gsite.module.system.dal.dataobject.user.AdminUserDO;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;

@@ -9,7 +9,7 @@ import guanghe.gsite.module.system.dal.mysql.logger.LoginLogMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import static guanghe.gsite.framework.common.util.date.LocalDateTimeUtils.buildBetweenTime;
 import static guanghe.gsite.framework.common.util.date.LocalDateTimeUtils.buildTime;

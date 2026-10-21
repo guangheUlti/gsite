@@ -4,7 +4,7 @@ import guanghe.gsite.framework.common.biz.system.tenant.TenantCommonApi;
 import guanghe.gsite.module.system.service.tenant.TenantService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 /**

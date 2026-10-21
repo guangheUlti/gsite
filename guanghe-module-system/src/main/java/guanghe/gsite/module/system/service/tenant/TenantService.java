@@ -8,7 +8,7 @@ import guanghe.gsite.module.system.dal.dataobject.tenant.TenantDO;
 import guanghe.gsite.module.system.service.tenant.handler.TenantInfoHandler;
 import guanghe.gsite.module.system.service.tenant.handler.TenantMenuHandler;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Set;
 

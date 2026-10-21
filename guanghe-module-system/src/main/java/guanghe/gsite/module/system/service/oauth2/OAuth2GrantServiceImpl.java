@@ -11,7 +11,7 @@ import guanghe.gsite.module.system.enums.ErrorCodeConstants;
 import guanghe.gsite.module.system.service.auth.AdminAuthService;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.List;
 
 import static guanghe.gsite.framework.common.exception.util.ServiceExceptionUtil.exception;

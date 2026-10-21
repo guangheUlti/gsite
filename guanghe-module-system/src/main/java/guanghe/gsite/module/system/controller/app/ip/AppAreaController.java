@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.security.PermitAll;
+import jakarta.annotation.security.PermitAll;
 import java.util.List;
 
 import static guanghe.gsite.framework.common.pojo.CommonResult.success;

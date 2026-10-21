@@ -4,7 +4,7 @@ import guanghe.gsite.framework.common.pojo.PageResult;
 import guanghe.gsite.module.infra.controller.admin.demo.demo01.vo.Demo01ContactPageReqVO;
 import guanghe.gsite.module.infra.controller.admin.demo.demo01.vo.Demo01ContactSaveReqVO;
 import guanghe.gsite.module.infra.dal.dataobject.demo.demo01.Demo01ContactDO;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import java.util.List;
 

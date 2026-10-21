@@ -3,7 +3,7 @@ package guanghe.gsite.module.system.mq.message.sms;
 import guanghe.gsite.framework.common.core.KeyValue;
 import lombok.Data;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 /**

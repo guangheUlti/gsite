@@ -8,7 +8,7 @@ import guanghe.gsite.module.infra.dal.dataobject.config.ConfigDO;
 import guanghe.gsite.module.infra.dal.mysql.config.ConfigMapper;
 import guanghe.gsite.module.infra.enums.config.ConfigTypeEnum;
 import com.google.common.annotations.VisibleForTesting;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;

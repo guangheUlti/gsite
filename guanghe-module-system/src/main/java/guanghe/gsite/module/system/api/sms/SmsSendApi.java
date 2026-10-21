@@ -2,7 +2,7 @@ package guanghe.gsite.module.system.api.sms;
 
 import guanghe.gsite.module.system.api.sms.dto.send.SmsSendSingleToUserReqDTO;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * 短信发送 API 接口

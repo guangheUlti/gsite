@@ -5,7 +5,7 @@ import guanghe.gsite.module.infra.controller.admin.file.vo.config.FileConfigPage
 import guanghe.gsite.module.infra.controller.admin.file.vo.config.FileConfigSaveReqVO;
 import guanghe.gsite.module.infra.dal.dataobject.file.FileConfigDO;
 import guanghe.gsite.module.infra.framework.file.core.client.FileClient;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import java.util.List;
 

@@ -5,7 +5,7 @@ import guanghe.gsite.module.system.controller.admin.tenant.vo.packages.TenantPac
 import guanghe.gsite.module.system.controller.admin.tenant.vo.packages.TenantPackageSaveReqVO;
 import guanghe.gsite.module.system.dal.dataobject.tenant.TenantPackageDO;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 
 /**

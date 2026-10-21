@@ -3,7 +3,7 @@ package guanghe.gsite.module.system.api.social;
 import guanghe.gsite.module.system.api.social.dto.*;
 import guanghe.gsite.module.system.enums.social.SocialTypeEnum;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import java.util.List;
 

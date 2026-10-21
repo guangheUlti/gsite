@@ -4,7 +4,7 @@ import guanghe.gsite.framework.common.biz.system.oauth2.dto.OAuth2AccessTokenChe
 import guanghe.gsite.framework.common.biz.system.oauth2.dto.OAuth2AccessTokenCreateReqDTO;
 import guanghe.gsite.framework.common.biz.system.oauth2.dto.OAuth2AccessTokenRespDTO;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * OAuth2.0 Token API 接口

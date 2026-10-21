@@ -6,7 +6,7 @@ import guanghe.gsite.module.system.controller.admin.sms.vo.channel.SmsChannelSav
 import guanghe.gsite.module.system.dal.dataobject.sms.SmsChannelDO;
 import guanghe.gsite.module.system.framework.sms.core.client.SmsClient;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 
 /**

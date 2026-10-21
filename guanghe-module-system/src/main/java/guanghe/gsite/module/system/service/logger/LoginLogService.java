@@ -5,7 +5,7 @@ import guanghe.gsite.module.system.api.logger.dto.LoginLogCreateReqDTO;
 import guanghe.gsite.module.system.controller.admin.logger.vo.loginlog.LoginLogPageReqVO;
 import guanghe.gsite.module.system.dal.dataobject.logger.LoginLogDO;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * 登录日志 Service 接口

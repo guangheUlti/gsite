@@ -6,7 +6,7 @@ import guanghe.gsite.module.infra.controller.admin.demo.demo03.inner.vo.Demo03St
 import guanghe.gsite.module.infra.dal.dataobject.demo.demo03.Demo03CourseDO;
 import guanghe.gsite.module.infra.dal.dataobject.demo.demo03.Demo03GradeDO;
 import guanghe.gsite.module.infra.dal.dataobject.demo.demo03.Demo03StudentDO;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import java.util.List;
 

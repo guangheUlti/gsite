@@ -3,7 +3,7 @@ package guanghe.gsite.module.system.service.auth;
 import guanghe.gsite.module.system.controller.admin.auth.vo.*;
 import guanghe.gsite.module.system.dal.dataobject.user.AdminUserDO;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * 管理后台的认证 Service 接口

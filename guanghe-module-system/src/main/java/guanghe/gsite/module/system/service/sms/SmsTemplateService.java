@@ -5,7 +5,7 @@ import guanghe.gsite.module.system.controller.admin.sms.vo.template.SmsTemplateP
 import guanghe.gsite.module.system.controller.admin.sms.vo.template.SmsTemplateSaveReqVO;
 import guanghe.gsite.module.system.dal.dataobject.sms.SmsTemplateDO;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Map;
 

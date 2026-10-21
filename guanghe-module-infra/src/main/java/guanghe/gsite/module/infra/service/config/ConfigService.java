@@ -4,7 +4,7 @@ import guanghe.gsite.framework.common.pojo.PageResult;
 import guanghe.gsite.module.infra.controller.admin.config.vo.ConfigPageReqVO;
 import guanghe.gsite.module.infra.controller.admin.config.vo.ConfigSaveReqVO;
 import guanghe.gsite.module.infra.dal.dataobject.config.ConfigDO;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import java.util.List;
 

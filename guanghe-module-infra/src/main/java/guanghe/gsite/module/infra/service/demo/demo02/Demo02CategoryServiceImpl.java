@@ -5,7 +5,7 @@ import guanghe.gsite.module.infra.controller.admin.demo.demo02.vo.Demo02Category
 import guanghe.gsite.module.infra.controller.admin.demo.demo02.vo.Demo02CategorySaveReqVO;
 import guanghe.gsite.module.infra.dal.dataobject.demo.demo02.Demo02CategoryDO;
 import guanghe.gsite.module.infra.dal.mysql.demo.demo02.Demo02CategoryMapper;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 

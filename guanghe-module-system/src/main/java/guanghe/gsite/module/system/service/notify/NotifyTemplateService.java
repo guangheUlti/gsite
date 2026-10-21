@@ -5,7 +5,7 @@ import guanghe.gsite.module.system.controller.admin.notify.vo.template.NotifyTem
 import guanghe.gsite.module.system.controller.admin.notify.vo.template.NotifyTemplateSaveReqVO;
 import guanghe.gsite.module.system.dal.dataobject.notify.NotifyTemplateDO;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Map;
 

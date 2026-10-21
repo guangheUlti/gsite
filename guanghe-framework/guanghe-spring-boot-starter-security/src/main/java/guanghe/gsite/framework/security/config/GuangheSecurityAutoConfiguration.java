@@ -9,7 +9,7 @@ import guanghe.gsite.framework.security.core.handler.AuthenticationEntryPointImp
 import guanghe.gsite.framework.security.core.service.SecurityFrameworkService;
 import guanghe.gsite.framework.security.core.service.SecurityFrameworkServiceImpl;
 import guanghe.gsite.framework.web.core.handler.GlobalExceptionHandler;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;

@@ -5,7 +5,7 @@ import guanghe.gsite.module.system.api.sms.dto.code.SmsCodeValidateReqDTO;
 import guanghe.gsite.module.system.api.sms.dto.code.SmsCodeSendReqDTO;
 import guanghe.gsite.module.system.api.sms.dto.code.SmsCodeUseReqDTO;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * 短信验证码 Service 接口

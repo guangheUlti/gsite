@@ -3,7 +3,7 @@ package guanghe.gsite.module.system.api.sms.dto.send;
 import guanghe.gsite.framework.common.validation.Mobile;
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 import java.util.Map;
 
 /**

@@ -7,7 +7,7 @@ import guanghe.gsite.framework.ratelimiter.core.annotation.RateLimiter;
 import guanghe.gsite.framework.ratelimiter.core.keyresolver.RateLimiterKeyResolver;
 import org.aspectj.lang.JoinPoint;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 客户端 IP 级别的限流 Key 解析器，使用方法名 + IP 组装成一个 Key

@@ -2,7 +2,7 @@ package guanghe.gsite.module.system.api.notify;
 
 import guanghe.gsite.module.system.api.notify.dto.NotifySendSingleToUserReqDTO;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 /**
  * 站内信发送 API 接口

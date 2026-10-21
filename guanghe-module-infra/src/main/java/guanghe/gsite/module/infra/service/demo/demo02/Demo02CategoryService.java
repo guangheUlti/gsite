@@ -3,7 +3,7 @@ package guanghe.gsite.module.infra.service.demo.demo02;
 import guanghe.gsite.module.infra.controller.admin.demo.demo02.vo.Demo02CategoryListReqVO;
 import guanghe.gsite.module.infra.controller.admin.demo.demo02.vo.Demo02CategorySaveReqVO;
 import guanghe.gsite.module.infra.dal.dataobject.demo.demo02.Demo02CategoryDO;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import java.util.List;
 

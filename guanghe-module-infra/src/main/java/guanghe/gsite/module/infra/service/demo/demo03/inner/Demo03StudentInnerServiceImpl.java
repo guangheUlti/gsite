@@ -12,7 +12,7 @@ import guanghe.gsite.module.infra.dal.dataobject.demo.demo03.Demo03StudentDO;
 import guanghe.gsite.module.infra.dal.mysql.demo.demo03.inner.Demo03CourseInnerMapper;
 import guanghe.gsite.module.infra.dal.mysql.demo.demo03.inner.Demo03GradeInnerMapper;
 import guanghe.gsite.module.infra.dal.mysql.demo.demo03.inner.Demo03StudentInnerMapper;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;

@@ -2,7 +2,7 @@ package guanghe.gsite.module.infra.service.db;
 
 import guanghe.gsite.module.infra.controller.admin.db.vo.DataSourceConfigSaveReqVO;
 import guanghe.gsite.module.infra.dal.dataobject.db.DataSourceConfigDO;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import java.util.List;
 

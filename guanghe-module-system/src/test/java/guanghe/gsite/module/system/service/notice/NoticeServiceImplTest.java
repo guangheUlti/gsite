@@ -10,7 +10,7 @@ import guanghe.gsite.module.system.dal.mysql.notice.NoticeMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.annotation.Import;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 
 import static guanghe.gsite.framework.common.util.object.ObjectUtils.cloneIgnoreId;
 import static guanghe.gsite.framework.test.core.util.AssertUtils.assertPojoEquals;
