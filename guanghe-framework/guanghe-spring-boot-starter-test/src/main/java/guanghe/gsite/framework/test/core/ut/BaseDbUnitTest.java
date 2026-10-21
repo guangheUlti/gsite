@@ -4,7 +4,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import guanghe.gsite.framework.datasource.config.GuangheDataSourceAutoConfiguration;
 import guanghe.gsite.framework.mybatis.config.GuangheMybatisAutoConfiguration;
 import guanghe.gsite.framework.test.config.SqlInitializationTestConfiguration;
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
+import com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import com.github.yulichang.autoconfigure.MybatisPlusJoinAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;

@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.mail.MailAccount;
-import cn.hutool.extra.mail.MailUtil;
+import cn.hutool.extra.mail.JakartaMailUtil;
 import guanghe.gsite.framework.common.enums.CommonStatusEnum;
 import guanghe.gsite.framework.common.enums.UserTypeEnum;
 import guanghe.gsite.module.system.dal.dataobject.mail.MailAccountDO;
@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.io.File;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -124,7 +124,7 @@ public class MailSendServiceImpl implements MailSendService {
         MailAccount mailAccount  = buildMailAccount(account, message.getNickname());
         // 2. 发送邮件
         try {
-            String messageId = MailUtil.send(mailAccount, message.getToMails(), message.getCcMails(), message.getBccMails(),
+            String messageId = JakartaMailUtil.send(mailAccount, message.getToMails(), message.getCcMails(), message.getBccMails(),
                     message.getTitle(), message.getContent(), true, message.getAttachments());
             // 3. 更新结果（成功）
             mailLogService.updateMailSendResult(message.getLogId(), messageId, null);

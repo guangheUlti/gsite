@@ -6,7 +6,7 @@ import guanghe.gsite.framework.mybatis.config.GuangheMybatisAutoConfiguration;
 import guanghe.gsite.framework.redis.config.GuangheRedisAutoConfiguration;
 import guanghe.gsite.framework.test.config.RedisTestConfiguration;
 import guanghe.gsite.framework.test.config.SqlInitializationTestConfiguration;
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
+import com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration;
 import org.redisson.spring.starter.RedissonAutoConfigurationV2;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;

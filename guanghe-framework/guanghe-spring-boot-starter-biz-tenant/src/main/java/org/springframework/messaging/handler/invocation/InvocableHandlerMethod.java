@@ -20,6 +20,7 @@ import guanghe.gsite.framework.tenant.core.context.TenantContextHolder;
 import guanghe.gsite.framework.tenant.core.util.TenantUtils;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.MethodParameter;
+import org.springframework.core.annotation.AnnotatedMethod;
 import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.core.ResolvableType;
 import org.springframework.lang.Nullable;
@@ -225,7 +226,8 @@ public class InvocableHandlerMethod extends HandlerMethod {
         return new AsyncResultMethodParameter(returnValue);
     }
 
-    private class AsyncResultMethodParameter extends HandlerMethodParameter {
+    // Spring 6.2 起 HandlerMethodParameter 已移除，改为 AnnotatedMethod.AnnotatedMethodParameter
+    private class AsyncResultMethodParameter extends AnnotatedMethod.AnnotatedMethodParameter {
 
         @Nullable
         private final Object returnValue;

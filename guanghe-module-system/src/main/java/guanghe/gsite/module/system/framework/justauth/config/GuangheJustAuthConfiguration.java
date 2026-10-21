@@ -5,6 +5,7 @@ import com.xkcoding.justauth.autoconfigure.JustAuthProperties;
 import com.xkcoding.justauth.support.cache.RedisStateCache;
 import me.zhyd.oauth.cache.AuthStateCache;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -12,9 +13,14 @@ import org.springframework.data.redis.core.RedisTemplate;
 /**
  * JustAuth 配置类 TODO 光何：等 justauth 1.4.1 版本发布！！！
  *
+ * 注意：justauth-spring-boot-starter 1.4.0 只有 META-INF/spring.factories 声明自动配置，
+ * Spring Boot 3 不再读取该键，因此这里显式开启 JustAuthProperties 的配置绑定，
+ * 注册 AuthRequestFactory、AuthStateCache 的活由本类承担。
+ *
  * @author 光何
  */
 @Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties(JustAuthProperties.class)
 public class GuangheJustAuthConfiguration {
 
     @Bean(name = "authRequestFactory2") // TODO @光何：等 justauth1.4.1 发布，可以去掉

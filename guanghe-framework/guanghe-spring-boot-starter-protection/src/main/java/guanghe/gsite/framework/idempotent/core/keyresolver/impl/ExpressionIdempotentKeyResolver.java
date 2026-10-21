@@ -5,7 +5,7 @@ import guanghe.gsite.framework.idempotent.core.annotation.Idempotent;
 import guanghe.gsite.framework.idempotent.core.keyresolver.IdempotentKeyResolver;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.core.DefaultParameterNameDiscoverer;
 import org.springframework.core.ParameterNameDiscoverer;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
@@ -21,7 +21,9 @@ import java.lang.reflect.Method;
  */
 public class ExpressionIdempotentKeyResolver implements IdempotentKeyResolver {
 
-    private final ParameterNameDiscoverer parameterNameDiscoverer = new LocalVariableTableParameterNameDiscoverer();
+    // Spring 6.1 起移除了 LocalVariableTableParameterNameDiscoverer，统一使用 DefaultParameterNameDiscoverer
+    // 注意：必须依赖 maven-compiler-plugin 的 <parameters>true</parameters> 才能获取参数名
+    private final ParameterNameDiscoverer parameterNameDiscoverer = new DefaultParameterNameDiscoverer();
     private final ExpressionParser expressionParser = new SpelExpressionParser();
 
     @Override

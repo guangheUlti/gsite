@@ -1,7 +1,7 @@
 package guanghe.gsite.module.system.framework.web.config;
 
 import guanghe.gsite.framework.swagger.config.GuangheSwaggerAutoConfiguration;
-import org.springdoc.core.GroupedOpenApi;
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
