@@ -26,17 +26,17 @@
     <url>https://github.com/guangheUlti/gsite</url>
 
     <properties>
-        <revision>2026.07-jdk8-SNAPSHOT</revision>
+        <revision>2026.11-jdk25-SNAPSHOT</revision>
         <!-- Maven 相关 -->
-        <java.version>1.8</java.version>
+        <java.version>25</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <flatten-maven-plugin.version>1.7.2</flatten-maven-plugin.version>
         <!-- maven-surefire-plugin 暂时无法通过 bom 的依赖读取（兼容老版本 IDEA 2024 及以前版本） -->
-        <lombok.version>1.18.42</lombok.version>
-        <spring.boot.version>2.7.18</spring.boot.version>
+        <lombok.version>1.18.46</lombok.version>
+        <spring.boot.version>3.5.14</spring.boot.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -70,6 +70,9 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven-compiler-plugin.version}</version>
                     <configuration>
+                        <!-- Spring 6.1+ 通过编译参数获取参数名，缺失会在运行期抛
+                             IllegalArgumentException: Name for argument of type [...] not specified -->
+                        <parameters>true</parameters>
                         <annotationProcessorPaths>
                             <path>
                                 <groupId>org.springframework.boot</groupId>
