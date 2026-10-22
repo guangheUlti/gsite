@@ -1,6 +1,6 @@
 # 光何企业管理平台（gsite）
 
-基于 Spring Boot 2.7 + Vue 3 的企业级后台管理系统，内置 2 个模块，覆盖系统管理、基础设施等场景。
+基于 Spring Boot 3.5 + Vue 3 的企业级后台管理系统，内置 2 个模块，覆盖系统管理、基础设施等场景。
 
 - 仓库地址：<https://github.com/guangheUlti/gsite>
 - 联系邮箱：18903378092@163.com
@@ -9,13 +9,13 @@
 
 | 分类 | 选型 | 版本 |
 |---|---|---|
-| 语言 | Java | 1.8 |
-| 后端框架 | Spring Boot | 2.7.18 |
-| 安全 | Spring Security + Token | 5.8.16 |
+| 语言 | Java | 25 |
+| 后端框架 | Spring Boot | 3.5.14 |
+| 安全 | Spring Security + Token | 6.5.10 |
 | ORM | MyBatis-Plus | 3.5.16 |
 | 连接池 | Druid + Dynamic Datasource | 1.2.28 / 4.5.0 |
 | 缓存 | Redis + Redisson | 5.0+ / 4.6.1 |
-| 接口文档 | Springdoc (Knife4j) | 1.8.0 |
+| 接口文档 | Springdoc (Knife4j) | 2.8.13 / 4.5.0 |
 | 前端 | Vue 3 + Element Plus + Vite | 3.5 / 8.x |
 | 兼容数据库 | MySQL、Oracle、PostgreSQL、SQL Server、达梦、人大金仓、OpenGauss、HighGo、DB2 | |
 
@@ -68,7 +68,7 @@ gsite/
 ├── guanghe-ui/guanghe-ui-admin-vue3/  前端管理后台（Vue 3 + Element Plus）
 ├── sql/<方言>/gsite*.sql              建库脚本（MySQL/Oracle/PG/达梦/金仓等）
 │   └── mysql/  gsite.sql（核心表+初始数据）
-│               quartz.sql（定时任务）  gsite_modules.sql（143 张业务模块表）
+│               quartz.sql（定时任务）  gsite_modules.sql（空占位：业务模块表已并入 gsite.sql）
 ├── release/gsite-deploy/              Windows 一体化部署包（见下方说明）
 └── .image/                            README 截图与功能架构图
 ```
@@ -77,7 +77,12 @@ gsite/
 
 ### 开发环境
 
-前置条件：JDK 8、Maven 3.x、MySQL 8、Redis 5.0+
+前置条件：**JDK 25**（必须，低于 25 无法编译）、Maven 3.x、MySQL 8、Redis 5.0+
+
+> **JDK 版本是硬约束**：本主干已升级到 Java 25 + Spring Boot 3.5（`javax.*` → `jakarta.*`），
+> 用 JDK 8/11/17/21 执行 `mvn` 会直接构建失败。JDK 25 选 Temurin 25.0.4.1 LTS：
+> `set JAVA_HOME=D:\devTools\jdk\jdk25.0.4`，并确认 `mvn -v` 的 `Java version` 为 25。
+> 迁移细节见 [docs/JDK25升级方案.md](docs/JDK25升级方案.md)。
 
 启动顺序固定为：**① MySQL → ② Redis → ③ 后端**，每步各开一个终端窗口。
 
@@ -87,7 +92,7 @@ mysql -h 127.0.0.1 -uroot -proot -e "CREATE DATABASE IF NOT EXISTS gsite DEFAULT
 mysql -h 127.0.0.1 -uroot -proot --default-character-set=utf8mb4 gsite < sql/mysql/gsite.sql
 mysql -h 127.0.0.1 -uroot -proot --default-character-set=utf8mb4 gsite < sql/mysql/quartz.sql
 mysql -h 127.0.0.1 -uroot -proot --default-character-set=utf8mb4 gsite < sql/mysql/gsite_modules.sql
-# 导入后共 202 张表：48 核心 + 11 Quartz + 143 业务模块
+# 导入后共 59 张表（含 11 张 QRTZ_ 定时任务表；quartz.sql 是 DROP+CREATE 的幂等重放）
 
 # ② 启动 MySQL（或双击 D:\devTools\mysql\start.bat）
 cd /d D:\devTools\mysql && bin\mysqld.exe --console
@@ -98,7 +103,7 @@ cd /d D:\devTools\redis && redis-server.exe redis.conf
 # 验证：redis-cli.exe ping → PONG
 
 # ④ 构建（仅首次或代码变更后）
-set JAVA_HOME=D:\devTools\jdk\jdk1.8.0_491
+set JAVA_HOME=D:\devTools\jdk\jdk25.0.4
 mvn -B -T1C clean install -DskipTests
 
 # ⑤ 启动后端（端口 2000，约 30 秒）
@@ -118,6 +123,10 @@ java -jar guanghe-server/target/guanghe-server.jar --spring.profiles.active=loca
 2. 编辑 `config.bat` 修改端口和密码
 3. 双击 `init.bat` 完成初始化
 4. 双击 `start-all.bat` 启动全部服务
+
+> **内置 JRE 必须是 JDK 25**：后端 jar 由 JDK 25 编译，JDK 8 运行时无法启动。
+> `init.bat` 的体检阶段会校验 `jre\bin\java.exe` 的主版本号，低于 25 直接报错并指出替换方式。
+> 升级后的包请把 `jre\` 换成 Temurin 25 JRE，详见 [release/gsite-deploy/README.md](release/gsite-deploy/README.md)。
 
 详见 `release/gsite-deploy/README.md`。
 

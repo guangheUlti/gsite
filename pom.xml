@@ -16,7 +16,7 @@
 
         <!-- IoT 需要 TDengine 时序数据库，当前环境不支持 -->
 
-        <!-- AI 模块需要 JDK 17+，当前 JDK 8 分支不支持 -->
+        <!-- AI 模块需要 JDK 17+，当前主干（JDK 25）已满足，但模块源码已被物理移除，需先从上游同步回来 -->
         <!-- Server 主项目（必须在所有 module 之后） -->
         <module>guanghe-server</module>
     </modules>

@@ -42,6 +42,8 @@ $NGX     = Join-Path $PKG 'nginx'
 $SQLDIR  = Join-Path $PKG 'sql'
 # single source for the seed list: pre-flight and init must agree on it
 $SEED_SQL = @('gsite.sql', 'quartz.sql', 'gsite_modules.sql')
+# the backend jar is compiled for Java 25 (Spring Boot 3.5) - a JDK 8 runtime cannot load it at all
+$MIN_JAVA = 25
 foreach ($d in @($RUNDIR, $LOGDIR, "$BACKEND\logs", "$MYSQL\logs", "$REDIS\logs", "$NGX\logs", "$NGX\temp")) {
     if (-not (Test-Path $d)) { New-Item -ItemType Directory -Path $d | Out-Null }
 }
@@ -277,6 +279,20 @@ function Test-Binary([string]$exe, [string[]]$argList) {
     $ErrorActionPreference = $prev
     return ($rc -eq 0)
 }
+# read the major version out of "java -version": 25.0.4.1 -> 25, 1.8.0_504 -> 8, unknown -> 0
+function Get-JavaMajor([string]$exe) {
+    if (-not (Test-Path $exe)) { return 0 }
+    $prev = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
+    try { $out = (& $exe '-version' 2>&1 | Out-String) } catch { $out = '' }
+    $ErrorActionPreference = $prev
+    if ($out -match 'version\s+"?(\d+)(?:\.(\d+))?') {
+        $major = [int]$Matches[1]
+        if ($major -eq 1 -and $Matches[2]) { return [int]$Matches[2] }   # 1.8.0_xxx -> 8
+        return $major
+    }
+    return 0
+}
 function Do-Preflight {
     $script:PF_OK = 0; $script:PF_WARN = 0; $script:PF_FAIL = 0
     Write-Host ''
@@ -351,6 +367,13 @@ function Do-Preflight {
     else { Pf 'fail' 'redis-server cannot run - bitness mismatch or a blocked download' }
     if (Test-Binary (Join-Path $JRE 'bin\java.exe') @('-version')) { Pf 'ok' 'the bundled java runs here' }
     else { Pf 'fail' 'java -version failed - the bundled jre is damaged, re-copy the package' }
+    $jver = Get-JavaMajor (Join-Path $JRE 'bin\java.exe')
+    if ($jver -ge $MIN_JAVA) {
+        Pf 'ok' ("the bundled java is version {0} (>= {1} required by the backend jar)" -f $jver, $MIN_JAVA)
+    } else {
+        $shown = if ($jver -gt 0) { $jver } else { 'unknown' }
+        Pf 'fail' ("the bundled jre is Java {0} but the backend jar needs Java {1}+ - replace jre\ with a Temurin {1} JRE (a full JDK {1} works as well)" -f $shown, $MIN_JAVA)
+    }
 
     # 5) a port held by a program outside this package is a hard stop
     foreach ($c in @('mysql', 'redis', 'backend', 'nginx')) {
@@ -492,6 +515,11 @@ function Start-BackendProcess {
     if (-not (Wait-Port ([int]$E['REDIS_PORT']) 'redis' 300)) { Die 'backend not started: Redis is not reachable' }
     $java = Join-Path $JRE 'bin\java.exe'
     if (-not (Test-Path $java)) { Die "no java runtime found: $java" }
+    $jver = Get-JavaMajor $java
+    if ($jver -lt $MIN_JAVA) {
+        $shown = if ($jver -gt 0) { $jver } else { 'unknown' }
+        Die "the bundled java is Java $shown but the backend jar needs Java $MIN_JAVA+ - replace jre\ with a Temurin $MIN_JAVA JRE"
+    }
     $jar = Join-Path $BACKEND 'guanghe-server.jar'
     if (-not (Test-Path $jar)) { Die "backend jar not found: $jar" }
     $argList = @(

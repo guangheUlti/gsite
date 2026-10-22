@@ -228,7 +228,7 @@ P0~P5 稳定后再评估。需要额外处理：
 | 一次性迁移 378 文件导致大批编译错误难以定位 | 工时失控 | 高 | 按模块推进 + 每模块单独提交，可 `git revert` 单模块 |
 | 前端接口契约变化（如时间格式、枚举序列化） | 联调失败 | 低 | Boot 3 默认 Jackson 2.x 行为基本一致；升级后跑一遍前端页面回归 |
 | 数据权限/租户插件与 MyBatis-Plus 新版本行为差异 | 数据越权或漏过滤 | 中 | 升级后专项验证租户隔离与数据权限过滤 |
-| 生产环境 JDK 版本不一致 | 上线即失败 | 中 | 同步更新 Dockerfile / 部署脚本的 base image 与 `JAVA_HOME` |
+| 生产环境 JDK 版本不一致 | 上线即失败 | 中 | 同步更新 Dockerfile / 部署脚本的 base image 与 `JAVA_HOME`（**已处置，见 9.8**） |
 | 升级期间 `main` 不可构建 | 阻塞其他需求 | 中 | 按阶段小步提交，P1~P4 之间 `main` 允许短暂不可编译；每阶段完成即回到可构建状态 |
 
 ## 七、回滚方案
@@ -315,3 +315,19 @@ mvn -v                                        # Maven 3.9.16 + Java 25.0.4.1
 - 未启用模块（`guanghe-module-bpm`、`-crm`、`-ai`、`-iot`、`-mall`、`-pay`、`-erp`、`-wms`、`-report`、`-im`、`-member`）不在本轮 `pom.xml` 的 `<modules>` 中，**未迁移**；启用前需按同一规则处理（它们的 `javax.*` 仍在）。
 - `spring-boot-admin` 3.x 的属性 key（`spring.boot.admin.*` 四个）尚未逐个核对是否重命名。
 - `jimureport` / `jimubi` / `weixin-java-*` / `rocketmq-spring` 仍是 Boot2 时代的坐标，仅因当前模块未依赖其自动配置而未暴露问题。
+
+### 9.8 部署侧同步（已落地）
+
+代码升到 JDK 25 后，部署侧不跟着换，线上起不来：jar 的字节码版本是 69，JDK 8 加载即 `UnsupportedClassVersionError`。本次同步范围：
+
+| 位置 | 改动 |
+|---|---|
+| `guanghe-server/Dockerfile` | base image `eclipse-temurin:8-jre` → `eclipse-temurin:25-jre` |
+| `guanghe-server/src/main/resources/application-local.yaml` | 系统更新功能用的 `guanghe.system-update.java-command`：`jdk1.8.0_504` → `jdk25.0.4` |
+| `release/gsite-deploy/bin/gsite.ps1` | 体检（preflight）与后端启动前新增 Java 主版本校验，`< 25` 直接 `[FAIL]` 并提示替换 `jre\` |
+| `release/gsite-deploy/README.md` | 内置 JRE 版本、重建步骤的 `JAVA_HOME` 同步到 25，并写明 `jre\` 替换方式 |
+| `README.md` | 技术栈表（Java 25 / Boot 3.5.14 / Security 6.5.10 / springdoc 2.8.13）、前置条件、`JAVA_HOME` 示例 |
+| 根 `pom.xml`、`guanghe-dependencies/pom.xml` | 清理「JDK 8 分支不支持」类过期注释 |
+
+> **仍需人工完成的一步**：一体化部署包 `release/gsite-deploy/jre\` 里还是 Temurin 8 的运行时（二进制不入库）。
+> 需把 `jre\` 整个目录换成 Temurin 25 的 JRE（或完整 JDK 25），否则 `init.bat` 体检会在 Java 版本一项报 `[FAIL]`。

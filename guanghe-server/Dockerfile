@@ -1,6 +1,7 @@
 ## AdoptOpenJDK 停止发布 OpenJDK 二进制，而 Eclipse Temurin 是它的延伸，提供更好的稳定性
 ## 感谢复旦核博士的建议！灰子哥，牛皮！
-FROM eclipse-temurin:8-jre
+## 注意：后端由 JDK 25 编译，运行时必须是 JDK 25+（JDK 8 无法启动该 jar）
+FROM eclipse-temurin:25-jre
 
 ## 创建目录，并使用它作为工作目录
 RUN mkdir -p /guanghe-server

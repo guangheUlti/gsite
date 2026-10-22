@@ -43,7 +43,7 @@
         <opentelemetry.version>1.39.0</opentelemetry.version>
         <!-- Test 测试相关 -->
         <h2.version>2.3.232</h2.version>
-        <podam.version>8.0.2.RELEASE</podam.version> <!-- JDK 17+ 需要 8.x（7.x 依赖 javax.annotation 与老版本字节码） -->
+        <podam.version>8.0.2.RELEASE</podam.version> <!-- JDK 25 需要 8.x（7.x 依赖 javax.annotation 与老版本字节码） -->
         <jedis-mock.version>1.1.15</jedis-mock.version>
         <!-- 工具类相关 -->
         <anji-plus-captcha.version>1.4.0</anji-plus-captcha.version>
@@ -71,8 +71,8 @@
         <okhttp.version>4.12.0</okhttp.version>
         <californium.version>3.14.0</californium.version>
         <j2mod.version>3.3.0</j2mod.version>
-        <httpclient5.version>5.5.1</httpclient5.version> <!-- WxJava 4.8.x 需要 HttpClient5 5.4+，Spring Boot 2.7 默认 5.1.4 不兼容；JDK8 兼容不能升级到 5.5.2+ -->
-        <httpcore5.version>5.3.6</httpcore5.version> <!-- 配套 httpclient5 5.5.1，Spring Boot 2.7 默认 5.1.5 不兼容 -->
+        <httpclient5.version>5.5.1</httpclient5.version> <!-- WxJava 4.8.x 需要 HttpClient5 5.4+；此处固定版本以避免传递依赖自动升级 -->
+        <httpcore5.version>5.3.6</httpcore5.version> <!-- 配套 httpclient5 5.5.1 -->
         <!-- 三方云服务相关 -->
         <awssdk.version>2.46.17</awssdk.version>
         <justauth.version>1.16.7</justauth.version>
@@ -609,7 +609,7 @@
                 <version>${j2mod.version}</version>
             </dependency>
 
-            <!-- WxJava 4.8.x 需要 HttpClient5 5.4+，覆盖 Spring Boot 2.7 默认的 5.1.4；JDK8 兼容不能升级到 5.5.2+ -->
+            <!-- WxJava 4.8.x 需要 HttpClient5 5.4+，此处固定版本以避免传递依赖自动升级 -->
             <dependency>
                 <groupId>org.apache.httpcomponents.client5</groupId>
                 <artifactId>httpclient5</artifactId>

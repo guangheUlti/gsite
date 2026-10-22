@@ -72,6 +72,17 @@ release/gsite-deploy/nginx/html/
 release/gsite-deploy/logs/
 release/gsite-deploy/run/
 
+### deploy package: configs rendered from config.bat on every start ###
+release/gsite-deploy/mysql/my.ini
+release/gsite-deploy/mysql/logs/
+release/gsite-deploy/redis/redis.conf
+release/gsite-deploy/redis/*.rdb
+release/gsite-deploy/nginx/conf/nginx.conf
+release/gsite-deploy/backend/config/*.yaml
+
+### old JDK 8 runtime kept aside after the JDK 25 upgrade ###
+release/jre-8-legacy/
+
 ### runtime artifacts written into the repo root by the local Redis ###
 dump.rdb
 
