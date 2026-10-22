@@ -204,6 +204,16 @@ export default {
     saturday: '周六',
     sunday: '周日'
   },
+  landing: {
+    title: '光何管理系统',
+    enTitle: 'Guanghe Management System',
+    hudLeft: 'Guanghe · Enterprise Core',
+    hudRight: 'System Online',
+    tag1: '数字化',
+    tag2: '智能化',
+    tag3: '安全可控',
+    tag4: '高可用架构'
+  },
   workplace: {
     slogan: '让企业管理更简单、更高效',
     welcome: '你好',

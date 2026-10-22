@@ -7,7 +7,7 @@
 | --- | --- | --- |
 | Java 运行时 | Temurin (OpenJDK) 25.0.4.1+1（JDK 25 LTS；`jre\` 目录即完整 JDK 根目录，含 bin/java.exe） | `jre\` |
 | 后端服务 | guanghe-server.jar（Spring Boot 3.5.14，system + infra 共 2 个模块） | `backend\` |
-| 前端静态站 | admin-vue3（`--mode deploy` 同源相对路径构建，构建于 2026-10-13 17:12） | `nginx\html\` |
+| 前端静态站 | admin-vue3（`--mode deploy` 同源相对路径构建，构建于 2026-10-22 13:41） | `nginx\html\` |
 | 数据库 | MySQL 8.0.21（社区版，已精简） | `mysql\` |
 | 缓存 | Redis 3.0.504（Windows 版） | `redis\` |
 | Web 服务器 | nginx 1.31.1 | `nginx\` |
@@ -43,7 +43,7 @@
 | 键 | 默认值 | 说明 |
 | --- | --- | --- |
 | `WEB_PORT` | `80` | **对外访问端口**（nginx），浏览器只用这个 |
-| `BACKEND_PORT` | `48080` | 后端端口，只绑 `127.0.0.1`，外部访问不到 |
+| `BACKEND_PORT` | `2000` | 后端端口，只绑 `127.0.0.1`，外部访问不到 |
 | `MYSQL_PORT` | `3306` | 只绑 `127.0.0.1` |
 | `REDIS_PORT` | `6379` | 只绑 `127.0.0.1` |
 | `MYSQL_ROOT_PASSWORD` | `Gsite2026@Root` | **上线前请改成自己的** |
@@ -198,7 +198,7 @@ mysql\bin\mysqldump.exe --protocol=tcp -h 127.0.0.1 -P 3306 -u root -p ^
 
 - [ ] `config.bat` 中两个 MySQL 密码已改成强口令，并重新运行 `init.bat`（注意 §二 中 `MYSQL_APP_PASSWORD` 的限制）；
 - [ ] 系统内置账号（`admin` 等，初始口令 `admin`）已在后台逐个改密，至少改掉所有能登录的启用账号；
-- [ ] 只把 `WEB_PORT` 对外，`48080 / 3306 / 6379` 保持只绑回环（默认即如此）；
+- [ ] 只把 `WEB_PORT` 对外，`2000 / 3306 / 6379` 保持只绑回环（默认即如此）；
 - [ ] 防火墙入站规则只放行 `WEB_PORT`；
 - [ ] `backend\config\application-deploy.yaml` 中 `guanghe.security.mock-enable: false` 未被改回 `true`；
 - [ ] 开放注册的后果清楚：注册**只建待审批账号**（状态=禁用，不下发 token），必须由管理员在

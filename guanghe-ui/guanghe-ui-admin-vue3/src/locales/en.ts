@@ -202,6 +202,16 @@ export default {
     saturday: 'Saturday',
     sunday: 'Sunday'
   },
+  landing: {
+    title: 'Guanghe Management System',
+    enTitle: 'Guanghe Management System',
+    hudLeft: 'Guanghe · Enterprise Core',
+    hudRight: 'System Online',
+    tag1: 'Digital',
+    tag2: 'Intelligent',
+    tag3: 'Secure',
+    tag4: 'High Availability'
+  },
   workplace: {
     slogan: 'Make enterprise management simpler and more efficient',
     welcome: 'Hello',

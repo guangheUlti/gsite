@@ -70,6 +70,7 @@ release/gsite-deploy/nginx/conf/htpasswd.exe
 release/gsite-deploy/backend/*.jar
 release/gsite-deploy/nginx/html/
 release/gsite-deploy/logs/
+release/gsite-deploy/nginx/logs/
 release/gsite-deploy/run/
 
 ### deploy package: configs rendered from config.bat on every start ###
@@ -88,3 +89,6 @@ dump.rdb
 
 ### system-update staging area ###
 backup/
+
+### agent (Freebuff) scratch space: temp scripts, screenshots, notes — never project code ###
+.freebuff/

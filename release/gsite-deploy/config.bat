@@ -19,7 +19,7 @@ rem ---- HTTP entry point (nginx, this is the port users open in the browser) --
 set WEB_PORT=80
 
 rem ---- backend (Spring Boot, always bound to 127.0.0.1 - reached through nginx) ----
-set BACKEND_PORT=48080
+set BACKEND_PORT=2000
 set SPRING_PROFILE=deploy
 set JAVA_XMS=1024m
 set JAVA_XMX=2048m
