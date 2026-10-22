@@ -5,7 +5,7 @@
 
 | 内置组件 | 版本 | 位置 |
 | --- | --- | --- |
-| Java 运行时 | Temurin (OpenJDK) 25.0.4.1+1（JDK 25 LTS） | `jre\` |
+| Java 运行时 | Temurin (OpenJDK) 25.0.4.1+1（JDK 25 LTS；`jre\` 目录即完整 JDK 根目录，含 bin/java.exe） | `jre\` |
 | 后端服务 | guanghe-server.jar（Spring Boot 3.5.14，system + infra 共 2 个模块） | `backend\` |
 | 前端静态站 | admin-vue3（`--mode deploy` 同源相对路径构建，构建于 2026-10-13 17:12） | `nginx\html\` |
 | 数据库 | MySQL 8.0.21（社区版，已精简） | `mysql\` |
@@ -22,7 +22,7 @@
 - 64 位 Windows：Server 2012 R2 / 2016 / 2019 / 2022，或 Win10/11；自带 PowerShell 5.1 即可（脚本不依赖 PS7）。
 - **内置 `jre\` 必须是 JDK 25 或更高**：后端 jar 由 JDK 25 编译（JDK 25 字节码），JDK 8 运行时连加载都做不到。
   `init.bat` 的体检阶段会读 `jre\bin\java.exe` 的主版本号，低于 25 直接报 `[FAIL]` 并停止，不会把一个注定起不来的包推上线。
-  升级方法：把 `jre\` 整个目录换成 Temurin 25 的 JRE（没有单独的 JRE 时，用完整的 Temurin 25 JDK 也一样能跑）。
+  本包当前放的是**完整 Temurin 25 JDK**（`jre\` 即 JDK 根目录，291MB）；换成 Temurin 25 的 JRE 镜像同样可用。
 - 内存建议 ≥ 4 GB（后端默认 `-Xmx2048m` + MySQL InnoDB 池 512 M + Redis）；磁盘预留 ≥ 10 GB（数据 + 日志）。
 - MySQL 8 依赖 VC++ 2015-2022 运行库：本包**已把 `vcruntime140.dll` / `vcruntime140_1.dll` / `msvcp140.dll` 放进 `mysql\bin`**，
   一般无需另装；只有 Server 2012 R2 这种缺 UCRT 的老系统需要补装系统更新（KB2999226）或 VC++ 运行库。
