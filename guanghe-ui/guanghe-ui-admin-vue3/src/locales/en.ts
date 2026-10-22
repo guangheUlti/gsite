@@ -203,6 +203,7 @@ export default {
     sunday: 'Sunday'
   },
   workplace: {
+    slogan: 'Make enterprise management simpler and more efficient',
     welcome: 'Hello',
     happyDay: 'Wish you happy every day!',
     toady: `It's sunny today`,

@@ -205,6 +205,7 @@ export default {
     sunday: '周日'
   },
   workplace: {
+    slogan: '让企业管理更简单、更高效',
     welcome: '你好',
     happyDay: '祝你开心每一天!',
     toady: '今日晴',
