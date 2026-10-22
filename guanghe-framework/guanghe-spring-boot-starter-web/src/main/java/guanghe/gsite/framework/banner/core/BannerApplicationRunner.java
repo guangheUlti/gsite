@@ -4,7 +4,6 @@ import cn.hutool.core.thread.ThreadUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.util.ClassUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -29,29 +28,7 @@ public class BannerApplicationRunner implements ApplicationRunner {
                     "https://github.com/guangheUlti/gsite",
                     "https://github.com/guangheUlti/gsite",
                     "https://github.com/guangheUlti/gsite");
-
-            // 商城系统
-            if (isNotPresent("guanghe.gsite.module.trade.framework.web.config.TradeWebConfiguration")) {
-                System.out.println("[商城系统 guanghe-module-mall - 已禁用][参考 https://github.com/guangheUlti/gsite 开启]");
-            }
-            // ERP 系统
-            if (isNotPresent("guanghe.gsite.module.erp.framework.web.config.ErpWebConfiguration")) {
-                System.out.println("[ERP 系统 guanghe-module-erp - 已禁用][参考 https://github.com/guangheUlti/gsite 开启]");
-            }
-            // WMS 仓库管理系统
-            if (isNotPresent("guanghe.gsite.module.wms.framework.web.config.WmsWebConfiguration")) {
-                System.out.println("[WMS 仓库管理系统 guanghe-module-wms - 已禁用][参考 https://github.com/guangheUlti/gsite 开启]");
-            }
-            // 支付平台
-            if (isNotPresent("guanghe.gsite.module.pay.framework.pay.config.PayConfiguration")) {
-                System.out.println("[支付系统 guanghe-module-pay - 已禁用][参考 https://github.com/guangheUlti/gsite 开启]");
-            }
-            // IM 即时通讯提示随模块裁剪移除
         });
-    }
-
-    private static boolean isNotPresent(String className) {
-        return !ClassUtils.isPresent(className, ClassUtils.getDefaultClassLoader());
     }
 
 }

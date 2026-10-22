@@ -132,133 +132,6 @@ spring:
     listener:
       missing-topics-fatal: false # 消费监听接口监听的主题不存在时，默认会报错。所以通过设置为 false ，解决报错
 
---- #################### AI 相关配置 ####################
-
-spring:
-  ai:
-    vectorstore: # 向量存储
-      redis:
-        initialize-schema: true
-        index-name: knowledge_index # Redis 中向量索引的名称：用于存储和检索向量数据的索引标识符，所有相关的向量搜索操作都会基于这个索引进行
-        prefix: "knowledge_segment:" # Redis 中存储向量数据的键名前缀：这个前缀会添加到每个存储在 Redis 中的向量数据键名前，每个 document 都是一个 hash 结构
-      qdrant:
-        initialize-schema: true
-        collection-name: knowledge_segment # Qdrant 中向量集合的名称：用于存储向量数据的集合标识符，所有相关的向量操作都会在这个集合中进行
-        host: 127.0.0.1
-        port: 6334
-      milvus:
-        initialize-schema: true
-        database-name: default # Milvus 中数据库的名称
-        collection-name: knowledge_segment # Milvus 中集合的名称：用于存储向量数据的集合标识符，所有相关的向量操作都会在这个集合中进行
-        client:
-          host: 127.0.0.1
-          port: 19530
-    openai: # OpenAI 官方
-      base-url: ${OPENAI_BASE_URL:https://api.openai.com}
-      api-key: ${OPENAI_API_KEY:sk-xxxx}
-    azure: # OpenAI 微软
-      openai:
-        endpoint: https://eastusprejade.openai.azure.com
-    anthropic: # Anthropic Claude
-      base-url: ${ANTHROPIC_BASE_URL:https://api.anthropic.com}
-      api-key: ${ANTHROPIC_API_KEY:sk-xxxx}
-    ollama:
-      base-url: http://127.0.0.1:11434
-      chat:
-        model: llama3
-    stabilityai:
-      api-key: ${STABILITYAI_API_KEY:sk-xxxx}
-    dashscope: # 通义千问
-      api-key: ${DASHSCOPE_API_KEY:sk-xxxx}
-    deepseek: # DeepSeek
-      api-key: ${DEEPSEEK_API_KEY:sk-xxxx}
-      chat:
-        options:
-          model: deepseek-v4-flash
-    model:
-      rerank: false # 是否开启“通义千问”的 Rerank 模型，填写 dashscope 开启
-    mcp:
-      server:
-        enabled: false
-        name: guanghe-mcp-server
-        version: 1.0.0
-        instructions: 一个 MCP 示例服务
-        sse-endpoint: /sse
-      client:
-        enabled: false
-        name: mcp
-        sse:
-          connections:
-            filesystem:
-              url: http://127.0.0.1:8089
-              sse-endpoint: /sse
-        annotation-scanner:
-          enabled: false # TODO @光何：有 bug https://github.com/spring-projects/spring-ai/issues/4917 需要官方修复
-
-guanghe:
-  ai:
-    gemini: # 谷歌 Gemini
-      enable: true
-      api-key: ${GEMINI_API_KEY:sk-xxxx}
-      model: gemini-2.5-flash
-    doubao: # 字节豆包
-      enable: true
-      api-key: ${DOUBAO_API_KEY:sk-xxxx}
-      model: doubao-seed-2-1-turbo-260628
-    hunyuan: # 腾讯混元
-      enable: true
-      api-key: ${HUNYUAN_API_KEY:sk-xxxx}
-      model: hy3-preview
-    siliconflow: # 硅基流动
-      enable: true
-      api-key: ${SILICONFLOW_API_KEY:sk-xxxx}
-      model: deepseek-ai/DeepSeek-V4-Pro
-    xinghuo: # 讯飞星火
-      enable: true
-      api-key: ${XINGHUO_API_KEY:sk-xxxx}
-      model: x2-flash
-    baichuan: # 百川智能
-      enable: true
-      api-key: ${BAICHUAN_API_KEY:sk-xxxx}
-      model: Baichuan-M3
-    yiyan: # 文心一言
-      enable: false
-      api-key: ${YIYAN_API_KEY:sk-xxxx}
-      model: ernie-5.1
-    zhipu: # 智谱 AI（GLM）
-      enable: false
-      api-key: ${ZHIPU_API_KEY:sk-xxxx}
-      model: glm-5.2
-    minimax: # MiniMax
-      enable: false
-      api-key: ${MINIMAX_API_KEY:sk-xxxx}
-      model: MiniMax-M3
-    moonshot: # 月之暗面（KIMI）
-      enable: false
-      api-key: ${MOONSHOT_API_KEY:sk-xxxx}
-      model: kimi-k2.6
-    stepfun: # 阶跃星辰
-      enable: false
-      api-key: ${STEPFUN_API_KEY:sk-xxxx}
-      model: step-3.7-flash
-    grok: # Grok
-      enable: false
-      api-key: ${GROK_API_KEY:sk-xxxx}
-      model: grok-4.3
-    midjourney:
-      enable: true
-  #    base-url: https://api.holdai.top/mj-relax/mj
-      base-url: https://api.holdai.top/mj
-      api-key: ${MIDJOURNEY_API_KEY:sk-xxxx}
-      notify-url: http://java.nat300.top/admin-api/ai/image/midjourney/notify
-    suno:
-      enable: true
-  #    base-url: https://suno-55ishh05u-status2xxs-projects.vercel.app
-      base-url: http://127.0.0.1:3001
-    web-search:
-      enable: true
-      api-key: ${WEB_SEARCH_API_KEY:sk-xxxx}
-
 --- #################### 光何相关配置 ####################
 
 guanghe:
@@ -313,8 +186,6 @@ guanghe:
     import-enable: false # 是否生成 Excel 导入接口
   tenant: # 多租户相关配置项
     enable: false # 本项目单企业部署，关闭多租户隔离
-    ignore-urls:
-      - /jmreport/* # 积木报表，无法携带租户编号
     ignore-visit-urls:
       - /admin-api/system/user/profile/**
       - /admin-api/system/auth/**
@@ -327,16 +198,10 @@ guanghe:
       - mail_account
       - mail_template
       - sms_template
-      - iot:device
-      - iot:thing_model_list
   sms-code: # 短信验证码相关的配置项
     expire-times: 10m
     send-frequency: 1m
     send-maximum-quantity-per-day: 10
     begin-code: 9999 # 这里配置 9999 的原因是，测试方便。
     end-code: 9999 # 这里配置 9999 的原因是，测试方便。
-  iot:
-    message-bus:
-      type: redis # 消息总线的类型
-
 debug: false

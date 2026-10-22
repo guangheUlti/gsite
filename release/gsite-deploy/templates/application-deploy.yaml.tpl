@@ -182,13 +182,6 @@ guanghe:
   # exception: /system/auth/register always validates the slider captcha, whatever this flag says
   captcha:
     enable: false
-  pay:
-    # PayProperties rejects blank notify urls, so the backend would not even start without these.
-    # They point back at this package's nginx entry; replace them with the public address the
-    # payment channel can reach before enabling any real pay app.
-    order-notify-url: http://127.0.0.1:@WEB_PORT@/admin-api/pay/notify/order
-    refund-notify-url: http://127.0.0.1:@WEB_PORT@/admin-api/pay/notify/refund
-    transfer-notify-url: http://127.0.0.1:@WEB_PORT@/admin-api/pay/notify/transfer
   security:
     mock-enable: false # never enable in production: a mock token bypasses the login
   access-log:

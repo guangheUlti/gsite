@@ -1623,21 +1623,13 @@ BEGIN TRANSACTION
 GO
 SET IDENTITY_INSERT infra_job ON
 GO
-INSERT INTO infra_job (id, name, status, handler_name, handler_param, cron_expression, retry_count, retry_interval, monitor_timeout, creator, create_time, updater, update_time, deleted) VALUES (5, N'支付通知 Job', 2, N'payNotifyJob', NULL, N'* * * * * ?', 0, 0, 0, N'1', N'2021-10-27 08:34:42', N'1', N'2024-09-12 13:32:48', N'0')
 GO
-INSERT INTO infra_job (id, name, status, handler_name, handler_param, cron_expression, retry_count, retry_interval, monitor_timeout, creator, create_time, updater, update_time, deleted) VALUES (17, N'支付订单同步 Job', 2, N'payOrderSyncJob', NULL, N'0 0/1 * * * ?', 0, 0, 0, N'1', N'2023-07-22 14:36:26', N'1', N'2023-07-22 15:39:08', N'0')
 GO
-INSERT INTO infra_job (id, name, status, handler_name, handler_param, cron_expression, retry_count, retry_interval, monitor_timeout, creator, create_time, updater, update_time, deleted) VALUES (18, N'支付订单过期 Job', 2, N'payOrderExpireJob', NULL, N'0 0/1 * * * ?', 0, 0, 0, N'1', N'2023-07-22 15:36:23', N'1', N'2023-07-22 15:39:54', N'0')
 GO
-INSERT INTO infra_job (id, name, status, handler_name, handler_param, cron_expression, retry_count, retry_interval, monitor_timeout, creator, create_time, updater, update_time, deleted) VALUES (19, N'退款订单的同步 Job', 2, N'payRefundSyncJob', NULL, N'0 0/1 * * * ?', 0, 0, 0, N'1', N'2023-07-23 21:03:44', N'1', N'2023-07-23 21:09:00', N'0')
 GO
-INSERT INTO infra_job (id, name, status, handler_name, handler_param, cron_expression, retry_count, retry_interval, monitor_timeout, creator, create_time, updater, update_time, deleted) VALUES (21, N'Mall 交易订单的自动过期 Job', 2, N'tradeOrderAutoCancelJob', N'', N'0 * * * * ?', 3, 0, 0, N'1', N'2023-09-25 23:43:26', N'1', N'2025-10-02 11:08:34', N'0')
 GO
-INSERT INTO infra_job (id, name, status, handler_name, handler_param, cron_expression, retry_count, retry_interval, monitor_timeout, creator, create_time, updater, update_time, deleted) VALUES (22, N'Mall 交易订单的自动收货 Job', 2, N'tradeOrderAutoReceiveJob', N'', N'0 * * * * ?', 3, 0, 0, N'1', N'2023-09-26 19:23:53', N'1', N'2025-10-02 11:08:36', N'0')
 GO
-INSERT INTO infra_job (id, name, status, handler_name, handler_param, cron_expression, retry_count, retry_interval, monitor_timeout, creator, create_time, updater, update_time, deleted) VALUES (23, N'Mall 交易订单的自动评论 Job', 2, N'tradeOrderAutoCommentJob', N'', N'0 * * * * ?', 3, 0, 0, N'1', N'2023-09-26 23:38:29', N'1', N'2025-10-02 11:08:38', N'0')
 GO
-INSERT INTO infra_job (id, name, status, handler_name, handler_param, cron_expression, retry_count, retry_interval, monitor_timeout, creator, create_time, updater, update_time, deleted) VALUES (24, N'Mall 佣金解冻 Job', 2, N'brokerageRecordUnfreezeJob', N'', N'0 * * * * ?', 3, 0, 0, N'1', N'2023-09-28 22:01:46', N'1', N'2025-10-02 11:08:04', N'0')
 GO
 INSERT INTO infra_job (id, name, status, handler_name, handler_param, cron_expression, retry_count, retry_interval, monitor_timeout, creator, create_time, updater, update_time, deleted) VALUES (25, N'访问日志清理 Job', 2, N'accessLogCleanJob', N'', N'0 0 0 * * ?', 3, 0, 0, N'1', N'2023-10-03 10:59:41', N'1', N'2023-10-03 11:01:10', N'0')
 GO
@@ -1647,17 +1639,11 @@ INSERT INTO infra_job (id, name, status, handler_name, handler_param, cron_expre
 GO
 INSERT INTO infra_job (id, name, status, handler_name, handler_param, cron_expression, retry_count, retry_interval, monitor_timeout, creator, create_time, updater, update_time, deleted) VALUES (33, N'demoJob', 2, N'demoJob', N'', N'0 * * * * ?', 1, 1, 0, N'1', N'2024-10-27 19:38:46', N'1', N'2025-05-10 18:13:54', N'0')
 GO
-INSERT INTO infra_job (id, name, status, handler_name, handler_param, cron_expression, retry_count, retry_interval, monitor_timeout, creator, create_time, updater, update_time, deleted) VALUES (35, N'转账订单的同步 Job', 2, N'payTransferSyncJob', N'', N'0 * * * * ?', 0, 0, 0, N'1', N'2025-05-10 17:35:54', N'1', N'2025-05-10 18:13:52', N'0')
 GO
-INSERT INTO infra_job (id, name, status, handler_name, handler_param, cron_expression, retry_count, retry_interval, monitor_timeout, creator, create_time, updater, update_time, deleted) VALUES (36, N'IoT 设备离线检查 Job', 2, N'iotDeviceOfflineCheckJob', N'', N'0 * * * * ?', 0, 0, 0, N'1', N'2025-07-03 23:48:44', N'"1"', N'2025-07-03 23:48:47', N'0')
 GO
-INSERT INTO infra_job (id, name, status, handler_name, handler_param, cron_expression, retry_count, retry_interval, monitor_timeout, creator, create_time, updater, update_time, deleted) VALUES (37, N'IoT OTA 升级推送 Job', 2, N'iotOtaUpgradeJob', N'', N'0 * * * * ?', 0, 0, 0, N'1', N'2025-07-03 23:49:07', N'"1"', N'2025-07-03 23:49:13', N'0')
 GO
-INSERT INTO infra_job (id, name, status, handler_name, handler_param, cron_expression, retry_count, retry_interval, monitor_timeout, creator, create_time, updater, update_time, deleted) VALUES (38, N'Mall 拼团过期 Job', 2, N'combinationRecordExpireJob', N'', N'0 * * * * ?', 0, 0, 0, N'1', N'2025-10-02 11:07:11', N'1', N'2025-10-02 11:07:14', N'0')
 GO
-INSERT INTO infra_job (id, name, status, handler_name, handler_param, cron_expression, retry_count, retry_interval, monitor_timeout, creator, create_time, updater, update_time, deleted) VALUES (39, N'Mall 优惠券过期 Job', 2, N'couponExpireJob', N'', N'0 * * * * ?', 0, 0, 0, N'1', N'2025-10-02 11:07:34', N'1', N'2025-10-02 11:07:37', N'0')
 GO
-INSERT INTO infra_job (id, name, status, handler_name, handler_param, cron_expression, retry_count, retry_interval, monitor_timeout, creator, create_time, updater, update_time, deleted) VALUES (40, N'Mall 商品统计 Job', 2, N'productStatisticsJob', N'', N'0 0 0 * * ?', 0, 0, 0, N'1', N'2025-11-22 18:51:25', N'1', N'2025-11-22 18:56:21', N'0')
 GO
 SET IDENTITY_INSERT infra_job OFF
 GO
@@ -3246,9 +3232,7 @@ GO
 GO
 GO
 GO
-INSERT INTO system_dict_type (id, name, type, status, remark, creator, create_time, updater, update_time, deleted, deleted_time) VALUES (611, N'ERP 库存明细的业务类型', N'erp_stock_record_biz_type', 0, N'ERP 库存明细的业务类型', N'1', N'2024-02-05 18:07:02', N'1', N'2024-02-05 18:07:02', N'0', N'1970-01-01 00:00:00')
 GO
-INSERT INTO system_dict_type (id, name, type, status, remark, creator, create_time, updater, update_time, deleted, deleted_time) VALUES (612, N'ERP 审批状态', N'erp_audit_status', 0, N'', N'1', N'2024-02-06 00:00:07', N'1', N'2024-02-06 00:00:07', N'0', N'1970-01-01 00:00:00')
 GO
 GO
 GO
@@ -9565,11 +9549,8 @@ GO
 GO
 INSERT INTO system_sms_template (id, type, status, code, name, content, params, remark, api_template_id, channel_id, channel_code, creator, create_time, updater, update_time, deleted) VALUES (12, 2, 0, N'demo', N'演示模板', N'我就是测试一下下', N'[]', NULL, N'biubiubiu', 4, N'DEBUG_DING_TALK', N'1', N'2022-04-10 23:22:49', N'1', N'2024-08-18 11:57:04', N'0')
 GO
-INSERT INTO system_sms_template (id, type, status, code, name, content, params, remark, api_template_id, channel_id, channel_code, creator, create_time, updater, update_time, deleted) VALUES (14, 1, 0, N'user-update-mobile', N'会员用户 - 修改手机', N'您的验证码{code}，该验证码 5 分钟内有效，请勿泄漏于他人！', N'["code"]', N'', N'null', 4, N'DEBUG_DING_TALK', N'1', N'2023-08-19 18:58:01', N'1', N'2023-08-19 11:34:04', N'0')
 GO
-INSERT INTO system_sms_template (id, type, status, code, name, content, params, remark, api_template_id, channel_id, channel_code, creator, create_time, updater, update_time, deleted) VALUES (15, 1, 0, N'user-update-password', N'会员用户 - 修改密码', N'您的验证码{code}，该验证码 5 分钟内有效，请勿泄漏于他人！', N'["code"]', N'', N'null', 4, N'DEBUG_DING_TALK', N'1', N'2023-08-19 18:58:01', N'1', N'2023-08-19 11:34:18', N'0')
 GO
-INSERT INTO system_sms_template (id, type, status, code, name, content, params, remark, api_template_id, channel_id, channel_code, creator, create_time, updater, update_time, deleted) VALUES (16, 1, 0, N'user-reset-password', N'会员用户 - 重置密码', N'您的验证码{code}，该验证码 5 分钟内有效，请勿泄漏于他人！', N'["code"]', N'', N'null', 4, N'DEBUG_DING_TALK', N'1', N'2023-08-19 18:58:01', N'1', N'2023-12-02 22:35:27', N'0')
 GO
 GO
 INSERT INTO system_sms_template (id, type, status, code, name, content, params, remark, api_template_id, channel_id, channel_code, creator, create_time, updater, update_time, deleted) VALUES (18, 1, 0, N'admin-reset-password', N'后台用户 - 忘记密码', N'您的验证码{code}，该验证码 5 分钟内有效，请勿泄漏于他人！', N'["code"]', N'', N'null', 4, N'DEBUG_DING_TALK', N'1', N'2025-03-16 14:19:34', N'1', N'2025-03-16 14:19:45', N'0')

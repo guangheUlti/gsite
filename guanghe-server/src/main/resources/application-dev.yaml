@@ -160,10 +160,6 @@ wx: # 参见 https://github.com/Wechat-Group/WxJava/blob/develop/spring-boot-sta
 
 # 光何配置项，设置当前项目所有自定义的配置
 guanghe:
-  pay:
-    order-notify-url: http://127.0.0.1:2000/admin-api/pay/notify/order # 支付渠道的【支付】回调地址
-    refund-notify-url: http://127.0.0.1:2000/admin-api/pay/notify/refund # 支付渠道的【退款】回调地址
-    transfer-notify-url: http://127.0.0.1:2000/admin-api/pay/notify/transfer # 支付渠道的【转账】回调地址
   demo: false # 开启演示模式
   tencent-lbs-key: TVDBZ-TDILD-4ON4B-PFDZA-RNLKH-VVF6E # QQ 地图的密钥 https://lbs.qq.com/service/staticV2/staticGuide/staticDoc
 
