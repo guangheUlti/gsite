@@ -7,12 +7,33 @@
       <div class="gh-login__aura"></div>
     </div>
 
-    <!-- 右上角：主题、语言 -->
+    <!-- 右上角：默认只有一个竖排三点，主题/语言点开才出现，保持页面简洁 -->
     <header class="gh-login__bar">
-      <div class="gh-login__tools">
-        <ThemeSwitch variant="segmented" />
-        <LocaleDropdown variant="segmented" />
-      </div>
+      <ElPopover
+        v-model:visible="toolsOpen"
+        placement="bottom-end"
+        trigger="click"
+        :teleported="false"
+        :show-arrow="false"
+        :width="136"
+        popper-class="gh-login__pop"
+      >
+        <template #reference>
+          <button
+            type="button"
+            class="gh-login__kebab"
+            :title="t('action.more')"
+            :aria-label="t('action.more')"
+          >
+            <Icon icon="ep:more-filled" :size="18" />
+          </button>
+        </template>
+
+        <div class="gh-login__tools" @click="toolsOpen = false">
+          <ThemeSwitch variant="segmented" />
+          <LocaleDropdown variant="segmented" />
+        </div>
+      </ElPopover>
     </header>
 
     <!-- 中部：标题 + 登录框，整体垂直水平居中 -->
@@ -64,6 +85,9 @@ const { t } = useI18n()
 
 const title = computed(() => t('landing.title'))
 const year = new Date().getFullYear()
+
+// 右上角三点展开的主题/语言面板，选完自动收起
+const toolsOpen = ref(false)
 
 // #region 标题自适应：中英文文案长度差异大，按实际文本宽度收缩字号，避免换行撑破布局
 const viewport = ref({
@@ -333,17 +357,55 @@ onBeforeUnmount(() => {
     padding: 22px 30px;
   }
 
+  /* 竖排三点：低调的半透明按钮，hover 才提亮，不抢登录框的视线 */
+  &__kebab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    color: var(--gh-tool);
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    opacity: 0.55;
+    transition:
+      opacity 0.2s ease,
+      color 0.2s ease,
+      background-color 0.2s ease;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--el-color-primary);
+      background: var(--gh-plain-btn-bg);
+      opacity: 1;
+      outline: none;
+    }
+
+    /* Element Plus 的 more 图标是横排三点，转 90° 改成竖排 */
+    :deep(.el-icon) {
+      transform: rotate(90deg);
+    }
+  }
+
+  /* 点开后的浮层：两条等宽分段切换上下排 */
   &__tools {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: stretch;
     gap: 8px;
-    height: 40px;
 
     /* 主题 / 语言两个分段切换：沿用登录页自己的配色令牌 */
     --segmented-bg: var(--gh-plain-btn-bg);
     --segmented-border: var(--gh-input-border);
     --segmented-color: var(--gh-tool);
     --segmented-item-hover-bg: var(--gh-input-bg);
+
+    :deep(.v-segmented-switch) {
+      width: 100%;
+    }
 
     :deep(.el-icon) {
       color: var(--gh-tool) !important;
@@ -352,6 +414,16 @@ onBeforeUnmount(() => {
     :deep(.locale-dropdown__trigger) {
       color: var(--gh-tool) !important;
     }
+  }
+
+  /* 浮层本体（teleported=false，仍继承本页令牌） */
+  :deep(.gh-login__pop.el-popover.el-popper) {
+    box-sizing: border-box;
+    padding: 8px;
+    background: var(--gh-panel-bg);
+    border: 1px solid var(--gh-panel-border);
+    border-radius: 12px;
+    box-shadow: var(--gh-panel-shadow);
   }
 
   /* ---------------- 中部 ---------------- */
