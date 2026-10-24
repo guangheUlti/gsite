@@ -7,7 +7,7 @@
 | --- | --- | --- |
 | Java 运行时 | Temurin (OpenJDK) 25.0.4.1+1（JDK 25 LTS；`jre\` 目录即完整 JDK 根目录，含 bin/java.exe） | `jre\` |
 | 后端服务 | guanghe-server.jar（Spring Boot 3.5.14，system + infra 共 2 个模块） | `server\` |
-| 前端静态站 | admin-vue3（`--mode deploy` 同源相对路径构建，构建于 2026-10-24 10:03） | `nginx\html\` |
+| 前端静态站 | admin-vue3（`--mode deploy` 同源相对路径构建，构建于 2026-10-24 10:41） | `nginx\html\` |
 | 数据库 | MySQL 8.0.21（社区版，已精简） | `mysql\` |
 | 缓存 | Redis 3.0.504（Windows 版） | `redis\` |
 | Web 服务器 | nginx 1.31.1 | `nginx\` |
