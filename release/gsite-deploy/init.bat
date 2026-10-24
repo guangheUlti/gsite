@@ -68,7 +68,7 @@ goto :fail
 :datadir
 echo   [ OK ]  MySQL data directory and database are in place
 echo   [ OK ]  configs generated: mysql\my.ini, redis\redis.conf,
-echo           nginx\conf\nginx.conf, backend\config\application-deploy.yaml
+echo           nginx\conf\nginx.conf, server\config\application-deploy.yaml
 
 set WEBPORT=80
 for /f "tokens=2 delims==" %%A in ('findstr /b /c:"set WEB_PORT=" "%~dp0config.bat"') do set WEBPORT=%%A

@@ -2,7 +2,7 @@
 # Spring Boot configuration of the GSite deploy package (profile: deploy)
 # generated from templates\application-deploy.yaml.tpl by gsite.ps1
 # edit config.bat and re-run init.bat instead of changing this file.
-# Loaded from backend\config\, which wins over the copy inside the jar.
+# Loaded from server\config\, which wins over the copy inside the jar.
 # ===========================================================================
 
 server:
@@ -142,7 +142,7 @@ spring:
       context-path: /admin
       frame-ancestors: "'self' localhost 127.0.0.1"
 
-# log file: backend\logs\gsite-server.log (rolling daily + 10MB, kept 30 days)
+# log file: server\logs\gsite-server.log (rolling daily + 10MB, kept 30 days)
 logging:
   file:
     name: ./logs/${spring.application.name}.log
@@ -193,9 +193,9 @@ guanghe:
     miniprogram-state: formal
   tencent-lbs-key: TVDBZ-TDILD-4ON4B-PFDZA-RNLKH-VVF6E
   system-update:
-    backend-jar-path: ../backend/guanghe-server.jar
+    backend-jar-path: ../server/guanghe-server.jar
     frontend-dir: ../nginx/html
-    backup-dir: ../backend/backup
+    backup-dir: ../server/backup
     max-upload-size-mb: 500
     java-command: ../jre/bin/java.exe
     jvm-args: "-Xms@JAVA_XMS@ -Xmx@JAVA_XMX@ -Dfile.encoding=UTF-8 -Duser.timezone=Asia/Shanghai -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=./logs"

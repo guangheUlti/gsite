@@ -6,8 +6,8 @@
 | 内置组件 | 版本 | 位置 |
 | --- | --- | --- |
 | Java 运行时 | Temurin (OpenJDK) 25.0.4.1+1（JDK 25 LTS；`jre\` 目录即完整 JDK 根目录，含 bin/java.exe） | `jre\` |
-| 后端服务 | guanghe-server.jar（Spring Boot 3.5.14，system + infra 共 2 个模块） | `backend\` |
-| 前端静态站 | admin-vue3（`--mode deploy` 同源相对路径构建，构建于 2026-10-22 13:41） | `nginx\html\` |
+| 后端服务 | guanghe-server.jar（Spring Boot 3.5.14，system + infra 共 2 个模块） | `server\` |
+| 前端静态站 | admin-vue3（`--mode deploy` 同源相对路径构建，构建于 2026-10-22 14:03） | `nginx\html\` |
 | 数据库 | MySQL 8.0.21（社区版，已精简） | `mysql\` |
 | 缓存 | Redis 3.0.504（Windows 版） | `redis\` |
 | Web 服务器 | nginx 1.31.1 | `nginx\` |
@@ -118,12 +118,12 @@ http://服务器IP/            ← 就是 WEB_PORT，为 80 时可省略端口
 
 | 更新内容 | 操作 |
 | --- | --- |
-| 只换后端 jar | `stop-all.bat` → 覆盖 `backend\guanghe-server.jar` → `start-all.bat`（jar 被进程占用，必须先停才能覆盖） |
+| 只换后端 jar | `stop-all.bat` → 覆盖 `server\guanghe-server.jar` → `start-all.bat`（jar 被进程占用，必须先停才能覆盖） |
 | 只换后端 jar，不想停数据库 | `bin\gsite.ps1 -Action restart -Component backend`（只重启后端，MySQL / Redis / nginx 不动） |
 | 只换前端静态站 | **不需要停服务**：把新构建的 dist 内容覆盖进 `nginx\html\` 即可，用户刷新就是新版本 |
 | 改 `config.bat`（端口 / 内存 / profile） | `restart-all.bat`（每次启动都会按 `config.bat` 重新渲染配置） |
 | 本次版本带数据库结构变更 | 覆盖程序文件后，手工执行升级 SQL（`init.bat` 只在库为空时导入 seed，**不做增量升级**） |
-| 换一整张新版包 | **不要整目录删了重拷**（数据就在 `mysql\data\` 里）；只覆盖 `backend\`、`nginx\html\`、`sql\`、`bin\`、`templates\` 等程序文件，或者按 §六 先备份再重建 |
+| 换一整张新版包 | **不要整目录删了重拷**（数据就在 `mysql\data\` 里）；只覆盖 `server\`、`nginx\html\`、`sql\`、`bin\`、`templates\` 等程序文件，或者按 §六 先备份再重建 |
 
 > 更新前先跑一次 §六 的 `mysqldump`，并留一份旧 jar（改名保存即可）便于回滚；
 > 更新完用 `status.bat` 看四行是否 `LISTENING`，再用浏览器硬刷新（Ctrl+F5）验证页面。
@@ -145,7 +145,7 @@ http://服务器IP/            ← 就是 WEB_PORT，为 80 时可省略端口
 
 | 内容 | 位置 |
 | --- | --- |
-| 后端业务日志 | `backend\logs\guanghe-server.log`（按大小滚动，保留 30 份） |
+| 后端业务日志 | `server\logs\guanghe-server.log`（按大小滚动，保留 30 份） |
 | MySQL 运行日志 / 慢查询 | `mysql\logs\mysqld.err`、`mysql\logs\slow.log` |
 | nginx 访问 / 错误日志 | `nginx\logs\access.log`、`nginx\logs\error.log` |
 | 各组件启动输出 | `run\<组件>.out.log`、`run\<组件>.err.log` |
@@ -184,7 +184,7 @@ mysql\bin\mysqldump.exe --protocol=tcp -h 127.0.0.1 -P 3306 -u root -p ^
   `JOIN / UNION` 直接报 MySQL 1271。
 - **登录后没有“定时任务”页面 / 任务不执行**
   页面是有的，`init.bat` 已经导入 `sql\quartz.sql`（11 张 `QRTZ_*` 表）。任务不跑是因为
-  `backend\config\application-deploy.yaml` 排除了 `QuartzAutoConfiguration` 且 `auto-startup: false`
+  `server\config\application-deploy.yaml` 排除了 `QuartzAutoConfiguration` 且 `auto-startup: false`
   —— 这与开发环境的 `local` 配置完全一致，属于有意为之。要真正启用：删掉那行 exclude，
   并把 `spring.quartz.auto-startup` 改为 `true`、`job-store-type` 改为 `jdbc`，然后重启后端。
 - **想直接看 Druid 监控 / Actuator**
@@ -200,7 +200,7 @@ mysql\bin\mysqldump.exe --protocol=tcp -h 127.0.0.1 -P 3306 -u root -p ^
 - [ ] 系统内置账号（`admin` 等，初始口令 `admin`）已在后台逐个改密，至少改掉所有能登录的启用账号；
 - [ ] 只把 `WEB_PORT` 对外，`2000 / 3306 / 6379` 保持只绑回环（默认即如此）；
 - [ ] 防火墙入站规则只放行 `WEB_PORT`；
-- [ ] `backend\config\application-deploy.yaml` 中 `guanghe.security.mock-enable: false` 未被改回 `true`；
+- [ ] `server\config\application-deploy.yaml` 中 `guanghe.security.mock-enable: false` 未被改回 `true`；
 - [ ] 开放注册的后果清楚：注册**只建待审批账号**（状态=禁用，不下发 token），必须由管理员在
       「系统管理 → 用户管理」里启用才能登录；该接口强制滑块验证码（不受 `captcha.enable` 开关影响），
       并按来源 IP 限流 5 次 / 10 分钟。不想让人自助注册，就在 `templates\nginx.conf.tpl` 里
@@ -210,7 +210,7 @@ mysql\bin\mysqldump.exe --protocol=tcp -h 127.0.0.1 -P 3306 -u root -p ^
 ## 九、配置是怎么生成的
 
 `config.bat`（唯一入口）→ `bin\gsite.ps1` 读取 → 渲染 `templates\*.tpl` 中的 `@KEY@` 占位符 →
-生成 `mysql\my.ini`、`redis\redis.conf`、`nginx\conf\nginx.conf`、`backend\config\application-deploy.yaml`。
+生成 `mysql\my.ini`、`redis\redis.conf`、`nginx\conf\nginx.conf`、`server\config\application-deploy.yaml`。
 每次 `start`/`launch` 都会重新渲染，所以改完 `config.bat` 直接重启即可生效；
 **不要手工编辑这四个生成物**（会被覆盖），需要定制请改 `templates\` 里的模板。
 
@@ -222,7 +222,7 @@ mysql\bin\mysqldump.exe --protocol=tcp -h 127.0.0.1 -P 3306 -u root -p ^
 rem 1) 后端 jar（guanghe-server 依赖哪些模块就打哪些，当前 pom 启用 5 个业务模块）
 set JAVA_HOME=D:\devTools\jdk\jdk25.0.4
 mvn -B -pl guanghe-server -am -Dmaven.test.skip=true package
-rem   -> guanghe-server\target\guanghe-server.jar   拷到 backend\
+rem   -> guanghe-server\target\guanghe-server.jar   拷到 server\
 
 rem 2) 前端（guanghe-ui\guanghe-ui-admin-vue3，使用仓库里的 .env.deploy：VITE_BASE_URL 为空 = 同源相对路径）
 cd guanghe-ui\guanghe-ui-admin-vue3
@@ -231,6 +231,12 @@ rem   -> dist-deploy\（由 .env.deploy 的 VITE_OUT_DIR 控制）  清空 nginx
 
 rem 3) 种子数据：sql\mysql\gsite.sql + quartz.sql + gsite_modules.sql  拷到 sql\
 ```
+
+`sql\gsite_org_seed.sql` 是可选脚本（不参与首次初始化），用于把部门 / 岗位 / 角色 / 人员
+重置为光何集团的演示数据；执行后所有演示账号的密码仍为 `admin`。
+
+`sql\gsite_cleanup.sql` 也是可选脚本（不参与首次初始化），用于清理各菜单下的测试数据：
+已裁剪模块（AI / IoT）的字典、测试短信/邮件/三方登录配置、示例文件存储器、日志与令牌等。
 
 依赖应用（`jre\`、`mysql\`、`redis\`、`nginx\`）从本机 `D:\devTools` 下对应目录拷贝，
 其中 `jre\` 取 JDK 25（Temurin 25.0.4.1）的运行时，**不要**再用 JDK 8 的 JRE，

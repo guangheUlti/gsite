@@ -67,7 +67,7 @@ release/gsite-deploy/redis/*.dll
 release/gsite-deploy/nginx/nginx.exe
 release/gsite-deploy/nginx/*.dll
 release/gsite-deploy/nginx/conf/htpasswd.exe
-release/gsite-deploy/backend/*.jar
+release/gsite-deploy/server/*.jar
 release/gsite-deploy/nginx/html/
 release/gsite-deploy/logs/
 release/gsite-deploy/nginx/logs/
@@ -79,7 +79,7 @@ release/gsite-deploy/mysql/logs/
 release/gsite-deploy/redis/redis.conf
 release/gsite-deploy/redis/*.rdb
 release/gsite-deploy/nginx/conf/nginx.conf
-release/gsite-deploy/backend/config/*.yaml
+release/gsite-deploy/server/config/*.yaml
 
 ### old JDK 8 runtime kept aside after the JDK 25 upgrade ###
 release/jre-8-legacy/

@@ -8,7 +8,7 @@ rem  take their values from here.
 rem
 rem  After changing anything here, run:  setup.bat   (first time only)
 rem  Every start re-renders mysql\my.ini, redis\redis.conf, nginx\conf\nginx.conf
-rem  and backend\config\application-deploy.yaml from these values, so a plain
+rem  and server\config\application-deploy.yaml from these values, so a plain
 rem  restart-all.bat is enough after later edits.
 rem
 rem  Password values: use letters, digits and @ # _ only.
