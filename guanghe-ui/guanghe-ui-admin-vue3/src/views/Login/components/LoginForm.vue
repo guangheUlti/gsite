@@ -11,11 +11,6 @@
   >
     <el-row class="mx-[-10px]">
       <el-col :span="24" class="px-10px">
-        <el-form-item>
-          <LoginFormTitle class="w-full" />
-        </el-form-item>
-      </el-col>
-      <el-col :span="24" class="px-10px">
         <el-form-item v-if="loginData.tenantEnable === 'true'" prop="tenantName">
           <el-input
             v-model="loginData.loginForm.tenantName"
@@ -47,11 +42,18 @@
           />
         </el-form-item>
       </el-col>
-      <el-col :span="24" class="px-10px mt-[-20px] mb-[-20px]">
-        <el-form-item>
+      <el-col :span="24" class="px-10px">
+        <el-form-item class="login-form-actions">
           <el-checkbox v-model="loginData.loginForm.rememberMe">
             {{ t('login.remember') }}
           </el-checkbox>
+          <el-link
+            type="primary"
+            :underline="false"
+            @click="setLoginState(LoginStateEnum.REGISTER)"
+          >
+            {{ t('login.register') }}
+          </el-link>
         </el-form-item>
       </el-col>
       <el-col :span="24" class="px-10px">
@@ -60,11 +62,6 @@
             {{ t('login.login') }}
           </el-button>
         </el-form-item>
-      </el-col>
-      <el-col :span="24" class="px-10px text-center">
-        <el-link type="primary" :underline="false" @click="setLoginState(LoginStateEnum.REGISTER)">
-          {{ t('login.register') }}
-        </el-link>
       </el-col>
       <Verify
         v-if="loginData.captchaEnable === 'true'"
@@ -79,7 +76,6 @@
 </template>
 <script lang="ts" setup>
 import { ElLoading } from 'element-plus'
-import LoginFormTitle from './LoginFormTitle.vue'
 import type { RouteLocationNormalizedLoaded } from 'vue-router'
 
 import { useIcon } from '@/hooks/web/useIcon'
@@ -227,6 +223,15 @@ onMounted(() => {
 :deep(.anticon) {
   &:hover {
     color: var(--el-color-primary) !important;
+  }
+}
+
+.login-form-actions {
+  :deep(.el-form-item__content) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
   }
 }
 

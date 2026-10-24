@@ -1,13 +1,11 @@
 <script lang="tsx">
 import { defineComponent, computed } from 'vue'
-import router from '@/router'
 import { Message } from '@/layout/components/Message'
 import { Collapse } from '@/layout/components/Collapse'
 import { UserInfo } from '@/layout/components/UserInfo'
 import { Screenfull } from '@/layout/components/Screenfull'
 import { Breadcrumb } from '@/layout/components/Breadcrumb'
 import { SizeDropdown } from '@/layout/components/SizeDropdown'
-import { LocaleDropdown } from '@/layout/components/LocaleDropdown'
 import RouterSearch from '@/components/RouterSearch/index.vue'
 import TenantVisit from '@/layout/components/TenantVisit/index.vue'
 import { useSetting } from '@/layout/components/Setting'
@@ -40,9 +38,6 @@ const size = computed(() => appStore.getSize)
 
 // 布局
 const layout = computed(() => appStore.getLayout)
-
-// 多语言图标
-const locale = computed(() => appStore.getLocale)
 
 // 消息图标
 const message = computed(() => appStore.getMessage)
@@ -98,12 +93,6 @@ export default defineComponent({
           ) : undefined}
           {size.value ? (
             <SizeDropdown class="custom-hover" color="var(--top-header-text-color)"></SizeDropdown>
-          ) : undefined}
-          {locale.value ? (
-            <LocaleDropdown
-              class="custom-hover"
-              color="var(--top-header-text-color)"
-            ></LocaleDropdown>
           ) : undefined}
           {message.value ? (
             <Message class="custom-hover" color="var(--top-header-text-color)"></Message>

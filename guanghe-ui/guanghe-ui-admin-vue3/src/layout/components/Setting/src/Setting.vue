@@ -8,6 +8,7 @@ import { setCssVar, trim } from '@/utils'
 import { colorIsDark, hexToRGB, lighten } from '@/utils/color'
 import { useAppStore } from '@/store/modules/app'
 import { ThemeSwitch } from '@/layout/components/ThemeSwitch'
+import { LocaleDropdown } from '@/layout/components/LocaleDropdown'
 import ColorRadioPicker from './components/ColorRadioPicker.vue'
 import InterfaceDisplay from './components/InterfaceDisplay.vue'
 import LayoutRadioPicker from './components/LayoutRadioPicker.vue'
@@ -205,9 +206,12 @@ const clear = () => {
     </template>
 
     <div class="text-center">
-      <!-- 主题 -->
-      <ElDivider>{{ t('setting.theme') }}</ElDivider>
-      <ThemeSwitch />
+      <!-- 外观：主题 + 语言（同一行，主题在前） -->
+      <ElDivider>{{ t('setting.appearance') }}</ElDivider>
+      <div class="flex items-center justify-center gap-8px">
+        <ThemeSwitch variant="segmented" />
+        <LocaleDropdown variant="segmented" />
+      </div>
 
       <!-- 布局 -->
       <ElDivider>{{ t('setting.layout') }}</ElDivider>

@@ -78,6 +78,10 @@ export default {
   },
   setting: {
     projectSetting: 'Project setting',
+    locale: 'Language',
+    appearance: 'Appearance',
+    light: 'Light',
+    dark: 'Dark',
     theme: 'Theme',
     layout: 'Layout',
     systemTheme: 'System theme',

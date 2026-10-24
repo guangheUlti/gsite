@@ -1,7 +1,5 @@
 <template>
-  <h2 class="enter-x mb-3 text-center text-2xl font-bold xl:text-center xl:text-3xl">
-    {{ getFormTitle }}
-  </h2>
+  <h2 class="login-form-title">{{ getFormTitle }}</h2>
 </template>
 <script lang="ts" setup>
 import { LoginStateEnum, useLoginState } from './useLogin'
@@ -24,3 +22,14 @@ const getFormTitle = computed(() => {
   return titleObj[unref(getLoginState)]
 })
 </script>
+
+<style lang="scss" scoped>
+.login-form-title {
+  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: var(--gh-panel-title, #f2f7ff);
+}
+</style>

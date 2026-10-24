@@ -3,6 +3,7 @@ import { useLocaleStore } from '@/store/modules/locale'
 import { useLocale } from '@/hooks/web/useLocale'
 import { propTypes } from '@/utils/propTypes'
 import { useDesign } from '@/hooks/web/useDesign'
+import { SegmentedSwitch } from '@/components/SegmentedSwitch'
 
 defineOptions({ name: 'LocaleDropdown' })
 
@@ -11,7 +12,9 @@ const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('locale-dropdown')
 
 defineProps({
-  color: propTypes.string.def('')
+  color: propTypes.string.def(''),
+  // icon：图标 + 下拉；segmented：中/EN 分段切换
+  variant: propTypes.string.def('icon')
 })
 
 const localeStore = useLocaleStore()
@@ -30,10 +33,31 @@ const setLang = (lang: LocaleType) => {
   const { changeLocale } = useLocale()
   changeLocale(lang)
 }
+
+/** 分段按钮上的短标签，保持两段宽度一致 */
+const shortLabel = (lang: string) => (lang === 'en' ? 'EN' : '中')
+
+const langOptions = computed(() =>
+  langMap.value.map((item) => ({
+    label: shortLabel(item.lang),
+    value: item.lang,
+    title: item.name
+  }))
+)
+
+const onLangChange = (value: string | number | boolean) => {
+  setLang(String(value) as LocaleType)
+}
 </script>
 
 <template>
-  <ElDropdown :class="prefixCls" trigger="click" @command="setLang">
+  <SegmentedSwitch
+    v-if="variant === 'segmented'"
+    :model-value="currentLang.lang"
+    :options="langOptions"
+    @change="onLangChange"
+  />
+  <ElDropdown v-else :class="prefixCls" trigger="click" @command="setLang">
     <Icon
       :class="$attrs.class"
       :color="color"

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { useRoute } from 'vue-router'
 import { useTagsViewStore } from '@/store/modules/tagsView'
 import { useAppStore } from '@/store/modules/app'
 import { Footer } from '@/layout/components/Footer'
@@ -7,12 +6,8 @@ import { Footer } from '@/layout/components/Footer'
 defineOptions({ name: 'AppView' })
 
 const appStore = useAppStore()
-const route = useRoute()
 
-// 首页是全屏品牌页：内容区不留内边距，也不显示页脚，让面板真正铺满整个标签页
-const isFullScreenPage = computed(() => route.name === 'Index')
-
-const footer = computed(() => appStore.getFooter && !isFullScreenPage.value)
+const footer = computed(() => appStore.getFooter)
 
 const tagsViewStore = useTagsViewStore()
 
@@ -36,7 +31,7 @@ provide('reload', reload)
   <section
     :class="[
       'w-full bg-[var(--app-content-bg-color)] dark:bg-[var(--el-bg-color)]',
-      isFullScreenPage ? 'p-0 !bg-[#04060d]' : 'p-[var(--app-content-padding)]',
+      'p-[var(--app-content-padding)]',
       {
         '!min-h-[calc(100vh-var(--top-tool-height)-var(--tags-view-height)-var(--app-footer-height))] pb-0':
           footer

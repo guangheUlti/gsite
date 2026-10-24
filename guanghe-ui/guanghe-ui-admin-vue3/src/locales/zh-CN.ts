@@ -78,6 +78,10 @@ export default {
   },
   setting: {
     projectSetting: '项目配置',
+    locale: '语言',
+    appearance: '外观',
+    light: '浅色',
+    dark: '深色',
     theme: '主题',
     layout: '布局',
     systemTheme: '系统主题',
