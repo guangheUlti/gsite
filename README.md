@@ -100,7 +100,6 @@ gsite/
 > **JDK 版本是硬约束**：本主干已升级到 Java 25 + Spring Boot 3.5（`javax.*` → `jakarta.*`），
 > 用 JDK 8/11/17/21 执行 `mvn` 会直接构建失败。JDK 25 选 Temurin 25.0.4.1 LTS：
 > `set JAVA_HOME=D:\devTools\jdk\jdk25.0.4`，并确认 `mvn -v` 的 `Java version` 为 25。
-> 迁移细节见 [docs/JDK25升级方案.md](docs/JDK25升级方案.md)。
 
 启动顺序固定为：**① MySQL → ② Redis → ③ 后端 → ④ 前端**。
 
